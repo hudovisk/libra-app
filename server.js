@@ -1,13 +1,14 @@
 //Modules & set up =========================================================
-var express     = require('express');
-var app         = express();
-var port        = 1337;
-var morgan      = require('morgan');
-var session     = require('express-session');
-var bodyParser  = require('body-parser');
-var passport    = require('passport');
-var mongoose    = require('mongoose');
-var credentials = require('./config/credentials');
+var express      = require('express');
+var app          = express();
+var port         = 1337;
+var morgan       = require('morgan');
+var session      = require('express-session');
+var bodyParser   = require('body-parser');
+var passport     = require('passport');
+var mongoose     = require('mongoose');
+var credentials  = require('./config/credentials');
+const MongoStore = require('connect-mongo')(session);
 
 //Config =========================================================
 mongoose.connect(credentials.db.url);
@@ -33,7 +34,8 @@ app.use(bodyParser.json());
 app.use(session({
     secret: credentials.sessionSecret,
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 app.use(passport.initialize());
 app.use(passport.session());

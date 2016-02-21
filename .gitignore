@@ -4,7 +4,6 @@
 /node_modules/
 /public/libs/*
 /apidoc/*
-/config/credentials.js
 
 #must be last
 !**/.gitkeep

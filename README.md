@@ -1,4 +1,6 @@
 
+[![Build Status](https://travis-ci.org/hudovisk/libra-app.svg?branch=master)](https://travis-ci.org/hudovisk/libra-app) [![Code Climate](https://codeclimate.com/github/hudovisk/libra-app/badges/gpa.svg)](https://codeclimate.com/github/hudovisk/libra-app)
+
 Login sample with Node.js + Express + Passport.
 ================================================
 
