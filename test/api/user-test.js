@@ -14,8 +14,6 @@ var savedUserData = {
     password: 'validpassword1*'
 };
 
-server.use(cookieParser());
-
 describe('post api/users/register', function() {
 
     before( function(done) {
