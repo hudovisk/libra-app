@@ -15,6 +15,7 @@ node_js:
 - '4.3'
 - iojs
 before_script:
+- sleep 15
 - npm install grunt-cli -g
 notifications:
   slack:
