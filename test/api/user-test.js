@@ -4,7 +4,6 @@
 var expect = require('chai').expect;  
 var request = require('supertest');  
 var async = require('async');
-var cookieParser = require('cookie-parser');
 
 var User = require('../../api/users/user-model');
 var server = require('../../server');
