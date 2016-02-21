@@ -1,0 +1,23 @@
+{
+  "name": "libra-app",
+  "description": "TeamOne - Libra project for SJSU CMPE165 ",
+  "main": "server.js",
+  "authors": [
+    "Hudo Assenco <hudo.assenco@gmail.com>"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "angularjs#^1.5.0",
+    "bootstrap": "^3.3.6"
+  }
+}
