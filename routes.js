@@ -7,11 +7,11 @@ module.exports = function(app, passport) {
 
     //Site - Routes ==================================================
     app.get('/', function (req, res) {
-        res.sendFile('/index.html', {root: './views'});
+        res.render('pages/index.html');
     });
 
     app.get('/login', function(req, res) {
-        res.sendFile('/views/login.html', {root: './'});
+        res.render('pages/login.html');
     });
 
     app.get('/register', function(req, res) {

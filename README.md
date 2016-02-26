@@ -1,12 +1,36 @@
 
 [![Build Status](https://travis-ci.org/hudovisk/libra-app.svg?branch=master)](https://travis-ci.org/hudovisk/libra-app) [![Code Climate](https://codeclimate.com/github/hudovisk/libra-app/badges/gpa.svg)](https://codeclimate.com/github/hudovisk/libra-app)
 
-Login sample with Node.js + Express + Passport.
-================================================
+Libra Web App
+=============
 
-Install Node: https://nodejs.org/en/download/
+How to get it running:
 
-Install MongoDB: https://docs.mongodb.org/manual/installation/
+ - Install Node: https://nodejs.org/en/download/
+ - Install MongoDB: https://docs.mongodb.org/manual/installation/
+
+Install grunt-cli:
+```Shell
+  npm install -g grunt-cli
+```
+
+Install apidoc:
+```Shell
+  npm install -g apidoc
+```
+
+Install bower:
+```Shell
+  npm install -g bower
+```
+
+Download and install project dependencies:
+```Shell
+  git clone https://github.com/hudovisk/libra-app.git
+  cd web-app
+  bower install
+  npm install
+```
 
 run MongoDB:
 ```Shell
@@ -15,32 +39,13 @@ run MongoDB:
 
 Start server:
 ```Shell
-    git clone https://github.com/hudovisk/web-app.git
-    cd web-app
-    npm install
     npm start
 ```
 
 Generate docs:
 ```Shell
-    npm install -g apidoc
-    apidoc -i api/ -o apidoc/
+    npm run doc
 ```
-
-If you want install the frontend libs run (inside web-app folder):
-```Sheel
-    npm install -g bower
-    bower install
-```
-
-Access:
- - htpp://localhost:1337/
- - htpp://localhost:1337/dashboard
- - htpp://localhost:1337/login
- - htpp://localhost:1337/register
- - htpp://localhost:1337/api/users
- - htpp://localhost:1337/api/users/me
- - POST htpp://localhost:1337/logout
 
 Resources - Mean Stack
 ======================

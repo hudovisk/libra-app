@@ -27,6 +27,12 @@ if (process.env.NODE_ENV !== 'test') {
     app.use(morgan('dev'));
 }
 app.use(express.static(__dirname + '/public'));
+
+// set the view engine to ejs
+app.set('views', __dirname + '/public/views');
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
