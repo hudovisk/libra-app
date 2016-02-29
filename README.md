@@ -15,7 +15,7 @@ run MongoDB:
 
 Start server:
 ```Shell
-    git clone https://github.com/hudovisk/web-app.git
+    git clone https://github.com/hudovisk/libra-app.git
     cd web-app
     npm install
     npm start
