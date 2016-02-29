@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html ng-app="libra">
+<head>
+    <title>Libra</title>
+
+    <%- include ../partials/scripts.html %>
+
+    <link rel="stylesheet" type="text/css" href="/src/css/dashboard.css">
+    <link rel="stylesheet" type="text/css" href="/src/css/sidebar.css">
+</head>
+<body>
+
+    <header>
+        <%- include ../partials/navbar.html %>
+    </header>
+
+    <div id="wrapper">
+
+        <div id="sidebar-wrapper">
+            <%- include ../partials/sidebar.html %>
+        </div>
+
+        <div id="page-content-wrapper">
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <div class="row-fluid" style="margin-top: 50px;">
+                        <form style="max-width: 400px;" class="center-block">
+                            <div class="form-group input-group" >
+                                <input type="text" class="form-control" placeholder="Search for job posts">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success" type="button">Go!</button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="row-fluid actions-row">
+
+                        <div class="col-md-6 bouncy" style="text-align: center;">
+                            <a href="#"><h3>Post a service</h3></a>
+                        </div>
+                        
+                        <div class="col-md-6" style="text-align: center;">
+                            <a href="#"><h3>Request a service</h3></a>
+                        </div>
+
+                    </div>
+
+                    <div class="row-fluid">
+
+                        <div class="col-md-6 bouncy" >
+                            
+                            <h4 style="text-align: center;">Posted Services Summary</h4>
+                            <hr>
+                            <div class="list-group">
+                                <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                                <a href="#" class="list-group-item">Morbi leo risus</a>
+                                <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                                <a href="#" class="list-group-item">Vestibulum at eros</a>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6 bouncy">
+                            
+                            <h4 style="text-align: center;">Requested Services Summary</h4>
+                            <hr>
+                            <div class="list-group">
+                                <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                                <a href="#" class="list-group-item">Morbi leo risus</a>
+                                <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                                <a href="#" class="list-group-item">Vestibulum at eros</a>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer class="center-text">
+        <%- include ../partials/footer.html %>
+    </footer>
+
+</body>
+</html>

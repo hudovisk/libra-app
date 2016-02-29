@@ -7,7 +7,8 @@ module.exports = function(app, passport) {
 
     //Site - Routes ==================================================
     app.get('/', function (req, res) {
-        res.render('pages/index.html');
+        console.log(req.user);
+        res.render('pages/index.html', {user: req.user});
     });
 
     app.get('/login', function(req, res) {
@@ -19,7 +20,7 @@ module.exports = function(app, passport) {
     });       
 
     app.get('/dashboard', requireSession, function(req, res) {
-        res.sendFile('/views/dashboard.html', {root: './'});
+        res.render('pages/dashboard.html', {user: req.user});
     });
 
     //...

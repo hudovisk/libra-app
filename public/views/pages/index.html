@@ -15,8 +15,11 @@
 
 	<div class="jumbotron jumbotron-fluid">
 		<div class="container-fluid">
-
-			<h2>Welcome to Libra Service Matcher.</h2>
+			<%if (locals.user) { %>
+				<h2>Welcome <%- locals.user.name %> to Libra Service Matcher.</h2>
+            <%} else { %>
+                <h2>Welcome to Libra Service Matcher.</h2>
+            <%}%>
 
 			<form style="max-width: 400px;" class="center-block">
 				<div class="form-group input-group" >
