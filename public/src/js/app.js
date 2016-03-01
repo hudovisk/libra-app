@@ -39,6 +39,49 @@ app.controller("ServiceController", function() {
     ];
 });
 
+app.controller('UserController', ['$scope', '$http', '$window', function($scope, $http, $window){
+    
+    $scope.login = function (user) {
+        $http({
+            method: 'POST',
+            url: '/api/users/login',
+            data: {
+                email: user.email,
+                password: user.password
+            }
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            if (response.status === 200) {
+                $window.location.href = '/';
+            }
+            //TODO: Display duplicate email!
+        }, function errorCallback(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+            console.log(response);
+        });
+    };
+
+    $scope.logout = function () {
+        $http({
+            method: 'POST',
+            url: '/api/users/logout'
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            if (response.status === 200) {
+                $window.location.href = '/';
+            }
+        }, function errorCallback(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+            console.log(response);
+        });
+    };
+
+}])
+
 app.directive("serviceCarouselDesc", function() {
     return {
         restrict: 'E',

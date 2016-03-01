@@ -7,8 +7,11 @@ module.exports = function(app, passport) {
 
     //Site - Routes ==================================================
     app.get('/', function (req, res) {
-        console.log(req.user);
-        res.render('pages/index.html', {user: req.user});
+        if(req.isAuthenticated()) {
+            res.redirect('/dashboard');
+        } else {
+            res.render('pages/index.html');
+        }
     });
 
     app.get('/login', function(req, res) {

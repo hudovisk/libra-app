@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" ng-controller="UserController as userCtrl">
 
     <div class="container-fluid">
         
@@ -28,10 +28,9 @@
                             <li><a href="#">Another action</a></li>
                             <li><a href="#">Something else here</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><form id="logoutform" method="post" action="/api/users/logout">
-                                <a onclick="document.getElementById('logoutform').submit();">Logout</a>
-                            </form></li>
-                            
+                            <li>
+                                <a href="#" ng-click="logout()">Logout</a>
+                            </li>  
                         </ul>
                     </li>
                 <%} else { %>
