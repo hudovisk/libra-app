@@ -80,7 +80,7 @@ app.controller('UserController', ['$scope', '$http', '$window', function($scope,
         });
     };
 
-}])
+}]);
 
 app.directive("serviceCarouselDesc", function() {
     return {
