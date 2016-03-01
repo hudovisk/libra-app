@@ -28,7 +28,10 @@
                             <li><a href="#">Another action</a></li>
                             <li><a href="#">Something else here</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#">Logout</a></li>
+                            <li><form id="logoutform" method="post" action="/api/users/logout">
+                                <a onclick="document.getElementById('logoutform').submit();">Logout</a>
+                            </form></li>
+                            
                         </ul>
                     </li>
                 <%} else { %>
