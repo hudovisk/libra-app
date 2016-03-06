@@ -19,7 +19,7 @@ module.exports = function(app, passport) {
     });
 
     app.get('/register', function(req, res) {
-        res.sendFile('./views/register.html', {root: './'});
+        res.sendFile('./views/register.html', {root: './public'});
     });       
 
     app.get('/dashboard', requireSession, function(req, res) {
