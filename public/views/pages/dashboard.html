@@ -5,19 +5,32 @@
 
     <%- include ../partials/scripts.html %>
 
-    <link rel="stylesheet" type="text/css" href="/src/css/dashboard.css">
-    <link rel="stylesheet" type="text/css" href="/src/css/sidebar.css">
 </head>
 <body>
 
-    <header>
-        <%- include ../partials/navbar.html %>
-    </header>
+    <%- include ../partials/navbar.html %>
 
     <div class="page-content">
-        <div class="container-fluid">
+        <div class="container">
 
-            <div class="row-fluid" style="margin-top: 50px;">
+            <div class="row main-buttons-row">
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-lg btn-success center-block">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        Post a service
+                    </button>
+                </div>
+
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-lg btn-success center-block">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        Request a service
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="row" style="margin-top: 50px;">
                 <form style="max-width: 400px;" class="center-block">
                     <div class="form-group input-group" >
                         <input type="text" class="form-control" placeholder="Search for job posts">
@@ -28,31 +41,9 @@
                 </form>
             </div>
 
-            <div class="row-fluid actions-row">
+            <div class="row">
 
-                <div class="col-md-6 bouncy" style="text-align: center;">
-				<a href="#">
-				<button class="btn btn-success" type="button">
-					<img src = "/img/add.png">
-                    <h3>Provide Service</h3>
-				</button>
-				</a>
-                </div>
-                
-                <div class="col-md-6" style="text-align: center;">
-				<a href="#">
-				<button class="btn btn-success" type="button">
-					<img src = "/img/add.png">
-                    <h3>Request Service</h3>
-				</button>
-				</a>
-                </div>
-
-            </div>
-
-            <div class="row-fluid">
-
-                <div class="col-md-6 bouncy" >
+                <div class="col-sm-6 bouncy" >
                     
                     <h4 style="text-align: center;">My Services</h4>
                     <hr>
@@ -65,7 +56,7 @@
 
                 </div>
 
-                <div class="col-md-6 bouncy">
+                <div class="col-sm-6 bouncy">
                     
                     <h4 style="text-align: center;">Requested Services</h4>
                     <hr>
@@ -85,9 +76,7 @@
 
     </div>
 
-    <footer class="center-text">
-        <%- include ../partials/footer.html %>
-    </footer>
+    <%- include ../partials/footer.html %>
 
 </body>
 </html>
