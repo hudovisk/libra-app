@@ -3,8 +3,6 @@ Workflow
 
 **Work in progress**
 
-By the end of this week I will create the official github repo with a directory structure so we can start coding next week.
-
 **Any feedback or question is wellcome and fell free to correct the typos and misspellings**
 
 ##1.Taiga
@@ -40,7 +38,7 @@ After you have your git branch setup you can start coding. Here are some recomen
 > 2. Should return the registered user as a JSON response.  
  
  - Implement those tests and watch them fail.
-    * Check my sample code to an example: https://github.com/hudovisk/web-app
+    * Look into test/api/user-test.js for examples.
 
  - Implement the feature and make sure the tests succeed.
 
@@ -89,10 +87,6 @@ Whenever you feel stuck with your code and need help with it or you feel that yo
  - Move the corresponding task on taiga to done tab.
 
  - After merged you can delete the branch and start working on your next feature.
-
->**Note:** I am also working in integrating the minify phase of the javascript and css files to use
-> in the production version.
-
 
 Tools used
 ==========

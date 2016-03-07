@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html ng-app="libra">
+<head>
+    <title>Libra</title>
+
+    <%- include ../partials/scripts.html %>
+
+</head>
+<body>
+
+    <%- include ../partials/navbar.html %>
+
+    <div class="page-content">
+        <div class="container">
+
+            <div class="row main-buttons-row">
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-lg btn-success center-block">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        Post a service
+                    </button>
+                </div>
+
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-lg btn-success center-block">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        Request a service
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="row" style="margin-top: 50px;">
+                <form style="max-width: 400px;" class="center-block">
+                    <div class="form-group input-group" >
+                        <input type="text" class="form-control" placeholder="Search for job posts">
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" type="button">Go!</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-6 bouncy" >
+                    
+                    <h4 style="text-align: center;">My Services</h4>
+                    <hr>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                        <a href="#" class="list-group-item">Morbi leo risus</a>
+                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                        <a href="#" class="list-group-item">Vestibulum at eros</a>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-6 bouncy">
+                    
+                    <h4 style="text-align: center;">Requested Services</h4>
+                    <hr>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                        <a href="#" class="list-group-item">Morbi leo risus</a>
+                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                        <a href="#" class="list-group-item">Vestibulum at eros</a>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <%- include ../partials/footer.html %>
+
+</body>
+</html>

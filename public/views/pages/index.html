@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html ng-app="libra">
+<head>
+	<title>Libra</title>
+
+	<%- include ../partials/scripts.html %>
+
+</head>
+<body>
+
+	<%- include ../partials/navbar.html %>
+	
+	<div class="jumbotron jumbotron-fluid">
+		<div class="container-fluid">
+
+            <h2>Welcome to Libra Service Matcher.</h2>
+
+			<form style="max-width: 400px;" class="center-block">
+				<div class="form-group input-group" >
+					<input type="text" class="form-control" placeholder="Search for job posts">
+					<span class="input-group-btn">
+						<button class="btn btn-success" type="button">Go!</button>
+					</span>
+				</div>
+			</form>
+
+		</div>
+	</div>
+
+	<div class="latest-jobs">
+
+		<h3>Check our latest job offers.</h3>
+
+		<div class="carousel slide" data-ride="carousel" data-type="multi" data-interval="3000" id="myCarousel">
+
+			<!-- Indicators -->
+			<ol class="carousel-indicators">
+				<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+				<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+				<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+			</ol>
+
+			<div class="carousel-inner" ng-controller="ServiceController as serviceCtrl">
+
+				<div class="item active">
+					<service-carousel-desc ng-repeat="service in serviceCtrl.latestServices | limitTo:2" class="col-sm-6">
+					</service-carousel-desc>
+				</div>
+
+				<div class="item">
+					<service-carousel-desc ng-repeat="service in serviceCtrl.latestServices | limitTo:2:2" class="col-sm-6">
+					</service-carousel-desc>
+				</div>
+
+				<div class="item">
+					<service-carousel-desc ng-repeat="service in serviceCtrl.latestServices | limitTo:2:4" class="col-sm-6">
+					</service-carousel-desc>
+				</div>
+
+			</div>
+
+			<!-- Controls -->
+			<a class="left carousel-control" href="#myCarousel" data-slide="prev" style="background-image: none;">
+				<i class="glyphicon glyphicon-chevron-left"></i>
+			</a>
+			<a class="right carousel-control" href="#myCarousel" data-slide="next" style="background-image: none;">
+				<i class="glyphicon glyphicon-chevron-right"></i>
+			</a>
+
+		</div> <!-- Carousel -->
+	</div>
+	<%- include ../partials/footer.html %>
+
+</body>
+</html>

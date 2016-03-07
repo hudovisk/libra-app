@@ -24,6 +24,7 @@ module.exports = function(passport) {
         },
 
         function(req, email, password, done) {
+            console.log("Login email " + email + " password: " + password);
             User.findOne({email: email})
                 .select('+password')
                 .exec(function(err, user) {
@@ -36,7 +37,7 @@ module.exports = function(passport) {
                     if(!user.comparePassword(password)) {
                         return done(null, false, {status: 401, message: 'Incorrect email/password.'});
                     }
-
+                    console.log("User " + user.name + " found, login.");
                     return done(null, user);
             });
         }

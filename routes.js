@@ -7,19 +7,23 @@ module.exports = function(app, passport) {
 
     //Site - Routes ==================================================
     app.get('/', function (req, res) {
-        res.sendFile('/index.html', {root: './views'});
+        if(req.isAuthenticated()) {
+            res.redirect('/dashboard');
+        } else {
+            res.render('pages/index.html');
+        }
     });
 
     app.get('/login', function(req, res) {
-        res.sendFile('/views/login.html', {root: './'});
+        res.render('pages/login.html');
     });
 
     app.get('/register', function(req, res) {
-        res.sendFile('./views/register.html', {root: './'});
+        res.render('pages/register.html');
     });       
 
     app.get('/dashboard', requireSession, function(req, res) {
-        res.sendFile('/views/dashboard.html', {root: './'});
+        res.render('pages/dashboard.html', {user: req.user});
     });
 
     //...

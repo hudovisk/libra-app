@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="libra">
+<head>
+    <title>Libra | Login</title>
+
+    <%- include ../partials/scripts.html %>
+</head>
+<body>
+
+    <%- include ../partials/navbar.html %>
+
+    <div class="container-fluid" style="text-align: center; color: #333;" ng-controller="UserController as userCtrl">
+
+            <h2>Please sign in or create an account.</h2>
+
+            <div class="form-signin">
+
+                <div class="row omb_row-sm-offset-3 socialButtons">
+                    <div class="col-xs-6">
+                        <a class="btn btn-block btn-social btn-facebook">
+                            <span class="fa fa-facebook"></span>Facebook
+                        </a>
+                    </div>
+                    <div class="col-xs-6">
+                        <a class="btn btn-block btn-social btn-linkedin">
+                            <span class="fa fa-linkedin"></span> Linkedin
+                        </a>
+                    </div>   
+                </div>
+
+                <hr>
+
+                <form class="simple-form">
+                    <h2 class="form-signin-heading"></h2>
+                    <label for="email" class="sr-only">Email address</label>
+                    <input type="email" id="email" ng-model="user.email" class="form-control" placeholder="Email address" required autofocus>
+                    <label for="password" class="sr-only">Password</label>
+                    <input type="password" id="passord" ng-model="user.password" class="form-control" placeholder="Password" required>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="login(user)">Sign in</button>
+                    <button class="btn btn-lg btn-success btn-block" type="submit">Register</button>
+                </form>
+
+            </div>
+    </div>
+
+    <%- include ../partials/footer.html %>
+    
+</body>
+</html>
