@@ -5,14 +5,11 @@
 
 	<%- include ../partials/scripts.html %>
 
-	<link rel="stylesheet" type="text/css" href="/src/css/index.css">
 </head>
 <body>
 
-	<header>
-		<%- include ../partials/navbar.html %>
-	</header>
-
+	<%- include ../partials/navbar.html %>
+	
 	<div class="jumbotron jumbotron-fluid">
 		<div class="container-fluid">
 
@@ -30,49 +27,49 @@
 		</div>
 	</div>
 
-	<h3 style="text-align: center;">Check our last job offers.</h3>
+	<div class="latest-jobs">
 
-	<div class="carousel slide" data-ride="carousel" data-type="multi" data-interval="3000" id="myCarousel">
+		<h3>Check our latest job offers.</h3>
 
-		<!-- Indicators -->
-		<ol class="carousel-indicators">
-			<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-			<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-			<li data-target="#carousel-example-generic" data-slide-to="2"></li>
-		</ol>
+		<div class="carousel slide" data-ride="carousel" data-type="multi" data-interval="3000" id="myCarousel">
 
-		<div class="carousel-inner" ng-controller="ServiceController as serviceCtrl">
+			<!-- Indicators -->
+			<ol class="carousel-indicators">
+				<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+				<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+				<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+			</ol>
 
-			<div class="item active">
-				<service-carousel-desc ng-repeat="service in serviceCtrl.latestServices | limitTo:2" class="col-sm-6">
-				</service-carousel-desc>
+			<div class="carousel-inner" ng-controller="ServiceController as serviceCtrl">
+
+				<div class="item active">
+					<service-carousel-desc ng-repeat="service in serviceCtrl.latestServices | limitTo:2" class="col-sm-6">
+					</service-carousel-desc>
+				</div>
+
+				<div class="item">
+					<service-carousel-desc ng-repeat="service in serviceCtrl.latestServices | limitTo:2:2" class="col-sm-6">
+					</service-carousel-desc>
+				</div>
+
+				<div class="item">
+					<service-carousel-desc ng-repeat="service in serviceCtrl.latestServices | limitTo:2:4" class="col-sm-6">
+					</service-carousel-desc>
+				</div>
+
 			</div>
 
-			<div class="item">
-				<service-carousel-desc ng-repeat="service in serviceCtrl.latestServices | limitTo:2:2" class="col-sm-6">
-				</service-carousel-desc>
-			</div>
+			<!-- Controls -->
+			<a class="left carousel-control" href="#myCarousel" data-slide="prev" style="background-image: none;">
+				<i class="glyphicon glyphicon-chevron-left"></i>
+			</a>
+			<a class="right carousel-control" href="#myCarousel" data-slide="next" style="background-image: none;">
+				<i class="glyphicon glyphicon-chevron-right"></i>
+			</a>
 
-			<div class="item">
-				<service-carousel-desc ng-repeat="service in serviceCtrl.latestServices | limitTo:2:4" class="col-sm-6">
-				</service-carousel-desc>
-			</div>
-
-		</div>
-
-		<!-- Controls -->
-		<a class="left carousel-control" href="#myCarousel" data-slide="prev" style="background-image: none;">
-			<i class="glyphicon glyphicon-chevron-left"></i>
-		</a>
-		<a class="right carousel-control" href="#myCarousel" data-slide="next" style="background-image: none;">
-			<i class="glyphicon glyphicon-chevron-right"></i>
-		</a>
-
-	</div> <!-- Carousel -->
-
-	<footer class="center-text">
-		<%- include ../partials/footer.html %>
-	</footer>
+		</div> <!-- Carousel -->
+	</div>
+	<%- include ../partials/footer.html %>
 
 </body>
 </html>
