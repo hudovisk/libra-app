@@ -1,4 +1,6 @@
 
+var User = require('./api/users/user-model');
+
 module.exports = function(app, passport) {
     
     //API - Routes ==================================================
@@ -21,6 +23,17 @@ module.exports = function(app, passport) {
     app.get('/register', function(req, res) {
         res.render('pages/register.html');
     });       
+
+    app.get('/profile/:user_id', function(req, res,  next) {
+        console.log("Getting profile for user: " + req.params.user_id);
+        User.findById(req.params.user_id, function(err, user) {
+            if(err) return next(err);
+
+            if(user) {
+                res.render('pages/profile.html', {user: user});
+            }
+        });
+    });
 
     app.get('/dashboard', requireSession, function(req, res) {
         res.render('pages/dashboard.html', {user: req.user});
