@@ -14,7 +14,7 @@ module.exports.getMe = function(req, res, next) {
 //Return all service posts in db
 module.exports.getAllServices = function(req, res, next) {
     Service.find({}, function(err, results) {
-        if(err) res.json(err);
+        if(err) return next(error);
         console.log(results);
         res.json(results);
     }); 
@@ -31,7 +31,7 @@ module.exports.savePost = function(req, res, next) {
         maxRange: req.body.maxRange,
         tags: req.body.tags
     }).save(function(err, result){
-          if(err) res.json(err);
+          if(err) return next(error);
           res.json(result);
     });
 };
