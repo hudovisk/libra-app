@@ -19,7 +19,8 @@ module.exports = function(app, passport) {
     });
 
     app.get('/register', function(req, res) {
-        res.sendFile('./views/register.html', {root: './'});
+       // res.sendFile('./views/register.html', {root: './'});
+       res.render('pages/register.html');
     });       
 
     app.get('/dashboard', requireSession, function(req, res) {
