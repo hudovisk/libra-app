@@ -15,6 +15,7 @@ module.exports.getMe = function(req, res, next) {
 module.exports.getAllServices = function(req, res, next) {
     Service.find({}, function(err, results) {
         if(err) res.json(err);
+        console.log(results);
         res.json(results);
     }); 
 };
@@ -23,12 +24,12 @@ module.exports.getAllServices = function(req, res, next) {
 //Save the service post
 module.exports.savePost = function(req, res, next) {
     new service({
-        employer:
-        headline: req.body.headline;
-        description: req.body.description;
-        minRange: req.body.minRange;
-        maxRange req.body.maxRange;
-        tags:
+        employer: req.user._id,
+        headline: req.body.headline,
+        description: req.body.description,
+        minRange: req.body.minRange,
+        maxRange: req.body.maxRange,
+        tags: req.body.tags
     }).save(function(err, result){
           if(err) res.json(err);
           res.json(result);
