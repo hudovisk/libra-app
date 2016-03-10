@@ -26,6 +26,9 @@ module.exports = function(app, passport) {
         res.render('pages/dashboard.html', {user: req.user});
     });
 
+    app.get('/post', function(req, res) {
+        res.render('pages/post.html', {user: req.user});
+    });
     //...
 
     function requireSession(req, res, next) {
