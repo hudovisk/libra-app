@@ -4,7 +4,7 @@
 		<title>Libra | User registration</title>
 
 	<%- include ../partials/scripts.html %>
-	<script src="controler.js"></script>
+	<!-- <script src="controler.js"></script>-->
 	<!-- Jquery Import-->
 	
 
@@ -31,6 +31,7 @@
 				<h1 class="dark-grey">Get started - it's free</h1>
 				<p>Registration takes less than 2 minutes.</p>
 			<div ng-controller="loginCtrl">
+			
 			<form action="/api/users/register" id="mylogin" method="post">
 				<div class="form-group col-lg-6">
 					<input type="" name="" class="form-control" id="FirstName" ng-model="FirstName" placeholder="First Name">

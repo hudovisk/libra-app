@@ -19,7 +19,7 @@ module.exports = function(app, passport) {
     });
 
     app.get('/register', function(req, res) {
-        res.render('pages/register.html');
+       res.render('pages/register.html');
     });       
 
     app.get('/dashboard', requireSession, function(req, res) {
