@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html ng-app="libra.post">
+<html ng-app="libra">
 <head>
     <title>Libra | Post</title>
 
     <%- include ../partials/scripts.html %>
 
-    <script src="/src/js/post.js"></script>
 </head>
 <body>
 
-    <header>
-        <%- include ../partials/navbar.html %>
-    </header>
+    <%- include ../partials/navbar.html %>
+    
 <div class="container">
     <div ng-controller="PopoverDemoCtrl">
         <h4>Add a New Post</h4>
@@ -29,8 +27,6 @@
           <textarea rows="4" cols="50" ng-model="dynamicPopover.title" class="form-control"></textarea>
         </div>
        
-      
-       
         <hr />
         <h4>Please select one of the Job category</h4>
         <div class="form-group">
@@ -43,10 +39,7 @@
     </div>
 </div>
 
-
-    <footer class="center-text">
-        <%- include ../partials/footer.html %>
-    </footer>
+    <%- include ../partials/footer.html %>
 
 </body>
 </html>
