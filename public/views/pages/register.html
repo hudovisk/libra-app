@@ -1,17 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Register</title>
+		<title>Libra | User registration</title>
+
+	<%- include ../partials/scripts.html %>
+	<script src="controler.js"></script>
+	<!-- Jquery Import-->
+	
+
 </head>
+	<!-- Menu-->
+	<header>
+			<%- include ../partials/navbar.html %>
+	</header>
 <body>
-    <form action="/api/users/register" method="post">
-      Name:<br>
-      <input type="text" name="name" value=""><br>
-      Email:<br>
-      <input type="text" name="email" value=""><br>
-      Password:<br>
-      <input type="text" name="password" value=""><br>
-      <input type="submit" value="Submit">
-</form>
+
+	<!--  Page Content-->
+<div class="container-fluid">
+    <section class="container">
+    	<h1 align="center" class="register-header">Join the world's largest professional network</h1>
+		<div class="container-page">				
+			<div class="col-md-6">
+				<h2 class="dark-grey"></h2>
+				
+				<img src="img/international.jpg" class="pull-left" width="450px">		
+			
+			</div>
+		
+			<div class="col-md-6">
+				<h1 class="dark-grey">Get started - it's free</h1>
+				<p>Registration takes less than 2 minutes.</p>
+			<div ng-controller="loginCtrl">
+			<form action="/api/users/register" id="mylogin" method="post">
+				<div class="form-group col-lg-6">
+					<input type="" name="" class="form-control" id="FirstName" ng-model="FirstName" placeholder="First Name">
+				</div>
+
+				<div class="form-group col-lg-6">
+					<input type="" name="" class="form-control" id="LastName" ng-model="LastName" placeholder="Last Name">
+				</div>
+				
+				<div class="form-group col-lg-12">
+					<input type="" name="" class="form-control" id="EmailAddress" ng-model="EmailAddress" value="" placeholder="Email Address">
+				</div>
+
+				<div class="form-group col-lg-12">
+					<input type="password" name="" class="form-control" id="password" ng-model= "password" value="" placeholder="Password(6 or more characters)">
+				</div>
+				
+				<div class="form-group col-lg-12">
+					<p>By clicking Join Now, you agree to ProConnect's <b>User Agreement</b>, <b>Privacy Policy</b> and <b>Cookie Policy.</b></p>
+				</div>
+				<div class="col-lg-6">
+				<button type="submit" class="btn btn-primary" ng-click="submit()">Join Now</button>
+				</div>
+
+			</form>
+			<!-- End of the form-->
+			</div>
+			<!-- End of ng-controller-->>
+			</div>
+		</div>
+	</section>
+</div>
+<!-- End Of Page Content -->
+
 </body>
+
 </html>
