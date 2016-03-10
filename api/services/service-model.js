@@ -1,13 +1,13 @@
 var mongoose = require('mongoose');
 
 var ServiceSchema =  mongoose.Schema({
-    employer: {type: ObjectId, ref: 'user'},
-    employee: {type: ObjectId, ref: 'user'},
-    biddings: [{type: ObjectId, ref: 'bid'}],
+    employer: {type: mongoose.Schema.ObjectId, ref: 'user'},
+    employee: {type: mongoose.Schema.ObjectId, ref: 'user'},
+    biddings: [{type: mongoose.Schema.ObjectId, ref: 'bid'}],
     headline: String,
     description: String,
-    minRange: int,
-    maxRange: int,
+    minRange: Number,
+    maxRange: Number,
     tags: [{type: String}]
 });
 
