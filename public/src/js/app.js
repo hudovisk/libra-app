@@ -41,6 +41,12 @@ app.controller("ServiceController", function() {
 
 app.controller('UserController', ['$scope', '$http', '$window', function($scope, $http, $window){
     
+    var loginError = false;
+
+    $scope.loginError = function() {
+        return loginError
+    };
+
     $scope.login = function (user) {
         $http({
             method: 'POST',
@@ -59,7 +65,9 @@ app.controller('UserController', ['$scope', '$http', '$window', function($scope,
         }, function errorCallback(response) {
             // called asynchronously if an error occurs
             // or server returns response with an error status.
-            console.log(response);
+            if (response.status == 401) {
+                loginError = true;
+            }
         });
     };
 

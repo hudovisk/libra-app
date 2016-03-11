@@ -41,9 +41,7 @@ module.exports.register = function(passport, req, res, next) {
 };
 
 module.exports.login = function(passport, req, res, next) {
-    console.log("before passport");
     passport.authenticate('local-signin', function (err, user, info) {
-        console.log("Login user controller");
         if (err) { return next(err); }
         if (!user) { 
             res.status(info.status).json({message: info.message});

@@ -121,6 +121,15 @@ body {
   border-top-right-radius: 0;
 }
 
+.login-error-box {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #cc0000;
+  background-color: #ffeeee;
+  color: #cc2222;
+  font-size: 16px;
+}
+
 /* Dashboard */
 
 .main-buttons-row {
