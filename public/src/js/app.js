@@ -82,9 +82,30 @@ app.controller('UserController', ['$scope', '$http', '$window', function($scope,
 
 }]);
 
+app.controller('ProfileController', ['$scope', function($scope){
+    
+    this.tab = 1;
+
+    this.setTab = function(setTab) {
+        this.tab = setTab;
+    };
+
+    this.isTabSelected = function(selectTab) {
+        return this.tab === selectTab;
+    };
+
+}]);
+
 app.directive("serviceCarouselDesc", function() {
     return {
         restrict: 'E',
         templateUrl: "/views/partials/serviceCarouselDesc.html"
+    };
+});
+
+app.directive('profileJobsList', function() {
+    return {
+        restrict: 'E',
+        templateUrl: "/views/partials/profileJobsList.html"
     };
 });
