@@ -6,7 +6,7 @@
     <%- include ../partials/scripts.html %>
 
 </head>
-<body>
+<body ng-controller="ProfileController as profileCtrl">
 
     <%- include ../partials/navbar.html %>
     
@@ -28,92 +28,26 @@
 
     <section class="profile-main-content">
         <ul class="nav nav-tabs">
-            <li class="acive"> 
-                <a href="#">Summary</a> 
+            <li role="presentation" ng-class="{ 'active': profileCtrl.isTabSelected(1) }"> 
+                <a href="#" ng-click="profileCtrl.setTab(1)">Summary</a> 
             </li>
-            <li> 
-                <a href="#">Jobs requested 
+            <li role="presentation" ng-class="{ 'active': profileCtrl.isTabSelected(2) }">
+                <a href="#" ng-click="profileCtrl.setTab(2)">Jobs requested 
                     <span class="badge alert-info">5</span>
                 </a> 
             </li>
-            <li> 
-                <a href="#">Jobs provided 
+            <li role="presentation" ng-class="{ 'active': profileCtrl.isTabSelected(3) }">
+                <a href="#" ng-click="profileCtrl.setTab(3)">Jobs provided 
                     <span class="badge alert-info">2</span>
                 </a>
             </li>
-            <li> <a href="#">Reviews</a> </li>
+            <li role="presentation" ng-class="{ active: profileCtrl.isTabSelected(4) }">
+                <a href="#" ng-click="profileCtrl.setTab(4)">Reviews</a> 
+            </li>
         </ul>
 
-        <div class="jobs-list list-group">
-            <div class="list-group-item">
-                <a href="#">Dapibus ac facilisis in</a>
-                <span class="badge">
-                    <span class="glyphicon glyphicon-star-empty"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                </span>
-            </div>
-            <div class="list-group-item">
-                <a href="#">Dapibus ac facilisis in</a>
-                <span class="badge">
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                </span>
-            </div>
-            <div class="list-group-item">
-                <a href="#">Dapibus ac facilisis in</a>
-                <span class="badge">
-                    <span class="glyphicon glyphicon-star-empty"></span>
-                    <span class="glyphicon glyphicon-star-empty"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                </span>
-            </div>
-            <div class="list-group-item">
-                <a href="#">Dapibus ac facilisis in</a>
-                <span class="badge">
-                    <span class="glyphicon glyphicon-star-empty"></span>
-                    <span class="glyphicon glyphicon-star-empty"></span>
-                    <span class="glyphicon glyphicon-star-empty"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                </span>
-            </div>
-            <div class="list-group-item">
-                <a href="#">Dapibus ac facilisis in</a>
-                <span class="badge">
-                    <span class="glyphicon glyphicon-star-empty"></span>
-                    <span class="glyphicon glyphicon-star-empty"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                </span>
-            </div>
-            <nav class="text-center">
-                <ul class="pagination">
-                    <li>
-                        <a href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li>
-                        <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        <div class="tab-panels">
+            <profile-jobs-list ng-show="profileCtrl.isTabSelected(2)"></profile-jobs-list>
         </div>
 
     </section>
