@@ -128,3 +128,29 @@ body {
     margin-bottom: 20px;
 }
 
+/* Profile */
+
+.profile-main-content {
+    height: 400px;
+    background: #fff;
+    /*box-shadow: 3px 3px 7px rgba(0,0,0,0.3);*/
+}
+
+.profile-main-content .nav-tabs {
+    border: none;
+}
+
+.profile-main-content .jobs-list
+.badge {
+  background-color: transparent;
+}
+
+.profile-main-content .jobs-list
+.glyphicon-star {
+    color: #dddd33;
+}
+
+.profile-main-content .jobs-list
+.glyphicon-star-empty {
+    color: #dddddd;
+}
