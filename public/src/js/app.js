@@ -44,7 +44,7 @@ app.controller('UserController', ['$scope', '$http', '$window', function($scope,
     var loginError = false;
 
     $scope.loginError = function() {
-        return loginError
+        return loginError;
     };
 
     $scope.login = function (user) {
