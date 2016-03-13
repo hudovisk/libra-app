@@ -20,7 +20,6 @@ module.exports.getAllServices = function(req, res, next) {
     }); 
 };
 
-
 //Save the service post
 module.exports.savePost = function(req, res, next) {
     new service({
@@ -34,4 +33,15 @@ module.exports.savePost = function(req, res, next) {
           if(err) return next(error);
           res.json(result);
     });
+};
+
+//Delete the service post
+module.exports.deletePost = function(req, res, next) {
+    var collection = db.collection("services");
+    collection.remove(req.service._id, function(err, result){
+            if(err)
+                return next(error);
+            else              
+                return res.json(results);
+        });
 };
