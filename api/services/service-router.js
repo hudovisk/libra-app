@@ -9,6 +9,9 @@ module.exports = function(requireSession)
 	            serviceController.savePost(req, res, next);
 	        });
 
+	router.post('/services/delete', requireSession, function(req, res, next) {
+	            serviceController.deletePost(req, res, next);
+	        });
 
 	return router;
 };
