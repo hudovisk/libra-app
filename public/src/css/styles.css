@@ -166,3 +166,31 @@ body {
 .glyphicon-star-empty {
     color: #dddddd;
 }
+
+.review-container {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.review-container .star-container
+{
+  float:right;
+  vertical-align: middle;
+}
+
+.review-container .star-container
+.glyphicon-star {
+    color: #dddd33;
+}
+
+.review-container .star-container
+.glyphicon-star-empty {
+    color: #dddddd;
+}
+
+.review-content {
+  margin-top: 10px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 0px 20px 20px 20px;
+}
