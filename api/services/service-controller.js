@@ -37,11 +37,10 @@ module.exports.savePost = function(req, res, next) {
 
 //Delete the service post
 module.exports.deletePost = function(req, res, next) {
-    var collection = db.collection("services");
-    collection.remove(req.service._id, function(err, result){
-            if(err)
-                return next(error);
-            else              
-                return res.json(results);
-        });
+
+    Service.findById(req.params.id)
+            .remove().exec( function(err) {
+                        if(err) return next(err);
+                        return res.status(200);
+                        });
 };
