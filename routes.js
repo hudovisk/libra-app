@@ -4,7 +4,6 @@ module.exports = function(app, passport) {
     //API - Routes ==================================================
     app.use('/api', require('./api/users/user-router')(passport, requireSession));
     app.use('/api', require('./api/services/service-router')(requireSession));
-    app.use('/api/users/:user_id', requireSession, require('./api/users/review-router'));
     //...
 
     //Site - Routes ==================================================
