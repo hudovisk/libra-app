@@ -47,7 +47,46 @@
         </ul>
 
         <div class="tab-panels">
+            
             <profile-jobs-list ng-show="profileCtrl.isTabSelected(2)"></profile-jobs-list>
+
+            <div ng-show="profileCtrl.isTabSelected(4)">
+                <div class="review-container">
+                    <span>
+                        <img src="http://placehold.it/24x24" class="img-circle">
+                        <a href="#">User Name 1</a>
+                        <span class="star-container">
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                        </span>
+                    </span>
+                    <div class="review-content">
+                        <p><a href="#">Service XYZ</a></p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tempor ante sed aliquet faucibus. Etiam mattis vulputate sem sed pellentesque. Duis sed mauris nec felis dapibus euismod nec eget massa. Mauris egestas metus vitae nulla pulvinar, ut bibendum lorem efficitur. Aenean in risus a massa semper maximus eu sit amet ipsum. Morbi finibus aliquet lacus a dignissim. Donec odio lectus, congue dictum aliquet at, elementum quis metus. Quisque elementum vestibulum metus et convallis.</p>
+                    </div>
+                </div>
+                <div class="review-container">
+                    <span>
+                        <img src="http://placehold.it/24x24" class="img-circle">
+                        <a href="#">User Name 1</a>
+                        <span class="star-container">
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                        </span>
+                    </span>
+                    <div class="review-content">
+                        <p><a href="#">Service XYZ</a></p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tempor ante sed aliquet faucibus. Etiam mattis vulputate sem sed pellentesque. Duis sed mauris nec felis dapibus euismod nec eget massa. Mauris egestas metus vitae nulla pulvinar, ut bibendum lorem efficitur. Aenean in risus a massa semper maximus eu sit amet ipsum. Morbi finibus aliquet lacus a dignissim. Donec odio lectus, congue dictum aliquet at, elementum quis metus. Quisque elementum vestibulum metus et convallis.</p>
+                    </div>
+                </div>
+            </div>
+            
         </div>
 
     </section>
