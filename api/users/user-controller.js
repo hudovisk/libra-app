@@ -76,8 +76,22 @@ module.exports.getAllReviews = function(req, res, next) {
 };  
 
 module.exports.pushReview = function(req, res, next) {
-    console.log("pushReview");
-    User.update(
+    Service.findById(req.body.service, function(err, service) {
+        if(err) return next(err);
+        if(!service) return res.status(400).send('Service not found.');
+        if(String(service.employer) !== String(req.user._id) &&
+                String(service.employee) !== String(req.user._id)) {
+            return res.status(403).end(); // if author is not related to the service
+        }
+        if(String(service.employer) !== String(req.params.user_id) &&
+                String(service.employee) !== String(req.params.user_id)) {
+            return res.status(403).end(); // if person reviewed is not related to the service.
+        }
+        if(String(req.params.user_id) === String(req.user._id)) {
+            return res.status(403).end(); // You should not review yourself.
+        }
+        
+        User.update(
         {
             _id: req.params.user_id
         },
@@ -91,18 +105,21 @@ module.exports.pushReview = function(req, res, next) {
                 }
             }
         },
-        function(err) {
+        function(err, numOfAffected) {
             console.log(err);
             if(err) return next(err);
+            if(numOfAffected === 0) return res.status(404).end();
             return res.status(201).end();
         });
+    });
 };
 
 module.exports.updateReview = function(req, res, next) {
     User.update(
         {
             _id: req.params.user_id,
-            "reviews._id": req.params.review_id
+            "reviews._id": req.params.review_id,
+            "reviews.author._id": req.user._id
         },
         {
             $set: {
@@ -110,8 +127,9 @@ module.exports.updateReview = function(req, res, next) {
                 "reviews.$.text": req.body.text
             }
         },
-        function(err) {
+        function(err, numOfAffected) {
             if(err) return next(err);
+            if(numOfAffected === 0) return res.status(404).end();
             return res.status(200).end();
         });
 };
@@ -119,7 +137,8 @@ module.exports.updateReview = function(req, res, next) {
 module.exports.deleteReview = function(req, res, next) {
     User.update(
         {
-            _id: req.params.user_id
+            _id: req.params.user_id,
+            "reviews.author._id": req.user._id,
         },
         {
             $pull: {
@@ -128,8 +147,9 @@ module.exports.deleteReview = function(req, res, next) {
                 } 
             }
         },
-        function(err) {
+        function(err, numOfAffected) {
             if(err) return next(err);
+            if(numOfAffected === 0) return res.status(404).end();
             return res.status(200).end();
         });
 };
