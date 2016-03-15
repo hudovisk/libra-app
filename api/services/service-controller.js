@@ -38,9 +38,33 @@ module.exports.savePost = function(req, res, next) {
 //Delete the service post
 module.exports.deletePost = function(req, res, next) {
 
-    Service.findById(req.params.id)
-            .remove().exec( function(err) {
-                        if(err) return next(err);
-                        return res.status(200);
-                        });
+    Service.findById(req.params.id, function(err, service) {
+        if(err) 
+            return next(err);
+        if(service.employer._id != req.user._id) 
+            return res.status(403).end();
+        service.remove(function(err) {
+            if(err) return next(err)
+            return res.status(200).end();
+        });
+    });    
+};
+
+//Update the service post
+module.exports.updatePost = function(req, res, next) {
+
+    Service.findById(req.params.id, function(err, service) {
+        if(err)
+            return next(err);
+        if(service.employer._id != req.user._id) 
+            return res.status(403).end();
+        
+        service.headline = req.body.headline;
+        service.description = req.body.description;
+        service.minRange = req.body.minRange;
+        service.maxRange = req.body.maxRange;
+        service.tags = req.body.tags;
+        service.save();
+        return res.status(200).end();
+    });
 };
