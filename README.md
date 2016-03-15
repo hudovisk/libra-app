@@ -24,27 +24,27 @@ Install bower:
   npm install -g bower
 ```
 
-Download and install project dependencies:
-```Shell
-  git clone https://github.com/hudovisk/libra-app.git
-  cd web-app
-  bower install
-  npm install
-```
-
 run MongoDB:
 ```Shell
     mongod
 ```
 
-Start server:
+Download and install project dependencies:
 ```Shell
-    npm start
+  git clone https://github.com/hudovisk/libra-app.git
+  cd libra-app
+  bower install
+  npm install
 ```
 
 Generate docs:
 ```Shell
     npm run doc
+```
+
+Start server:
+```Shell
+    npm start
 ```
 
 Resources - Mean Stack
