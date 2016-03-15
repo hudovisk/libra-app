@@ -1,28 +1,16 @@
 var Service = require('./service-model');
 
-
-//Return current user
-module.exports.getMe = function(req, res, next) {
-    User.findById(req.user._id, function(err, user) {
-        if(err) return next(err);
-
-        res.status(200).json({user: user});
-    });
-};
-
-
 //Return all service posts in db
 module.exports.getAllServices = function(req, res, next) {
     Service.find({}, function(err, results) {
         if(err) return next(error);
-        console.log(results);
-        res.json(results);
+        return res.json(results);
     }); 
 };
 
 //Save the service post
 module.exports.savePost = function(req, res, next) {
-    new service({
+    new Service({
         employer: req.user._id,
         headline: req.body.headline,
         description: req.body.description,
@@ -31,7 +19,7 @@ module.exports.savePost = function(req, res, next) {
         tags: req.body.tags
     }).save(function(err, result){
           if(err) return next(error);
-          res.json(result);
+          return res.json(result);
     });
 };
 
@@ -41,7 +29,7 @@ module.exports.deletePost = function(req, res, next) {
     Service.findById(req.params.id, function(err, service) {
         if(err) 
             return next(err);
-        if(service.employer._id != req.user._id) 
+        if(String(service.employer) !== String(req.user._id)) 
             return res.status(403).end();
         service.remove(function(err) {
             if(err) return next(err);
@@ -56,7 +44,8 @@ module.exports.updatePost = function(req, res, next) {
     Service.findById(req.params.id, function(err, service) {
         if(err)
             return next(err);
-        if(service.employer._id != req.user._id) 
+
+        if(String(service.employer) !== String(req.user._id)) 
             return res.status(403).end();
         
         service.headline = req.body.headline;

@@ -3,15 +3,20 @@ var serviceController = require('./service-controller');
 
 module.exports = function(requireSession) 
 {
-	router.get('/services', serviceController.getAllServices);
+	router.get('/services', 
+                serviceController.getAllServices);
 	
-	router.post('/services', requireSession, function(req, res, next) {
-	            serviceController.savePost(req, res, next);
-	        });
+	router.post('/services',
+                requireSession,
+	            serviceController.savePost);
 
-	router.post('/services/delete', requireSession, function(req, res, next) {
-	            serviceController.deletePost(req, res, next);
-	        });
+    router.put('/services/:id', 
+                requireSession,
+                serviceController.updatePost);
+
+	router.delete('/services/:id', 
+                    requireSession,
+                    serviceController.deletePost);
 
 	return router;
 };
