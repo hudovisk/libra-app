@@ -90,9 +90,30 @@ app.controller('UserController', ['$scope', '$http', '$window', function($scope,
 
 }]);
 
-app.controller('ProfileController', ['$scope', function($scope){
+app.controller('ProfileController', ['$scope', '$http',function($scope, $http){
     
     this.tab = 1;
+    $scope.servicesRequested = [];
+
+    this.init = function (userId) {
+        console.log(userId);
+        $http({
+            method: 'GET',
+            url: '/api/services?employer='+userId
+        }).then(function successCallback(response) {
+            console.log(response);
+            // this callback will be called asynchronously
+            // when the response is available
+            if (response.status === 200) {
+                $scope.servicesRequested = response.data;
+            }
+        }, function errorCallback(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+            console.log(response);
+        });
+
+    };
 
     this.setTab = function(setTab) {
         this.tab = setTab;
