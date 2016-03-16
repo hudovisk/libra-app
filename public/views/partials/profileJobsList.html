@@ -1,6 +1,6 @@
 <div class="jobs-list list-group">
-<a href="#" class="list-group-item">
-    Dapibus ac facilisis in
+<a ng-href="/service/{{service._id}}" class="list-group-item" ng-repeat="service in servicesRequested">
+    {{service.headline}}
     <span class="badge">
         <span class="glyphicon glyphicon-star-empty"></span>
         <span class="glyphicon glyphicon-star"></span>
@@ -9,46 +9,7 @@
         <span class="glyphicon glyphicon-star"></span>
     </span>
 </a>
-<a href="#" class="list-group-item">
-    Dapibus ac facilisis in
-    <span class="badge">
-        <span class="glyphicon glyphicon-star"></span>
-        <span class="glyphicon glyphicon-star"></span>
-        <span class="glyphicon glyphicon-star"></span>
-        <span class="glyphicon glyphicon-star"></span>
-        <span class="glyphicon glyphicon-star"></span>
-    </span>
-</a>
-<a href="#" class="list-group-item">
-    Dapibus ac facilisis in
-    <span class="badge">
-        <span class="glyphicon glyphicon-star-empty"></span>
-        <span class="glyphicon glyphicon-star-empty"></span>
-        <span class="glyphicon glyphicon-star"></span>
-        <span class="glyphicon glyphicon-star"></span>
-        <span class="glyphicon glyphicon-star"></span>
-    </span>
-</a>
-<a href="#" class="list-group-item">
-    Dapibus ac facilisis in
-    <span class="badge">
-        <span class="glyphicon glyphicon-star-empty"></span>
-        <span class="glyphicon glyphicon-star-empty"></span>
-        <span class="glyphicon glyphicon-star-empty"></span>
-        <span class="glyphicon glyphicon-star"></span>
-        <span class="glyphicon glyphicon-star"></span>
-    </span>
-</a>
-<a href="#" class="list-group-item">
-    Dapibus ac facilisis in
-    <span class="badge">
-        <span class="glyphicon glyphicon-star-empty"></span>
-        <span class="glyphicon glyphicon-star-empty"></span>
-        <span class="glyphicon glyphicon-star"></span>
-        <span class="glyphicon glyphicon-star"></span>
-        <span class="glyphicon glyphicon-star"></span>
-    </span>
-</a>
+</div>
 <nav class="text-center">
     <ul class="pagination">
         <li>

@@ -31,7 +31,7 @@ module.exports = function(app, passport) {
             if(err) return next(err);
 
             if(user) {
-                res.render('pages/profile.html', {user: user});
+                res.render('pages/profile.html', {user: user, profileId: req.params.user_id});
             }
         });
     });

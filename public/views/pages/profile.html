@@ -6,7 +6,7 @@
     <%- include ../partials/scripts.html %>
 
 </head>
-<body ng-controller="ProfileController as profileCtrl">
+<body ng-init="profileCtrl.init('<%- profileId %>')" ng-controller="ProfileController as profileCtrl">
 
     <%- include ../partials/navbar.html %>
     
@@ -33,7 +33,7 @@
             </li>
             <li role="presentation" ng-class="{ 'active': profileCtrl.isTabSelected(2) }">
                 <a href="#" ng-click="profileCtrl.setTab(2)">Jobs requested 
-                    <span class="badge alert-info">5</span>
+                    <span class="badge alert-info">{{servicesRequested.length}}</span>
                 </a> 
             </li>
             <li role="presentation" ng-class="{ 'active': profileCtrl.isTabSelected(3) }">
