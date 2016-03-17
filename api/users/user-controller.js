@@ -1,4 +1,5 @@
 var User = require('./user-model');
+var Service = require('../services/service-model');
 
 var passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
 
@@ -7,7 +8,7 @@ module.exports.getAll = function(req, res, next) {
         .exec(function(err, users) {
             if(err) return next(err);
 
-            res.status(200).json({users: users});
+            res.status(200).json(users);
         });
 };
 
@@ -15,7 +16,15 @@ module.exports.getMe = function(req, res, next) {
     User.findById(req.user._id, function(err, user) {
         if(err) return next(err);
 
-        res.status(200).json({user: user});
+        res.status(200).json(user);
+    });
+};
+
+module.exports.getUser = function(req, res, next) {
+    User.findById(req.params.user_id, function(err, user) {
+        if(err) return next(err);
+
+        res.status(200).json(user);
     });
 };
 
@@ -69,13 +78,16 @@ module.exports.logout = function(req, res, next) {
 module.exports.getAllReviews = function(req, res, next) {
     User.findById(req.params.user_id)
         .populate('reviews')
+        .populate('reviews.author')
+        .populate('reviews.service')
         .exec(function(err, user) {
             if(err) return next(err);
-            return res.status(200).json({reviews: user.reviews});
+            return res.status(200).json(user.reviews);
         });
 };  
 
 module.exports.pushReview = function(req, res, next) {
+    console.log(req.body);
     Service.findById(req.body.service, function(err, service) {
         if(err) return next(err);
         if(!service) return res.status(400).send('Service not found.');

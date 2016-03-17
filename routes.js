@@ -27,11 +27,11 @@ module.exports = function(app, passport) {
 
     app.get('/profile/:user_id', function(req, res,  next) {
         console.log("Getting profile for user: " + req.params.user_id);
-        User.findById(req.params.user_id, function(err, user) {
+        User.findById(req.params.user_id, function(err, profile) {
             if(err) return next(err);
 
-            if(user) {
-                res.render('pages/profile.html', {user: user, profileId: req.params.user_id});
+            if(profile) {
+                res.render('pages/profile.html', {user: req.user, profile: profile});
             }
         });
     });
