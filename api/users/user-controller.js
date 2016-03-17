@@ -44,7 +44,7 @@ module.exports.register = function(passport, req, res, next) {
             //never send password
             var userAux = user.toObject();
             delete userAux.password;
-            res.status(201).json({user: userAux});
+            res.status(201).json(userAux);
         });
     })(req, res, next);
 };
@@ -65,7 +65,7 @@ module.exports.login = function(passport, req, res, next) {
             //never send password
             var userAux = user.toObject();
             delete userAux.password;
-            res.status(200).json({user: userAux});
+            res.status(200).json(userAux);
         });
     })(req, res, next);
 };
