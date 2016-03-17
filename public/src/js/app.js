@@ -94,14 +94,14 @@ app.controller('ProfileController', ['$scope', '$http',function($scope, $http){
     
     this.tab = 1;
     $scope.servicesRequested = [];
+    $scope.reviews = [];
 
     this.init = function (userId) {
-        console.log(userId);
+
         $http({
             method: 'GET',
             url: '/api/services?employer='+userId
         }).then(function successCallback(response) {
-            console.log(response);
             // this callback will be called asynchronously
             // when the response is available
             if (response.status === 200) {
@@ -110,9 +110,26 @@ app.controller('ProfileController', ['$scope', '$http',function($scope, $http){
         }, function errorCallback(response) {
             // called asynchronously if an error occurs
             // or server returns response with an error status.
-            console.log(response);
         });
 
+        $http({
+            method: 'GET',
+            url: '/api/users/'+userId+'/reviews';
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            if (response.status === 200) {
+                $scope.reviews = response.data;
+            }
+        }, function errorCallback(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });
+
+    };
+
+    $scope.range = function(n) {
+        return new Array(n);
     };
 
     this.setTab = function(setTab) {
@@ -136,5 +153,12 @@ app.directive('profileJobsList', function() {
     return {
         restrict: 'E',
         templateUrl: "/views/partials/profileJobsList.html"
+    };
+});
+
+app.directive('profileReviewsTab', function() {
+    return {
+        restrict: 'E',
+        templateUrl: "/views/partials/profileReviewsTab.html"
     };
 });
