@@ -93,10 +93,28 @@ app.controller('UserController', ['$scope', '$http', '$window', function($scope,
 app.controller('ProfileController', ['$scope', '$http',function($scope, $http){
     
     this.tab = 1;
+
+    $scope.services = [];
     $scope.servicesRequested = [];
+    $scope.servicesOffered = [];
     $scope.reviews = [];
 
     this.init = function (userId) {
+
+        $http({
+            method: 'GET',
+            url: '/api/services?employee='+userId
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            if (response.status === 200) {
+                $scope.servicesOffered = response.data;
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });
 
         $http({
             method: 'GET',
@@ -108,13 +126,14 @@ app.controller('ProfileController', ['$scope', '$http',function($scope, $http){
                 $scope.servicesRequested = response.data;
             }
         }, function errorCallback(response) {
+            console.log(response);
             // called asynchronously if an error occurs
             // or server returns response with an error status.
         });
 
         $http({
             method: 'GET',
-            url: '/api/users/'+userId+'/reviews';
+            url: '/api/users/'+userId+'/reviews'
         }).then(function successCallback(response) {
             // this callback will be called asynchronously
             // when the response is available
@@ -122,6 +141,7 @@ app.controller('ProfileController', ['$scope', '$http',function($scope, $http){
                 $scope.reviews = response.data;
             }
         }, function errorCallback(response) {
+            console.log(responde);
             // called asynchronously if an error occurs
             // or server returns response with an error status.
         });
@@ -133,6 +153,8 @@ app.controller('ProfileController', ['$scope', '$http',function($scope, $http){
     };
 
     this.setTab = function(setTab) {
+        if(setTab === 2) $scope.services = $scope.servicesRequested;
+        if(setTab === 3) $scope.services = $scope.servicesOffered;
         this.tab = setTab;
     };
 
@@ -149,10 +171,10 @@ app.directive("serviceCarouselDesc", function() {
     };
 });
 
-app.directive('profileJobsList', function() {
+app.directive('profileServicesList', function() {
     return {
         restrict: 'E',
-        templateUrl: "/views/partials/profileJobsList.html"
+        templateUrl: "/views/partials/profileServicesList.html"
     };
 });
 
