@@ -1,5 +1,5 @@
-var app = angular.module('libra', []);
-
+var app = angular.module('libra', ['ngMaterial']);
+//<!-- var app2 = angular.module('post', []); -->
 app.controller('TestController', function  () {
     this.name = 'Libra';
 });
@@ -95,4 +95,63 @@ app.directive("serviceCarouselDesc", function() {
         restrict: 'E',
         templateUrl: "/views/partials/serviceCarouselDesc.html"
     };
+});
+
+
+app.controller('', ['$scope', '$http', function ($scope, $http) {
+        'use strict';
+ $scope.test = "Testing 1 2 3 ";
+ $scope.messages =[];
+        getFromServer();
+        function getFromServer(){
+          $http.get('/api/services')
+               .success(function(res){
+                   $scope.messages= res.data;
+                   console.log($scope.messages);
+               });
+        }
+    }]);
+
+app.controller('cardCtrl', function($scope , dummydata) {
+    
+    $scope.test = "Testing the test";
+    $scope.messages = dummydata.latestServices;
+    console.log($scope.messages);
+
+});
+
+app.service("dummydata", function() {
+    this.latestServices = [
+        {
+            employer: "employer1",
+            headline: "headline1",
+            description: "Good",
+            minRange: "10",
+            maxRange: "20",
+        },
+       
+ 
+        {
+            employer: "employer2",
+            headline: "Lorem ipsum dolor sit amet.",
+            description: "Pizza",
+            minRange: "10",
+            maxRange: "20",
+            
+        },
+        {
+            employer: "employer3",
+            headline: "Lorem ipsum dolor sit amet.",
+            description: "Coke",
+            minRange: "10",
+            maxRange: "20",
+        },
+        {
+            employer: "employer4",
+            headline: "Lorem ipsum dolor sit amet.",
+            description: "Fanta",
+            minRange: "10",
+            maxRange: "20",
+        },
+    ];
 });
