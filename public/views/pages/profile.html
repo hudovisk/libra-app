@@ -19,8 +19,8 @@
             </div>
 
             <div class="col-sm-9 col-md-10">
-                <h1><%- profile.name %></h1>
-                <i><%- profile.email %></i>
+                <h1>{{profile.name}}</h1>
+                <i>{{profile.email}}</i>
             </div>
 
         </div>
@@ -54,12 +54,12 @@
                 <%if (String(user._id) === String(profile._id)) { %>
                     <a class="edit" ng-hide="profileCtrl.isEditMode()" ng-click="profileCtrl.setEditMode(true)">Edit</a>
                 <%}%>
-                <marked ng-hide="profileCtrl.isEditMode()"><%- profile.description %></marked>
+                <div ng-hide="profileCtrl.isEditMode()" marked="profile.description"></div>
                 <form ng-show="profileCtrl.isEditMode()">
-                    <textarea ng-model="description" rows="10"><%- profile.description %></textarea>
+                    <textarea ng-model="profile.description" rows="10"></textarea>
                     <span>
-                        <input type="submit" class="btn btn-danger" ng-click="profileCtrl.setEditMode(false)" value="Cancel">
-                        <input type="submit" class="btn btn-success" ng-click="profileCtrl.saveDescription(description)" value="Save">
+                        <input type="submit" class="btn btn-danger" ng-click="profileCtrl.cancelDescription()" value="Cancel">
+                        <input type="submit" class="btn btn-success" ng-click="profileCtrl.saveDescription(profile.description)" value="Save">
                     </span>
                 </form>
             </div>

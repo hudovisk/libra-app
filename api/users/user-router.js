@@ -123,6 +123,10 @@ module.exports = function(passport, requireSession) {
                 requireSession,
                 userController.getMe);
 
+    router.put('/users/me',
+                requireSession,
+                userController.updateUser);
+
     router.get('/users/:user_id',
                 requireSession,
                 userController.getUser);
