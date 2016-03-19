@@ -1,4 +1,16 @@
-var app = angular.module('libra', []);
+var app = angular.module('libra', ['hc.marked']);
+
+app.config(['markedProvider', function (markedProvider) {
+  markedProvider.setOptions({
+    gfm: true,
+    tables: true,
+    breaks: false,
+    pedantic: false,
+    sanitize: true,
+    smartLists: true,
+    smartypants: false
+  });
+}]);
 
 app.controller('TestController', function  () {
     this.name = 'Libra';
@@ -93,6 +105,7 @@ app.controller('UserController', ['$scope', '$http', '$window', function($scope,
 app.controller('ProfileController', ['$scope', '$http',function($scope, $http){
     
     this.tab = 1;
+    this.editMode = false;
 
     $scope.services = [];
     $scope.servicesRequested = [];
@@ -160,6 +173,14 @@ app.controller('ProfileController', ['$scope', '$http',function($scope, $http){
 
     this.isTabSelected = function(selectTab) {
         return this.tab === selectTab;
+    };
+
+    this.isEditMode = function() {
+        return this.editMode;
+    };
+
+    this.setEditMode = function(mode) {
+        this.editMode = mode;
     };
 
 }]);
