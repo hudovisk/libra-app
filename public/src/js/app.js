@@ -1,4 +1,4 @@
-var app = angular.module('libra', []);
+var app = angular.module('libra', ['ngMaterial']);
 
 app.controller('TestController', function  () {
     this.name = 'Libra';
@@ -9,32 +9,31 @@ app.controller("ServiceController", function() {
         {
             headline: "Lorem ipsum dolor sit amet.",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis feugiat, lacus quis tristique venenatis, ante tellus iaculis justo, id elementum ante urna sed mi. Nam.",
-            tags: ["dolor", "sit", "amet"]
+            
         },
         {
             headline: "Lorem ipsum dolor sit amet.",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis feugiat, lacus quis tristique venenatis, ante tellus iaculis justo, id elementum ante urna sed mi. Nam.",
-            tags: ["dolor", "sit", "amet"]
+            
         },
         {
             headline: "Lorem ipsum dolor sit amet.",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis feugiat, lacus quis tristique venenatis, ante tellus iaculis justo, id elementum ante urna sed mi. Nam.",
-            tags: ["dolor", "sit", "amet"]
+        },   
+        {
+            headline: "Lorem ipsum dolor sit amet.",
+            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis feugiat, lacus quis tristique venenatis, ante tellus iaculis justo, id elementum ante urna sed mi. Nam.",
+    
         },
         {
             headline: "Lorem ipsum dolor sit amet.",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis feugiat, lacus quis tristique venenatis, ante tellus iaculis justo, id elementum ante urna sed mi. Nam.",
-            tags: ["dolor", "sit", "amet"]
+          
         },
         {
             headline: "Lorem ipsum dolor sit amet.",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis feugiat, lacus quis tristique venenatis, ante tellus iaculis justo, id elementum ante urna sed mi. Nam.",
-            tags: ["dolor", "sit", "amet"]
-        },
-        {
-            headline: "Lorem ipsum dolor sit amet.",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis feugiat, lacus quis tristique venenatis, ante tellus iaculis justo, id elementum ante urna sed mi. Nam.",
-            tags: ["dolor", "sit", "amet"]
+         
         },
     ];
 });
@@ -121,4 +120,42 @@ app.directive("serviceCarouselDesc", function() {
         restrict: 'E',
         templateUrl: "/views/partials/serviceCarouselDesc.html"
     };
+});
+
+
+
+app.controller('cardCtrl', ['$scope','$http' ,function($scope, $http) {
+    $http({
+        method: 'GET',
+        url: '/api/services'
+    }).then(function successCallback(res){  
+        this.messages = res.data;
+     
+    }, function errorCallback(res){
+        console.log(res);
+    });
+
+}]);
+
+
+
+
+
+app.controller('', function($scope , dummydata) {
+    
+    $scope.messages = dummydata.latestServices;
+    console.log($scope.something);
+
+});
+app.service("dummydata",'$http' ,function($scope, $http) {
+    $http({
+        method: 'GET',
+        url: '/services'
+    }).then(function successCallback(res){  
+        this.latestServices = res.data;
+     
+    }, function errorCallback(res){
+        console.log(res);
+    });
+
 });

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html ng-app="libra">
+<head>
+    <title>Libra | DisplayPost</title>
+    <%- include ../partials/scripts.html %>
+
+
+
+<link rel="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.0-rc1/angular-material.css">
+<link rel="https://material.angularjs.org/1.1.0-rc1/docs.css">
+
+<!-- Angular Material style sheet -->
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+
+  <!-- Angular Material requires Angular.js Libraries -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+
+  <!-- Angular Material Library -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+</head>
+<body>
+	<!-- Displays the navigation bar-->
+	<%- include ../partials/navbar.html %>
+
+<br><br>
+
+<legend class="text-center header" style="color:#00BFFF;text-shadow: 2px 2px #200000 ;font-style: italic; ;"><h1>Current Job Posting</h1></legend>
+
+<div class="container clearfix">
+
+<div layout="row" layout-align="end start" layout-padding>
+	<label> Search: <input ng-model="searchText" placeholder="Search name"><label>
+</div>
+<!-- Main post body -->
+<main role="main">
+<div layout="row" layout-wrap float="right">
+<div ng-controller="cardCtrl" ng-cloak="" class="carddemoInCardActions" flex >
+  <md-content class="md-padding" layout-xs="column" layout="row">
+    <div flex-xs="" flex-gt-xs="50" layout="column">
+     
+      <md-card ng-repeat="v in messages | filter:searchText" id="myid">
+        <md-card-header>
+          <md-card-header-text>
+            <span class="md-title" align="center">{{v.headline}}</span>
+            <span class="md-subhead">{{v.employer}}</span>
+          </md-card-header-text>
+        </md-card-header>
+
+         <md-card-content>
+                 {{v.description}}  
+		<p>
+		<label> Minumum Wage offered: {{v.minRange}}</label>
+		<label> Maximum Wage offered: {{v.maxRange}}</label>       
+		</p>
+		
+        </md-card-content>
+
+        <md-card-actions layout="row" layout-align="start center">
+          <md-button>Apply for the job</md-button>
+          <md-button>Save Job</md-button>
+        </md-card-actions>
+       
+       
+
+
+      </md-card>
+    </div>
+  
+  </md-content>
+</div>
+</div>
+<!-- Main body ends -->
+
+<!-- Side bar Menu -->
+<div class="sidebar">
+	<h2>Your options</h2>
+<p>Few menus goes here</p>
+</div>
+
+</div>
+
+<style>
+#myid{
+	background-color:#00BFFF;
+	justify-content: center;
+}
+.sidebar {
+  float: right;
+  margin-top: 1.875em;
+  width: 200px;
+}
+main {
+  float: left;
+  width: 1020px;
+  padding-right: 2px;
+  border-right: 2px solid #c8c8c8;
+}
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+.mod h2 {
+  border-bottom: 1px solid #dbdbdb;
+  margin-top: 2.571em;
+  padding-bottom: .75em;
+}
+</style>
+
+
+
+</body>
+</html>

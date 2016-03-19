@@ -10,66 +10,74 @@
 
 	<%- include ../partials/navbar.html %>
 	
-	<div class="jumbotron jumbotron-fluid">
-		<div class="container-fluid">
 
-            <h2>Welcome to Libra Service .</h2>
-
-			<form style="max-width: 400px;" class="center-block">
+	<div class="jumbotron">
+	<div class ="container">
+		<img src="http://jobsbigisland.com/images/jobs-clip-art.png" class="pull-right">
+		<h2>Welcome to Libra</h2>
+	<p>Founded in 2016, Libra connects the world's professionals to make job finding and provide services easier. </p>
+	<form style="max-width: 600px;">
 				<div class="form-group input-group" >
 					<input type="text" class="form-control" placeholder="Search for job posts">
 					<span class="input-group-btn">
 						<button class="btn btn-success" type="button">Go!</button>
 					</span>
 				</div>
-			</form>
-
-		</div>
+	</form>
 	</div>
-
-	<div class="latest-jobs">
-
-		<h3>Check our latest job offers.</h3>
-
-		<div class="carousel slide" data-ride="carousel" data-type="multi" data-interval="3000" id="myCarousel">
-
-			<!-- Indicators -->
-			<ol class="carousel-indicators">
-				<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-				<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-				<li data-target="#carousel-example-generic" data-slide-to="2"></li>
-			</ol>
-
-			<div class="carousel-inner" ng-controller="ServiceController as serviceCtrl">
-
-				<div class="item active">
-					<service-carousel-desc ng-repeat="service in serviceCtrl.latestServices | limitTo:2" class="col-sm-6">
-					</service-carousel-desc>
-				</div>
-
-				<div class="item">
-					<service-carousel-desc ng-repeat="service in serviceCtrl.latestServices | limitTo:2:2" class="col-sm-6">
-					</service-carousel-desc>
-				</div>
-
-				<div class="item">
-					<service-carousel-desc ng-repeat="service in serviceCtrl.latestServices | limitTo:2:4" class="col-sm-6">
-					</service-carousel-desc>
-				</div>
-
-			</div>
-
-			<!-- Controls -->
-			<a class="left carousel-control" href="#myCarousel" data-slide="prev" style="background-image: none;">
-				<i class="glyphicon glyphicon-chevron-left"></i>
-			</a>
-			<a class="right carousel-control" href="#myCarousel" data-slide="next" style="background-image: none;">
-				<i class="glyphicon glyphicon-chevron-right"></i>
-			</a>
-
-		</div> <!-- Carousel -->
 	</div>
+	
+
+	<div class="row feature">
+        <div class="col-sm-4">
+            <div>
+            <img  alt="image1" class="img-circle img-thumbnail" src="http://weleadworship.com/wp-content/uploads/2013/05/post_jobs.png" height="100px" width="100px">
+            <h2>Post Services</h2>
+            <p>
+                You can post a job.
+            </p>
+        </div>
+        </div>
+        <div class="col-sm-4">
+            <div>
+            <img  alt="image2" class="img-circle img-thumbnail" src="http://www.milbanksd.com/wp-content/uploads/2015/01/job-search.jpg" height="100px" width="100px">
+            <h2>Look for services</h2>
+            <p>
+                <div align="center">
+               
+               Aplly for jobs.
+                
+                </div>
+            </p>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div>
+            <img  alt="image3" class="img-circle img-thumbnail" src="http://www.schurorthodontics.com/wp-content/uploads/Review-thumb.jpg" height="100px" width="100px">
+            <h2>Look up reviews</h2>
+            <p>
+                You can search for reviews</p>
+            </div>
+        </div>
+    </div>
 	<%- include ../partials/footer.html %>
-
+<style>
+.feature{
+     padding: 20px 0;
+    text-align: center;
+ }
+ .feature > div > div{
+    padding: 10px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: 0.2s;
+ }
+ .feature > div:hover > div{
+    margin-top: -10px;
+    border: 1px solid rgb(128, 128, 128);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px 5px;
+    background: rgba(232, 215, 215, 0.10);
+    }
+</style>
 </body>
 </html>

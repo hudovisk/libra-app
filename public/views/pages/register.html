@@ -7,7 +7,23 @@
 	<%- include ../partials/scripts.html %>
 	<!-- <script src="controler.js"></script>-->
 	<!-- Jquery Import-->
-	
+	 <script type="text/javascript">
+	 	
+            function check()
+            {
+                if (document.getElementById('name').value==""
+                 || document.getElementById('email').value==""
+                 || document.getElementById('password').value==""
+              )
+                {
+                    alert ("Please enter your information in all the fields.");
+                    return false;
+                }
+                else window.location ="/dashboard";
+                return true;
+            }
+
+        </script>
 
 </head>
 <body>
@@ -32,27 +48,24 @@
 			<div ng-controller="loginCtrl">
 			
 			<form action="/api/users/register" id="mylogin" method="post">
-				<div class="form-group col-lg-6">
-					<input type="" name="" class="form-control" id="FirstName" ng-model="FirstName" placeholder="First Name">
-				</div>
-
-				<div class="form-group col-lg-6">
-					<input type="" name="" class="form-control" id="LastName" ng-model="LastName" placeholder="Last Name">
+				<div class="form-group col-lg-12">
+					<input type="" name="name" class="form-control" id="name" ng-model="name" placeholder="Type First Name and Last Name" required>
 				</div>
 				
 				<div class="form-group col-lg-12">
-					<input type="" name="" class="form-control" id="EmailAddress" ng-model="EmailAddress" value="" placeholder="Email Address">
+					<input type="" name="email" class="form-control" id="EmailAddress" ng-model="EmailAddress" value="" placeholder="Email Address" required>
 				</div>
 
 				<div class="form-group col-lg-12">
-					<input type="password" name="" class="form-control" id="password" ng-model= "password" value="" placeholder="Password(6 or more characters)">
+					<input type="password" name="password" class="form-control" id="password" ng-model= "password" value="" placeholder="Enter Password" required>
+					<label> Password must be 6 to 16 characters and have one number and one special character </label>
 				</div>
 				
 				<div class="form-group col-lg-12">
 					<p>By clicking Join Now, you agree to ProConnect's <b>User Agreement</b>, <b>Privacy Policy</b> and <b>Cookie Policy.</b></p>
 				</div>
 				<div class="col-lg-6">
-				<button type="submit" class="btn btn-primary" ng-click="submit()">Join Now</button>
+				<button type="submit" class="btn btn-primary" ng-click="submit()" onclick="return check();">Join Now</button>
 				</div>
 
 			</form>
