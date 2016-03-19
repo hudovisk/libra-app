@@ -102,17 +102,35 @@ app.controller('UserController', ['$scope', '$http', '$window', function($scope,
 
 }]);
 
-app.controller('ProfileController', ['$scope', '$http',function($scope, $http){
+app.controller('ProfileController', ['$scope', '$http', '$window', function($scope, $http, $window){
     
     this.tab = 1;
     this.editMode = false;
+    this.originalDescription = '';
 
+    $scope.profile = {};
     $scope.services = [];
     $scope.servicesRequested = [];
     $scope.servicesOffered = [];
     $scope.reviews = [];
 
     this.init = function (userId) {
+        parent = this;
+        $http({
+            method: 'GET',
+            url: '/api/users/'+userId
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            if (response.status === 200) {
+                $scope.profile = response.data;
+                parent.originalDescription = $scope.profile.description;
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });        
 
         $http({
             method: 'GET',
@@ -159,6 +177,31 @@ app.controller('ProfileController', ['$scope', '$http',function($scope, $http){
             // or server returns response with an error status.
         });
 
+    };
+
+    this.cancelDescription = function() {
+        $scope.profile.description = this.originalDescription;
+        this.setEditMode(false);
+    };
+
+    this.saveDescription = function(description) {
+        $http({
+            method: 'PUT',
+            url: '/api/users/me',
+            data: {
+                description: description
+            }
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            if (response.status === 200) {
+                $window.location.reload();
+            }
+        }, function errorCallback(response) {
+            console.log(responde);
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });
     };
 
     $scope.range = function(n) {

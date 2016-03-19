@@ -8,7 +8,7 @@ module.exports.getAll = function(req, res, next) {
         .exec(function(err, users) {
             if(err) return next(err);
 
-            res.status(200).json(users);
+            return res.status(200).json(users);
         });
 };
 
@@ -16,7 +16,23 @@ module.exports.getMe = function(req, res, next) {
     User.findById(req.user._id, function(err, user) {
         if(err) return next(err);
 
-        res.status(200).json(user);
+        return res.status(200).json(user);
+    });
+};
+
+module.exports.updateUser = function(req, res, next) {
+    delete req.body.password;
+    User.update(
+        {
+            _id: req.user._id,
+        },
+        {
+            $set: req.body,
+        },
+        function(err, user) {
+            if(err) return next(err);
+
+            return res.status(200).end();
     });
 };
 
@@ -24,7 +40,7 @@ module.exports.getUser = function(req, res, next) {
     User.findById(req.params.user_id, function(err, user) {
         if(err) return next(err);
 
-        res.status(200).json(user);
+        return res.status(200).json(user);
     });
 };
 
@@ -43,8 +59,9 @@ module.exports.register = function(passport, req, res, next) {
 
             //never send password
             var userAux = user.toObject();
+
             delete userAux.password;
-            res.status(201).json(userAux);
+            return res.status(201).json(userAux);
         });
     })(req, res, next);
 };
@@ -65,7 +82,7 @@ module.exports.login = function(passport, req, res, next) {
             //never send password
             var userAux = user.toObject();
             delete userAux.password;
-            res.status(200).json(userAux);
+            return res.status(200).json(userAux);
         });
     })(req, res, next);
 };
