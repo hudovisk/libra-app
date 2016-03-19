@@ -152,6 +152,26 @@ body {
     margin-bottom: 20px;
 }
 
+.profile-main-content .profile-description
+{
+    overflow: hidden;
+}
+
+.profile-main-content .profile-description
+.edit {
+    float: right;
+}
+
+.profile-main-content .profile-description
+textarea {
+    width: 100%;
+}
+
+.profile-main-content .profile-description
+span {
+    float: right;
+}
+
 .profile-main-content .jobs-list
 .badge {
     background-color: transparent;
