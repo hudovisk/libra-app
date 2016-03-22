@@ -52,7 +52,7 @@ describe('post api/users/register', function() {
         };
 
         var validBody = function(res) {
-            validateUser(res.body.user, validUser);
+            validateUser(res.body, validUser);
         };
 
         //TODO(Hudo): Test cookie
@@ -101,7 +101,7 @@ describe('post api/users/login', function() {
         };
 
         var validBody = function(res) {
-            validateUser(res.body.user, savedUserData);
+            validateUser(res.body, savedUserData);
         };
 
         //TODO(Hudo): Test cookies.
@@ -164,7 +164,7 @@ describe('get api/users/me', function() {
 
     it('should return 200 with the current user', function(done) {
         var validBody = function(res) {
-            validateUser(res.body.user, savedUserData);
+            validateUser(res.body, savedUserData);
         };
 
         loggedAgent
@@ -211,8 +211,8 @@ describe('get api/users', function() {
 
     it('should return 200 with all users', function(done) {
         var validBody = function(res) {
-            expect(res.body.users).to.not.be.undefined;
-            expect(res.body.users.length).to.equal(users.length);
+            expect(res.body).to.not.be.undefined;
+            expect(res.body.length).to.equal(users.length);
         };
 
         loggedAgent
