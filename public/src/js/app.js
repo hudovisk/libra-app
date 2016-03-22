@@ -228,6 +228,43 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
 
 }]);
 
+app.controller('DashboardController', ['$scope', '$http', function($scope, $http){
+    
+    $scope.latestServicesRequested = [];
+    $scope.latestServicesOffered = [];
+
+    $http({
+            method: 'GET',
+            url: '/api/services/?sortBy=-created&employer=null&pageSize=5'
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            if (response.status === 200) {
+                $scope.latestServicesRequested = response.data;
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });
+
+    $http({
+            method: 'GET',
+            url: '/api/services/?sortBy=-created&employee=null&pageSize=5'
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            if (response.status === 200) {
+                $scope.latestServicesOffered = response.data;
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });
+
+}]);
+
 app.directive("serviceCarouselDesc", function() {
     return {
         restrict: 'E',
