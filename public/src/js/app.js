@@ -71,7 +71,7 @@ app.controller('UserController', ['$scope', '$http', '$window', function($scope,
             // this callback will be called asynchronously
             // when the response is available
             if (response.status === 200) {
-                $window.location.href = '/';
+                $window.location.href = '/dashboard';
             }
             //TODO: Display duplicate email!
         }, function errorCallback(response) {
