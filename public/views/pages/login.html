@@ -30,24 +30,14 @@
 
                 <hr>
 
-                <div class="login-error-box" ng-show="loginError()">
-                    <span>Invalid email/password.</span>
-                </div>
-
                 <form class="simple-form">
                     <h2 class="form-signin-heading"></h2>
                     <label for="email" class="sr-only">Email address</label>
                     <input type="email" id="email" ng-model="user.email" class="form-control" placeholder="Email address" required autofocus>
                     <label for="password" class="sr-only">Password</label>
-                    <input type="password" id="passord" 
-                    ng-model="user.password" 
-                    class="form-control" 
-                    placeholder="Password" 
-                    required
-                    title="Must be 6 to 16 characters long and have at least one number and one special character."
-                    pattern="^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$" >
+                    <input type="password" id="passord" ng-model="user.password" class="form-control" placeholder="Password" required>
                     <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="login(user)">Sign in</button>
-                    <a href="/register" class="btn btn-lg btn-success btn-block">Register</a>
+                    <button class="btn btn-lg btn-success btn-block" type="submit">Register</button>
                 </form>
 
             </div>

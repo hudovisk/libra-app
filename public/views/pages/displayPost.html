@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html ng-app="libra">
 <head>
-    <title>Libra | DisplayPost</title>
-    <%- include ../partials/scripts.html %>
+    <meta charset="utf-8" />
+    <title>Libra | Job Posts</title>
+  
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:300|Open+Sans:700" />
+    <link rel="stylesheet" href="src/css/post.css" />
+  <%- include ../partials/scripts.html %>
 
-
-
+<!-- Angular -->
 <link rel="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.0-rc1/angular-material.css">
 <link rel="https://material.angularjs.org/1.1.0-rc1/docs.css">
 
@@ -23,51 +27,152 @@
 
 </head>
 <body>
-	<!-- Displays the navigation bar-->
-	<%- include ../partials/navbar.html %>
+<div class="page">
+    <!-- ==== START MASTHEAD ==== -->
+    <header class="masthead" role="banner">
+        <p class="logo"><a href="/"><img src="/img/libra-sign.png" height="50px" width="200px" /></a></p>
 
-<br><br>
-<div layout="row" layout-align="end start" layout-padding>
-	<label> Search: <input ng-model="searchText" placeholder="Search name"><label>
-</div>
-<div layout="row" layout-wrap>
-<div ng-controller="cardCtrl" ng-cloak="" class="carddemoInCardActions" flex>
-  <md-content class="md-padding" layout-xs="column" layout="row">
-    <div flex-xs="" flex-gt-xs="50" layout="column">
-     
-      <md-card ng-repeat="v in messages | filter:searchText" >
-        <md-card-header>
-          <md-card-header-text>
-            <span class="md-title">{{v.headline}}</span>
-            <span class="md-subhead">{{v.employer}}</span>
-          </md-card-header-text>
-        </md-card-header>
+        <nav role="navigation">
+            <ul class="nav-main">
+                <li><a href="/" class="current-page">Job Post</a></li>
+                <li><a href="/about/">About</a></li>
+                <li><a href="/login/">LogIn</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- end masthead -->
 
-         <md-card-content>
-                 {{v.description}}  
-		<p>
-		<label> Minumum Wage offered: {{v.minRange}}</label>
-		<label> Maximum Wage offered: {{v.maxRange}}</label>       
-		</p>
-		
-        </md-card-content>
+    <div class="container clearfix">
+      <!-- ==== START MAIN ==== -->
+      <main role="main">
+         <legend class="text-center header" style="color:black;text-shadow: 2px 2px green ;font-style: italic; ;"><h1>Current Job Posting</h1></legend>
 
-        <md-card-actions layout="row" layout-align="start center">
-          <md-button>Apply for the job</md-button>
-          <md-button>Save Job</md-button>
-        </md-card-actions>
-       
-       
+   <!--Cards -->       
+  <section ng-controller="cardCtrl" ng-cloak="" class="carddemoInCardActions" flex class="post">
+     <md-content class="md-padding" layout-xs="column" layout="row" class="post-blurb">
+        <div flex-xs="" flex-gt-xs="100" layout="column">
+         
+          <md-card ng-repeat="v in messages | filter:searchText" id="myid">
+            <md-card-header>
+              <md-card-header-text>
+                <span class="md-title" align="center">{{v.headline}}</span>
+                <span class="md-subhead">{{v.employer}}</span>
+              </md-card-header-text>
+            </md-card-header>
+
+             <md-card-content>
+                     {{v.description}}  
+        <p>
+        <label> Minumum Wage offered: {{v.minRange}}</label>
+        <label> Maximum Wage offered: {{v.maxRange}}</label>       
+        </p>
+        
+            
+            </md-card-content>
+
+            <md-card-actions layout="row" layout-align="start center">
+              <md-button>Apply for the job</md-button>
+              <md-button>Save Job</md-button>
+               <md-button>Report Job</md-button>
+            </md-card-actions>
+           
+             <footer class="footer">
+                  <p class="post-footer">
+                      Posted in <a href="#">California</a>, 
+                      <a href="#">Los Angeles</a> and <a href="#">Garden</a>  
+                      <time datetime="2013-05-17T11:20" class="pubdate">
+                          May 17, 2013 at 11:20am
+                        </time>
+                    </p>
+              </footer>
 
 
-      </md-card>
-    </div>
+          </md-card>
+        </div>
+      
+     </md-content>
+  </section>
+<!-- End of cards-->
   
-  </md-content>
+          <nav role="navigation">
+              <ol class="pagination">
+                  <li><a href="#">1</a></li>
+                  <li><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li><a href="#">4</a></li>
+                  <li><a href="#">5</a></li>
+                  <li><a href="#">6 &hellip;</a></li>
+                  <li><a href="#" class="more">Next</a></li>
+              </ol>
+          </nav>
+      </main>
+      <!-- end main -->
+  
+      <!-- ==== START SIDEBAR ==== -->
+      <div class="sidebar">
+          <article class="about">
+              <h2 align="center">Search</h2>   
+              
+<div layout="row" layout-align="end start" layout-padding align="center">
+  <input ng-model="searchText" placeholder="Search...">
 </div>
-</div>
+          </article>
+  
+          <div class="mod">
+              <h2>Employment type</h2>
 
+              <p class="map">
+                <input type="checkbox"
+                       name="strong"
+                       value="strong" /> Internship!</br>
+                <input type="checkbox"
+                       name="em"
+                       value="em" />  Part-Time</br>
+                <input type="checkbox"
+                       name="em"
+                       value="em" />  Full-Time </br>
+                <input type="checkbox"
+                       name="em"
+                       value="em" />  Contract </br>
+              </p>
+          </div>
+  
+          <aside class="mod">
+              <h2>Popular Preference</h2>
+  
+              <p class="links">
+                <input type="checkbox"
+                       name="strong"
+                       value="strong" /> Search titles only</br>
+                <input type="checkbox"
+                       name="em"
+                       value="em" />Has Image</br>
+                <input type="checkbox"
+                       name="em"
+                       value="em" />Posted Today </br>
+                <input type="checkbox"
+                       name="em"
+                       value="em" />Include nearby areas </br>
+              </p>
+          </aside>
+      <aside class="mod">
+        <h2>Miles from the zip</h2>
+      
+        <input type="text" placeholder="miles"> </input> <input type="text" placeholder="from zip"></input>
+      
+      </aside>
+      <aside class ="mod">
+        <button type="submit">Update Search</button>
+      </aside>
+         
+      </div>
+      <!-- end sidebar -->
+    </div>
+    <!-- end container -->
 
-
+    <!-- ==== START PAGE FOOTER ==== -->
+     <%- include ../partials/footer.html %>
+    <!-- end page footer -->
+</div> <!-- end page -->
 </body>
 </html>

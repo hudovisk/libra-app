@@ -35,7 +35,7 @@ module.exports.register = function(passport, req, res, next) {
             //never send password
             var userAux = user.toObject();
             delete userAux.password;
-            res.status(201).json({user: userAux});
+            res.status(202).json({user: userAux});
         });
     })(req, res, next);
 };

@@ -119,6 +119,34 @@ app.controller('cardCtrl', function($scope , dummydata) {
     console.log($scope.messages);
 
 });
+app.controller('RegisterController', ['$scope', '$http', '$window', function($scope, $http, $window){
+
+    $scope.register = function (user) {
+        $http({
+            method: 'POST',
+            url: '/api/users/register',
+            data: {
+                email: user.email,
+                password: user.password,
+                name: user.name
+            }
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            if (response.status === 202) {
+                window.location = '/';
+            }
+            //TODO: Display duplicate email!
+        }, function errorCallback(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+            if (response.status == 401) {
+               
+            }
+        });
+    };
+}]);
+
 
 app.service("dummydata", function() {
     this.latestServices = [

@@ -27,11 +27,14 @@ module.exports = function(app, passport) {
         res.render('pages/dashboard.html', {user: req.user});
     });
 
-    app.get('/post', function(req, res) {
-        res.render('pages/post.html', {user: req.user});
+    app.get('/createPost', function(req, res) {
+        res.render('pages/createPost.html', {user: req.user});
     });
      app.get('/displayPost', function(req, res) {
         res.render('pages/displayPost.html');
+    });
+      app.get('/test', function(req, res) {
+        res.render('pages/test.html');
     });
     //...
 
