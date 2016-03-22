@@ -120,8 +120,24 @@ module.exports = function(passport, requireSession) {
      *     }
      */
     router.get('/users/me',
-               requireSession,
-               userController.getMe);
+                requireSession,
+                userController.getMe);
+
+    router.get('/users/:user_id/reviews',
+                requireSession,
+                userController.getAllReviews);
+
+    router.post('/users/:user_id/reviews',
+                requireSession,
+                userController.pushReview);
+    
+    router.put('/users/:user_id/reviews/:review_id',
+                requireSession,
+                userController.updateReview);
+
+    router.delete('/users/:user_id/reviews/:review_id',
+                requireSession,
+                userController.deleteReview);
 
 return router;
 

@@ -24,7 +24,7 @@ describe('post api/users/register', function() {
 
     after( function(done) {
     // runs after all tests in this block
-        server.mongoose.connection.db.dropDatabase(done);
+        User.find({}).remove(done);
     });
 
     it('should validate fields and check for existent email.', function(done) {
@@ -77,7 +77,7 @@ describe('post api/users/login', function() {
 
     after( function(done) {
     // runs after all tests in this block
-        server.mongoose.connection.db.dropDatabase(done);
+        User.find({}).remove(done);
     });
 
     it('should return 401', function(done) {
@@ -132,7 +132,7 @@ describe('post api/users/logout', function() {
 
     after( function(done) {
     // runs after all tests in this block
-        server.mongoose.connection.db.dropDatabase(done);
+        User.find({}).remove(done);
     });
 
     it('should return 200 and clear the cookies', function(done) {
@@ -159,7 +159,7 @@ describe('get api/users/me', function() {
 
     after( function(done) {
     // runs after all tests in this block
-        server.mongoose.connection.db.dropDatabase(done);
+        User.find({}).remove(done);
     });
 
     it('should return 200 with the current user', function(done) {
@@ -206,7 +206,7 @@ describe('get api/users', function() {
 
     after( function(done) {
     // runs after all tests in this block
-        server.mongoose.connection.db.dropDatabase(done);
+        User.find({}).remove(done);
     });
 
     it('should return 200 with all users', function(done) {
