@@ -235,6 +235,77 @@ span {
     color: #dddddd;
 }
 
+/* Profile */
+
+.profile-main-content {
+    background: #fff;
+    box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
+}
+
+.profile-main-content .tab-panels {
+    padding: 8px;
+}
+
+.profile-main-content .nav-tabs {
+    margin-bottom: 20px;
+}
+
+.profile-main-content .profile-description
+{
+    overflow: hidden;
+}
+
+.profile-main-content .profile-description
+.edit {
+    float: right;
+}
+
+.profile-main-content .profile-description
+textarea {
+    width: 100%;
+}
+
+.profile-main-content .profile-description
+span {
+    float: right;
+}
+
+.profile-main-content .jobs-list
+.badge {
+    background-color: transparent;
+}
+
+.profile-main-content .jobs-list
+.glyphicon-star {
+    color: #dddd33;
+}
+
+.profile-main-content .jobs-list
+.glyphicon-star-empty {
+    color: #dddddd;
+}
+
+.review-container {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.review-container .star-container
+{
+  float:right;
+  vertical-align: middle;
+}
+
+.review-container .star-container
+.glyphicon-star {
+    color: #dddd33;
+}
+
+.review-container .star-container
+.glyphicon-star-empty {
+    color: #dddddd;
+}
+
 .review-content {
   margin-top: 10px;
   padding: 5px;
