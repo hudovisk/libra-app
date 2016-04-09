@@ -48,13 +48,9 @@ module.exports = function(passport) {
         },
 
         function(req, email, password, done) {
-            //Note(Hudo):Only validate password in test and production enviroments to facilitate use.
-            if (process.env.NODE_ENV === 'production' || 
-                    process.env.NODE_ENV === 'test') {
-                if(!passwordRegex.test(req.body.password)) {
-                    return done(null, false, {status: 400, message: 'Invalid password.'});
-                }
-            }     
+            if(!passwordRegex.test(req.body.password)) {
+                return done(null, false, {status: 400, message: 'Invalid password.'});
+            } 
 
             var user = new User( {
                 name: req.body.name,

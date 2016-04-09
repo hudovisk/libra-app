@@ -25,27 +25,19 @@
   <!-- Angular Material Library -->
   <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
 
+  <!-- Pagination Library-->
+  
 </head>
 <body>
-<div class="page">
-    <!-- ==== START MASTHEAD ==== -->
-    <header class="masthead" role="banner">
-        <p class="logo"><a href="/"><img src="/img/libra-sign.png" height="50px" width="200px" /></a></p>
 
-        <nav role="navigation">
-            <ul class="nav-main">
-                <li><a href="/" class="current-page">Job Post</a></li>
-                <li><a href="/about/">About</a></li>
-                <li><a href="/login/">LogIn</a></li>
-            </ul>
-        </nav>
-    </header>
-    <!-- end masthead -->
+
+<div class="page">
+   <%- include ../partials/navbar.html %> <br><br><br><br>
 
     <div class="container clearfix">
       <!-- ==== START MAIN ==== -->
       <main role="main">
-         <legend class="text-center header" style="color:black;text-shadow: 2px 2px green ;font-style: italic; ;"><h1>Current Job Posting</h1></legend>
+         <legend class="text-center header" style="color:black;text-shadow: 2px 2px black ;font-style: italic; ;"><h1>Current Job Posting</h1></legend>
 
    <!--Cards -->       
   <section ng-controller="cardCtrl" ng-cloak="" class="carddemoInCardActions" flex class="post">
@@ -78,15 +70,11 @@
            
              <footer class="footer">
                   <p class="post-footer">
-                      Posted in <a href="#">California</a>, 
-                      <a href="#">Los Angeles</a> and <a href="#">Garden</a>  
-                      <time datetime="2013-05-17T11:20" class="pubdate">
-                          May 17, 2013 at 11:20am
-                        </time>
+                      Posted on {{v.created}}. 
                     </p>
               </footer>
 
-
+              
           </md-card>
         </div>
       
@@ -94,17 +82,6 @@
   </section>
 <!-- End of cards-->
   
-          <nav role="navigation">
-              <ol class="pagination">
-                  <li><a href="#">1</a></li>
-                  <li><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">4</a></li>
-                  <li><a href="#">5</a></li>
-                  <li><a href="#">6 &hellip;</a></li>
-                  <li><a href="#" class="more">Next</a></li>
-              </ol>
-          </nav>
       </main>
       <!-- end main -->
   

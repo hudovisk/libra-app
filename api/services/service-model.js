@@ -8,7 +8,8 @@ var ServiceSchema =  mongoose.Schema({
     description: String,
     minRange: Number,
     maxRange: Number,
-    tags: [{type: String}]
+    tags: [{type: String}],
+    created: {type: Date, default: Date.now},
 });
 
 module.exports = mongoose.model('Service', ServiceSchema);

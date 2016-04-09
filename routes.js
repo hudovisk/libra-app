@@ -1,4 +1,6 @@
 
+var User = require('./api/users/user-model');
+
 module.exports = function(app, passport) {
     
     //API - Routes ==================================================
@@ -8,11 +10,7 @@ module.exports = function(app, passport) {
 
     //Site - Routes ==================================================
     app.get('/', function (req, res) {
-        if(req.isAuthenticated()) {
-            res.redirect('/dashboard');
-        } else {
-            res.render('pages/index.html');
-        }
+        res.render('pages/index.html', {user: req.user});
     });
 
     app.get('/login', function(req, res) {
@@ -23,18 +21,26 @@ module.exports = function(app, passport) {
         res.render('pages/register.html');
     });       
 
+    app.get('/profile/:user_id', function(req, res,  next) {
+        console.log("Getting profile for user: " + req.params.user_id);
+        User.findById(req.params.user_id, function(err, profile) {
+            if(err) return next(err);
+
+            if(profile) {
+                res.render('pages/profile.html', {user: req.user, profile: profile});
+            }
+        });
+    });
+
     app.get('/dashboard', requireSession, function(req, res) {
         res.render('pages/dashboard.html', {user: req.user});
     });
 
-    app.get('/createPost', function(req, res) {
-        res.render('pages/createPost.html', {user: req.user});
+    app.get('/post', function(req, res) {
+        res.render('pages/post.html', {user: req.user});
     });
-     app.get('/displayPost', function(req, res) {
+    app.get('/displayPost', function(req, res) {
         res.render('pages/displayPost.html');
-    });
-      app.get('/test', function(req, res) {
-        res.render('pages/test.html');
     });
     //...
 
@@ -43,7 +49,7 @@ module.exports = function(app, passport) {
             return next()
         }
 
-        res.status(401).json({
+        return res.status(401).json({
                 message: 'User not logged in.'
         });
     }

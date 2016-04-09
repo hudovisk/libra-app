@@ -24,7 +24,7 @@ describe('post api/users/register', function() {
 
     after( function(done) {
     // runs after all tests in this block
-        server.mongoose.connection.db.dropDatabase(done);
+        User.find({}).remove(done);
     });
 
     it('should validate fields and check for existent email.', function(done) {
@@ -52,7 +52,7 @@ describe('post api/users/register', function() {
         };
 
         var validBody = function(res) {
-            validateUser(res.body.user, validUser);
+            validateUser(res.body, validUser);
         };
 
         //TODO(Hudo): Test cookie
@@ -77,7 +77,7 @@ describe('post api/users/login', function() {
 
     after( function(done) {
     // runs after all tests in this block
-        server.mongoose.connection.db.dropDatabase(done);
+        User.find({}).remove(done);
     });
 
     it('should return 401', function(done) {
@@ -101,7 +101,7 @@ describe('post api/users/login', function() {
         };
 
         var validBody = function(res) {
-            validateUser(res.body.user, savedUserData);
+            validateUser(res.body, savedUserData);
         };
 
         //TODO(Hudo): Test cookies.
@@ -132,7 +132,7 @@ describe('post api/users/logout', function() {
 
     after( function(done) {
     // runs after all tests in this block
-        server.mongoose.connection.db.dropDatabase(done);
+        User.find({}).remove(done);
     });
 
     it('should return 200 and clear the cookies', function(done) {
@@ -159,12 +159,12 @@ describe('get api/users/me', function() {
 
     after( function(done) {
     // runs after all tests in this block
-        server.mongoose.connection.db.dropDatabase(done);
+        User.find({}).remove(done);
     });
 
     it('should return 200 with the current user', function(done) {
         var validBody = function(res) {
-            validateUser(res.body.user, savedUserData);
+            validateUser(res.body, savedUserData);
         };
 
         loggedAgent
@@ -206,13 +206,13 @@ describe('get api/users', function() {
 
     after( function(done) {
     // runs after all tests in this block
-        server.mongoose.connection.db.dropDatabase(done);
+        User.find({}).remove(done);
     });
 
     it('should return 200 with all users', function(done) {
         var validBody = function(res) {
-            expect(res.body.users).to.not.be.undefined;
-            expect(res.body.users.length).to.equal(users.length);
+            expect(res.body).to.not.be.undefined;
+            expect(res.body.length).to.equal(users.length);
         };
 
         loggedAgent

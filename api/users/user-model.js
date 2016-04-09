@@ -1,11 +1,21 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 
+var ReviewSchema = mongoose.Schema({
+    author: {type: mongoose.Schema.ObjectId, ref: 'User'},
+    service: {type: mongoose.Schema.ObjectId, ref: 'Service'},
+    rating: {type: Number, min: 1, max: 5},
+    created: {type: Date, default: Date.now},
+    text: String,
+});
+
 var UserSchema =  mongoose.Schema({
     name : String,
     email: {type:String, index:{unique: true}},
     //Don't return the user password by default.
-    password: {type: String, select: false}
+    password: {type: String, select: false},
+    description: String,
+    reviews: [ReviewSchema]
 });
 
 UserSchema.pre('save', function(next) {

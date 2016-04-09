@@ -2,10 +2,47 @@ var Service = require('./service-model');
 
 //Return all service posts in db
 module.exports.getAllServices = function(req, res, next) {
-    Service.find({}, function(err, results) {
-        if(err) return next(error);
-        return res.json(results);
-    }); 
+    //parse query string
+    var page = 1;
+    var pageSize = 5;
+    
+    if(req.query.page) page = parseInt(req.query.page);
+    if(req.query.pageSize) pageSize = parseInt(req.query.pageSize);
+
+    delete req.query.page;
+    delete req.query.pageSize;
+
+    var sort = req.query.sortBy;
+    delete req.query.sortBy;
+
+    if(req.query.employee === 'null') req.query.employee = null;
+    if(req.query.employer === 'null') req.query.employer = null;
+
+    if(req.query.tags){
+        req.query.tags = {"$all" : req.query.tags};
+    }
+
+    // Execute query
+    if(sort) {
+        Service
+            .find(req.query)
+            .sort(sort)
+            .skip((page-1) * pageSize)
+            .limit(pageSize)
+            .exec(function(err, results) {
+                if(err) return next(error);
+                return res.json(results);
+        });
+    } else {
+        Service
+            .find(req.query)
+            .skip((page-1) * pageSize)
+            .limit(pageSize)
+            .exec(function(err, results) {
+                if(err) return next(error);
+                return res.json(results);
+        });
+    }
 };
 
 //Save the service post
