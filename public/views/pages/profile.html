@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html ng-app="libra">
+<head>
+    <title>Libra</title>
+
+    <%- include ../partials/scripts.html %>
+
+</head>
+<body ng-init="profileCtrl.init('<%- profile._id %>')" ng-controller="ProfileController as profileCtrl">
+
+    <%- include ../partials/navbar.html %>
+    
+    <div class="container">
+
+    <section class="profile-summary well well-lg">
+        <div class="row">
+            <div class="col-sm-3 col-md-2">
+                <img src="http://placehold.it/128x128" alt="User profile picture" class="img-responsive img-circle"/> 
+            </div>
+
+            <div class="col-sm-9 col-md-10">
+                <h1>{{profile.name}}</h1>
+                <i>{{profile.email}}</i>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="profile-main-content">
+        <ul class="nav nav-tabs">
+            <li role="presentation" ng-class="{ 'active': profileCtrl.isTabSelected(1) }"> 
+                <a ng-click="profileCtrl.setTab(1)">Description</a> 
+            </li>
+            <li role="presentation" ng-class="{ 'active': profileCtrl.isTabSelected(2) }">
+                <a ng-click="profileCtrl.setTab(2)">Jobs requested 
+                    <span class="badge alert-info">{{servicesRequested.length}}</span>
+                </a> 
+            </li>
+            <li role="presentation" ng-class="{ 'active': profileCtrl.isTabSelected(3) }">
+                <a href="#" ng-click="profileCtrl.setTab(3)">Jobs provided 
+                    <span class="badge alert-info">{{servicesOffered.length}}</span>
+                </a>
+            </li>
+            <li role="presentation" ng-class="{ active: profileCtrl.isTabSelected(4) }">
+                <a ng-click="profileCtrl.setTab(4)">Reviews
+                <span class="badge alert-info">{{reviews.length}}</span>
+                </a> 
+            </li>
+        </ul>
+
+        <div class="tab-panels">
+
+            <div class="profile-description" ng-show="profileCtrl.isTabSelected(1)">
+                <%if (String(user._id) === String(profile._id)) { %>
+                    <a class="edit" ng-hide="profileCtrl.isEditMode()" ng-click="profileCtrl.setEditMode(true)">Edit</a>
+                <%}%>
+                <div ng-hide="profileCtrl.isEditMode()" marked="profile.description"></div>
+                <form ng-show="profileCtrl.isEditMode()">
+                    <textarea ng-model="profile.description" rows="10"></textarea>
+                    <span>
+                        <input type="submit" class="btn btn-danger" ng-click="profileCtrl.cancelDescription()" value="Cancel">
+                        <input type="submit" class="btn btn-success" ng-click="profileCtrl.saveDescription(profile.description)" value="Save">
+                    </span>
+                </form>
+            </div>
+
+            <profile-services-list ng-show="profileCtrl.isTabSelected(2)"></profile-services-list>
+
+            <profile-services-list ng-show="profileCtrl.isTabSelected(3)"></profile-services-list>
+
+            <profile-reviews-tab ng-show="profileCtrl.isTabSelected(4)"></profile-reviews-tab>
+            
+        </div>
+
+    </section>
+
+    </div>
+    
+    <%- include ../partials/footer.html %>
+
+</body>
+</html>

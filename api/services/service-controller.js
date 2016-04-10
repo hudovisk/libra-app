@@ -2,7 +2,10 @@ var Service = require('./service-model');
 
 //Return all service posts in db
 module.exports.getAllServices = function(req, res, next) {
-    Service.find({}, function(err, results) {
+    if(req.query.tags){
+        req.query.tags = {"$all" : req.query.tags};
+    }
+    Service.find(req.query, function(err, results) {
         if(err) return next(error);
         return res.json(results);
     }); 
