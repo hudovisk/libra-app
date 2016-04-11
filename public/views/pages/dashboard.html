@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html ng-app="libra">
 <head>
+
     <title>Libra</title>
 
     <%- include ../partials/scripts.html %>
 
 </head>
-<body>
+<body ng-controller="DashboardController as dashCtrl">
 
     <%- include ../partials/navbar.html %>
 
@@ -14,14 +15,18 @@
         <div class="container">
             <div class="row main-buttons-row">
                 <div class="col-sm-6">
-                    <a href="post" class="btn btn-lg btn-success center-block" style=" height:50px; width:200px;">
+
+                    <a href="post" class="btn btn-lg btn-success center-block">
+
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                         Post A Service
                     </a>
                 </div>
 
                 <div class="col-sm-6">
-                    <a href="" class="btn btn-lg btn-success center-block" style=" height:50px; width:200px;">
+
+                    <a href="" class="btn btn-lg btn-success center-block">
+
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                         Request A Service
                     </a>
@@ -29,41 +34,28 @@
 
             </div>
 
-            <div class="row" style="margin-top: 50px;">
-                <form style="max-width: 400px;" class="center-block">
-                    <div class="form-group input-group" >
-                        <input type="text" class="form-control" placeholder="Search for job posts">
-                        <span class="input-group-btn">
-                            <button class="btn btn-success" type="button">Go!</button>
-                        </span>
-                    </div>
-                </form>
-            </div>
-
             <div class="row">
 
                 <div class="col-sm-6 bouncy" >
                     
-                    <h4 style="text-align: center;">My Services</h4>
+                    <h4 style="text-align: center;">Latest Services Offered</h4>
                     <hr>
                     <div class="list-group">
-                        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-                        <a href="#" class="list-group-item">Morbi leo risus</a>
-                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-                        <a href="#" class="list-group-item">Vestibulum at eros</a>
+                        <a ng-href="/service/{{service._id}}" class="list-group-item" ng-repeat="service in latestServicesOffered">
+                            {{service.headline}}
+                        </a>
                     </div>
 
                 </div>
 
                 <div class="col-sm-6 bouncy">
                     
-                    <h4 style="text-align: center;">Requested Services</h4>
+                    <h4 style="text-align: center;">Latest Services Requested</h4>
                     <hr>
                     <div class="list-group">
-                        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-                        <a href="#" class="list-group-item">Morbi leo risus</a>
-                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-                        <a href="#" class="list-group-item">Vestibulum at eros</a>
+                        <a ng-href="/service/{{service._id}}" class="list-group-item" ng-repeat="service in latestServicesRequested">
+                            {{service.headline}}
+                        </a>
                     </div>
 
                 </div>

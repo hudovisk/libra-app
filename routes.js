@@ -10,11 +10,7 @@ module.exports = function(app, passport) {
 
     //Site - Routes ==================================================
     app.get('/', function (req, res) {
-        if(req.isAuthenticated()) {
-            res.redirect('/dashboard');
-        } else {
-            res.render('pages/index.html');
-        }
+        res.render('pages/index.html', {user: req.user});
     });
 
     app.get('/login', function(req, res) {
@@ -50,7 +46,7 @@ module.exports = function(app, passport) {
             return next()
         }
 
-        res.status(401).json({
+        return res.status(401).json({
                 message: 'User not logged in.'
         });
     }
