@@ -15,6 +15,7 @@ var UserSchema =  mongoose.Schema({
     //Don't return the user password by default.
     password: {type: String, select: false},
     description: String,
+    pictureUrl: String,
     reviews: [ReviewSchema]
 });
 

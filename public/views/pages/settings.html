@@ -18,17 +18,13 @@
         <form class="simple-form">  
             <div class="form-group">
 
-                <label> Picture </label> 
+                <label> Picture </label> <br>
             
-                <img src="http://placehold.it/128x128" alt="User profile picture" class="img-responsive img-circle" style="margin-bottom: 8px;margin-top: 8px;" /> 
+                <img class="img-circle" ng-src="{{user.picture_url || 'http://placehold.it/128x128'}}">
             
-            
-                <a href="#" class="btn btn-default">
-                    <label for="upload-profile-picture">
-                      Upload new picture
-                      <input id="upload-profile-picture" type="file" class="manual-file-chooser js-manual-file-chooser js-avatar-field" style="display:none;">
-                    </label>
-                </a>
+                <div class="btn btn-default" ngf-select="getUrl($file)" accept="image/*">Upload new file</div>
+
+
             </div>
             
             <div class="form-group">

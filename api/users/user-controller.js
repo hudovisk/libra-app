@@ -182,3 +182,9 @@ module.exports.deleteReview = function(req, res, next) {
             return res.status(200).end();
         });
 };
+
+module.exports.getPictureUrl = function(req, res, next) {
+    var file = req.files.file;
+    console.log(file);
+    console.log(file.type);
+};

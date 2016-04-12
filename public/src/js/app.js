@@ -1,4 +1,4 @@
-var app = angular.module('libra', ['hc.marked']);
+var app = angular.module('libra', ['hc.marked', 'ngFileUpload']);
 
 app.config(['markedProvider', function (markedProvider) {
   markedProvider.setOptions({
@@ -265,7 +265,7 @@ app.controller('DashboardController', ['$scope', '$http', function($scope, $http
 
 }]);
 
-app.controller('SettingsController', ['$scope', '$http', '$window', function($scope, $http, $window){
+app.controller('SettingsController', ['$scope', '$http', 'Upload', function($scope, $http, Upload){
     
     $scope.user = {};
 
@@ -285,6 +285,23 @@ app.controller('SettingsController', ['$scope', '$http', '$window', function($sc
             // or server returns response with an error status.
         });        
 
+    };
+
+
+    $scope.getUrl = function (file) {
+        if(file) {
+            Upload.upload({
+                url: '/api/users/pictureUrl',
+                data: {file: file}
+            }).then(function (resp) {
+                console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+            }, function (resp) {
+                console.log('Error status: ' + resp.status);
+            }, function (evt) {
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+            });
+        }
     };
 
 }]);
