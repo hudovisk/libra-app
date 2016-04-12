@@ -312,3 +312,9 @@ span {
   border: 1px solid #ddd;
   border-radius: 0px 20px 20px 20px;
 }
+
+/* Settings */
+
+.settings-profile-panel .form-control {
+  max-width: 450px;
+}

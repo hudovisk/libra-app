@@ -19,6 +19,10 @@ module.exports = function(app, passport) {
 
     app.get('/register', function(req, res) {
         res.render('pages/register.html');
+    });
+
+    app.get('/settings', function(req, res) {
+        res.render('pages/settings.html', {user: req.user});
     });       
 
     app.get('/profile/:user_id', function(req, res,  next) {

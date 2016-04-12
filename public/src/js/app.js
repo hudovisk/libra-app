@@ -265,6 +265,31 @@ app.controller('DashboardController', ['$scope', '$http', function($scope, $http
 
 }]);
 
+app.controller('SettingsController', ['$scope', '$http', '$window', function($scope, $http, $window){
+    
+    $scope.user = {};
+
+    this.init = function (userId) {
+        $http({
+            method: 'GET',
+            url: '/api/users/'+userId
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            if (response.status === 200) {
+                $scope.user = response.data;
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });        
+
+    };
+
+}]);
+
+
 app.directive("serviceCarouselDesc", function() {
     return {
         restrict: 'E',
