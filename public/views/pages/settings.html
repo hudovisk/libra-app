@@ -56,6 +56,31 @@
     </div>
 
     <div class="settings-profile-panel panel panel-default">
+        <div class="panel-heading">Social</div>
+        <div class="panel-body">
+        <form class="simple-form">  
+            
+            <div class="form-group" >
+                <a href="/api/users/connect/facebook" class="btn btn-social btn-facebook" ng-hide="settingsCtrl.connectedFb()">
+                    <span class="fa fa-facebook"></span>Connect Facebook
+                </a>
+                <a href="/api/users/disconnect/facebook" class="btn btn-social btn-facebook" ng-show="settingsCtrl.connectedFb()">
+                    <span class="fa fa-facebook"></span>Disconnect Facebook
+                </a>
+                <a ng-href="{{user.fb_url}}" ng-show="settingsCtrl.connectedFb()">{{user.fb_url}}</a>
+            </div>
+
+            <div class="form-group" >
+                <a class="btn btn-social btn-linkedin">
+                            <span class="fa fa-linkedin"></span> Connect Linkedin
+                        </a>
+            </div>
+
+        </form>
+      </div>
+    </div>
+
+    <div class="settings-profile-panel panel panel-default">
         <div class="panel-heading">Password</div>
         <div class="panel-body">
         <form class="simple-form">  

@@ -76,7 +76,7 @@ module.exports = function(passport) {
             clientID: process.env.FACEBOOK_APP_ID,
             clientSecret: process.env.FACEBOOK_APP_SECRET,
             callbackURL: "http://localhost:1337/api/users/login/facebook/callback",
-            profileFields: ['displayName', 'profileUrl', 'email', 'photos']
+            profileFields: ['displayName', 'profileUrl', 'email', 'picture.type(large)']
         },
 
         function(accessToken, refreshToken, profile, done) {
@@ -85,6 +85,8 @@ module.exports = function(passport) {
             var picture_url = profile.photos[0].value;
             var fb_url = profile.profileUrl;
             var fb_id = profile.id;
+
+            console.log(profile.picture);
 
             User.findOne({fb_id: fb_id}, function(err, user) {
                 if (err) { return done(err); }

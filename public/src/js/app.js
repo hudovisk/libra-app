@@ -305,6 +305,14 @@ app.controller('SettingsController', ['$scope', '$http', 'Upload', function($sco
 
     };
 
+    this.connectedFb = function() {
+        if ($scope.user.fb_id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     $scope.uploadFile = function (file, signed_request, url) {
         $http({
             method: 'PUT',
