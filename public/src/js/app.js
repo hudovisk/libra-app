@@ -204,6 +204,14 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
         });
     };
 
+    this.connectedFb = function() {
+        if ($scope.profile.fb_id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     $scope.range = function(n) {
         return new Array(n);
     };

@@ -3,7 +3,8 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var FacebookStrategy = require('passport-facebook').Strategy;
 
-var User = require('./../api/users/user-model')
+var User = require('./../api/users/user-model');
+var randomString = require('random-string');
 
 module.exports = function(passport) {
     
@@ -74,16 +75,40 @@ module.exports = function(passport) {
         }));
 
     passport.use(new FacebookStrategy({
-            clientID: FACEBOOK_APP_ID,
-            clientSecret: FACEBOOK_APP_SECRET,
-            callbackURL: "http://www.example.com/auth/facebook/callback"
+            clientID: process.env.FACEBOOK_APP_ID,
+            clientSecret: process.env.FACEBOOK_APP_SECRET,
+            callbackURL: "http://localhost:1337/api/users/login/facebook/callback",
+            profileFields: ['displayName', 'profileUrl', 'email', 'photos']
         },
 
         function(accessToken, refreshToken, profile, done) {
-            // User.findOrCreate(..., function(err, user) {
-            //     if (err) { return done(err); }
+            var name = profile.displayName;
+            var email = profile.emails[0].value;
+            var picture_url = profile.photos[0].value;
+            var fb_url = profile.profileUrl;
+            var fb_id = profile.id;
 
-            //     done(null, user);
-            // });
+            User.findOne({fb_id: fb_id}, function(err, user) {
+                if (err) { return done(err); }
+
+                if(!user) {
+                    user = new User({
+                        name: name,
+                        email: email,
+                        picture_url: picture_url,
+                        password: randomString(),
+                        fb_id: fb_id,
+                        fb_url: fb_url
+                    });
+
+                    user.save(function (err) {
+                        if (err) done(err);
+
+                        return done(null, user);
+                    });
+                } else {
+                    return done(null, user);
+                }
+            });
         }));
 };

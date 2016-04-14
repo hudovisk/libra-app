@@ -83,6 +83,19 @@ module.exports = function(passport, requireSession) {
                 userController.login(passport, req, res, next);
     });
 
+    router.get('/users/login/facebook',
+                passport.authenticate('facebook', {
+                    authType: 'rerequest',
+                    scope: ['public_profile', 'email'] 
+                }));
+
+    router.get('/users/login/facebook/callback',
+                passport.authenticate('facebook', { failureRedirect: '/login' }),
+                    function(req, res) {
+                    // Successful authentication, redirect home.
+                    res.redirect('/');
+                });
+
     /**
      * @api {post} /users/logout Logout a user
      * @apiName logout

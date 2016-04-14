@@ -21,6 +21,10 @@
             <div class="col-sm-9 col-md-10">
                 <h1>{{profile.name}}</h1>
                 <i>{{profile.email}}</i>
+                <div>
+                    <a ng-href="{{profile.fb_url}}" ng-show="profileCtrl.connectedFb()" class="btn btn-social-icon btn-xs btn-facebook"><i class="fa fa-facebook"></i></a>
+                    <!-- <a class="btn btn-social-icon btn-xs btn-linkedin"><i class="fa fa-linkedin"></i></a> -->
+                </div>
             </div>
 
         </div>
