@@ -23,11 +23,12 @@
 					<%if (locals.user) { %>
 						<li class="dropdown">
 							<a class="dropdown-toggle dropdown-profile" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-								<img src="http://placehold.it/24x24" class="profile-image img-circle"> <%- user.name %> <span class="caret"></span>
+								<img src="<%- locals.user.picture_url %>" class="profile-pic-thumb img-circle"> <%- user.name %> <span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
 								<li><a href='/dashboard'>Dashboard</a></li>
 								<li><a href='/profile/<%- user._id %>'>My Profile</a></li>
+								<li><a href='/settings'>Settings</a></li>
 								<li role="separator" class="divider"></li>
 								<li>
 									<a ng-click="logout()">Logout</a>

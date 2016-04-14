@@ -1,5 +1,5 @@
 
-//This file wont be used on production server!.
+//This file is replaced on production server!.
 
 //Database info
 if (process.env.NODE_ENV === 'production') {

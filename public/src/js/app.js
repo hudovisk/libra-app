@@ -1,4 +1,4 @@
-var app = angular.module('libra', ['hc.marked']);
+var app = angular.module('libra', ['hc.marked', 'ngFileUpload']);
 
 app.config(['markedProvider', function (markedProvider) {
   markedProvider.setOptions({
@@ -272,6 +272,128 @@ app.controller('DashboardController', ['$scope', '$http', function($scope, $http
         });
 
 }]);
+
+app.controller('SettingsController', ['$scope', '$http', 'Upload', function($scope, $http, Upload){
+    
+    $scope.user = {};
+    
+    $scope.isUpdateProfileSuccess = false;
+    $scope.isUpdateProfileFail = false;
+    $scope.updateProfileFailMessage = "";
+    $scope.isUpdateProfileProgress = false;
+
+    $scope.isUpdatePasswordSuccess = false;
+    $scope.isUpdatePasswordFail = false;
+    $scope.updatePasswordFailMessage = "";
+    $scope.isUpdatePasswordProgress = false;
+
+    this.init = function (userId) {
+        $scope.isUpdateProfileProgress = false;
+        $scope.isUpdateProfileSuccess = false;
+        $http({
+            method: 'GET',
+            url: '/api/users/me'
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            if (response.status === 200) {
+                $scope.user = response.data;
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+        });        
+
+    };
+
+    $scope.uploadFile = function (file, signed_request, url) {
+        $http({
+            method: 'PUT',
+            url: signed_request,
+            data: file,
+            headers: {
+                'Content-Type': undefined,
+                'x-amz-acl': 'public-read'
+            }
+        }).then(function successCallback(response) {
+            $scope.user.picture_url = url;
+        }, function errorCallback(response) {
+            console.log(response);
+        });    
+    };
+
+    $scope.getUrl = function (file) {
+        if(file) {
+            $http({
+                method: 'GET',
+                url: '/sign_s3?file_name='+file.name+'&file_type='+file.type
+            }).then(function successCallback(response) {
+                // this callback will be called asynchronously
+                // when the response is available
+                if (response.status === 200) {
+                    var url = response.data.url;
+                    var signed_request = response.data.signed_request;
+
+                    $scope.uploadFile(file, signed_request, url);
+                }
+            }, function errorCallback(response) {
+                console.log(response);
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+            }); 
+        }
+    };
+
+    $scope.updateProfile = function() {
+        $scope.isUpdateProfileProgress = true;
+        $scope.isUpdateProfileFail = false;
+        $scope.isUpdateProfileSuccess = false;
+        $http({
+            method: 'PUT',
+            url: '/api/users/me',
+            data: {
+                'name' : $scope.user.name,
+                'email' : $scope.user.email,
+                'picture_url': $scope.user.picture_url
+            }
+        }).then(function successCallback(response) {
+            if (response.status === 200) {
+                $scope.isUpdateProfileProgress = false;
+                $scope.isUpdateProfileSuccess = true;
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+            $scope.isUpdateProfileProgress = false;
+            $scope.isUpdateProfileFail = true;
+            $scope.updateProfileFailMessage = response.data.message;
+        });   
+    };
+
+    $scope.updatePassword = function() {
+        $scope.isUpdatePasswordProgress = true;
+        $scope.isUpdatePasswordFail = false;
+        $scope.isUpdatePasswordSuccess = false;
+        $http({
+            method: 'PUT',
+            url: '/api/users/me/password',
+            data: {
+                'password' : $scope.currentPassword,
+                'newPassword' : $scope.newPassword,
+            }
+        }).then(function successCallback(response) {
+            if (response.status === 200) {
+                $scope.isUpdatePasswordProgress = false;
+                $scope.isUpdatePasswordSuccess = true;
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+            $scope.isUpdatePasswordProgress = false;
+            $scope.isUpdatePasswordFail = true;
+            $scope.updatePasswordFailMessage = response.data.message;
+        });   
+    };
+
+}]);
+
 
 app.directive("serviceCarouselDesc", function() {
     return {

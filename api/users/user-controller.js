@@ -1,8 +1,6 @@
 var User = require('./user-model');
 var Service = require('../services/service-model');
 
-var passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-
 module.exports.getAll = function(req, res, next) {
     User.find()
         .exec(function(err, users) {
@@ -33,6 +31,28 @@ module.exports.updateUser = function(req, res, next) {
             if(err) return next(err);
 
             return res.status(200).end();
+    });
+};
+
+module.exports.updatePassword = function(req, res, next) {
+    User.findById(req.user._id)
+        .select('+password')
+        .exec(function(err, user) {
+        if(err) return next(err);
+
+        if(!user.comparePassword(req.body.password)) {
+            return res.status(400).json({message: "Current password doesn't match"});
+        }
+        if(!User.passwordRegex.test(req.body.newPassword)) {
+            return res.status(400).json({message: 'Invalid new password format.'});
+        }
+        
+        user.password = req.body.newPassword;
+        user.save(function(err) {
+            if(err) next(err);
+
+            return res.status(200).end();
+        });
     });
 };
 
