@@ -47,7 +47,7 @@ app.controller("ServiceController", function() {
             headline: "Lorem ipsum dolor sit amet.",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis feugiat, lacus quis tristique venenatis, ante tellus iaculis justo, id elementum ante urna sed mi. Nam.",
             tags: ["dolor", "sit", "amet"]
-        },
+        }
     ];
 });
 
@@ -77,7 +77,7 @@ app.controller('UserController', ['$scope', '$http', '$window', function($scope,
         }, function errorCallback(response) {
             // called asynchronously if an error occurs
             // or server returns response with an error status.
-            if (response.status == 401) {
+            if (response.status === 401) {
                 loginError = true;
             }
         });

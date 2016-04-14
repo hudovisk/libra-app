@@ -24,10 +24,10 @@ module.exports.updateUser = function(req, res, next) {
     delete req.body.password;
     User.update(
         {
-            _id: req.user._id,
+            _id: req.user._id
         },
         {
-            $set: req.body,
+            $set: req.body
         },
         function(err, user) {
             if(err) return next(err);
@@ -167,7 +167,7 @@ module.exports.deleteReview = function(req, res, next) {
     User.update(
         {
             _id: req.params.user_id,
-            "reviews.author._id": req.user._id,
+            "reviews.author._id": req.user._id
         },
         {
             $pull: {
