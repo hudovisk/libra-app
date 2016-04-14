@@ -4,8 +4,6 @@ var LocalStrategy = require('passport-local').Strategy;
 var User = require('./../api/users/user-model')
 
 module.exports = function(passport) {
-    
-    var passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
 
     passport.serializeUser(function(user, done) {
         done(null, user._id);
@@ -48,7 +46,7 @@ module.exports = function(passport) {
         },
 
         function(req, email, password, done) {
-            if(!passwordRegex.test(req.body.password)) {
+            if(!User.passwordRegex.test(req.body.password)) {
                 return done(null, false, {status: 400, message: 'Invalid password.'});
             } 
 

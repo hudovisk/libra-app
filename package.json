@@ -12,10 +12,10 @@
   "license": "ISC",
   "dependencies": {
     "async": "^1.5.2",
+    "aws-sdk": "^2.3.3",
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.14.2",
     "connect-mongo": "^1.1.0",
-    "connect-multiparty": "^2.0.0",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "express-session": "^1.13.0",

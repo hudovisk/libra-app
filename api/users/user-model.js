@@ -15,7 +15,7 @@ var UserSchema =  mongoose.Schema({
     //Don't return the user password by default.
     password: {type: String, select: false},
     description: String,
-    pictureUrl: String,
+    picture_url: String,
     reviews: [ReviewSchema]
 });
 
@@ -45,3 +45,4 @@ UserSchema.methods.comparePassword = function(password) {
 };
 
 module.exports = mongoose.model('User', UserSchema);
+module.exports.passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;

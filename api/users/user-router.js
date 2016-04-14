@@ -1,9 +1,6 @@
 var router = require('express').Router();
 var userController = require('./user-controller');
 
-var multiparty = require('connect-multiparty');
-var multipartyMiddleware = multiparty();
-
 //Users API - passport and session dependecy
 module.exports = function(passport, requireSession) {
     /**
@@ -130,10 +127,9 @@ module.exports = function(passport, requireSession) {
                 requireSession,
                 userController.updateUser);
 
-    router.post('/users/pictureUrl',
+    router.put('/users/me/password',
                 requireSession,
-                multipartyMiddleware,
-                userController.getPictureUrl);
+                userController.updatePassword);
 
     router.get('/users/:user_id',
                 requireSession,
