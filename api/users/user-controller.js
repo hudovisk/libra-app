@@ -34,6 +34,24 @@ module.exports.updateUser = function(req, res, next) {
     });
 };
 
+module.exports.disconnectFacebook = function(req, res, next) {
+    User.update(
+        {
+            _id: req.user._id
+        },
+        {
+            $unset: {
+                fb_url: "",
+                fb_id: ""
+            }
+        },
+        function(err, user) {
+            if(err) return next(err);
+
+            return res.redirect('/settings');
+    });
+};
+
 module.exports.updatePassword = function(req, res, next) {
     User.findById(req.user._id)
         .select('+password')

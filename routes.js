@@ -16,10 +16,16 @@ module.exports = function(app, passport, aws) {
     });
 
     app.get('/login', function(req, res) {
+        if(req.isAuthenticated()) {
+            return res.redirect('/');
+        }
         res.render('pages/login.html');
     });
 
     app.get('/register', function(req, res) {
+        if(req.isAuthenticated()) {
+            return res.redirect('/');
+        }
         res.render('pages/register.html');
     });
 

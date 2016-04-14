@@ -59,6 +59,26 @@ app.controller('UserController', ['$scope', '$http', '$window', function($scope,
         return loginError;
     };
 
+    $scope.loginFacebook = function() {
+        $http({
+            method: 'GET',
+            url: '/api/users/login/facebook',
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            if (response.status === 200) {
+                $window.location.href = '/dashboard';
+            }
+            //TODO: Display duplicate email!
+        }, function errorCallback(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+            if (response.status === 401) {
+                loginError = true;
+            }
+        });
+    };
+
     $scope.login = function (user) {
         $http({
             method: 'POST',
@@ -210,7 +230,7 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
         } else {
             return false;
         }
-    }
+    };
 
     $scope.range = function(n) {
         return new Array(n);
@@ -311,7 +331,7 @@ app.controller('SettingsController', ['$scope', '$http', 'Upload', function($sco
         } else {
             return false;
         }
-    }
+    };
 
     $scope.uploadFile = function (file, signed_request, url) {
         $http({

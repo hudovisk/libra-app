@@ -61,10 +61,10 @@
         <form class="simple-form">  
             
             <div class="form-group" >
-                <a href="/api/users/connect/facebook" class="btn btn-social btn-facebook" ng-hide="settingsCtrl.connectedFb()">
+                <a href="/api/users/me/connect/facebook" class="btn btn-social btn-facebook" ng-hide="settingsCtrl.connectedFb()">
                     <span class="fa fa-facebook"></span>Connect Facebook
                 </a>
-                <a href="/api/users/disconnect/facebook" class="btn btn-social btn-facebook" ng-show="settingsCtrl.connectedFb()">
+                <a href="/api/users/me/disconnect/facebook" class="btn btn-social btn-facebook" ng-show="settingsCtrl.connectedFb()">
                     <span class="fa fa-facebook"></span>Disconnect Facebook
                 </a>
                 <a ng-href="{{user.fb_url}}" ng-show="settingsCtrl.connectedFb()">{{user.fb_url}}</a>

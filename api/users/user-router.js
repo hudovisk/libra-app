@@ -93,7 +93,8 @@ module.exports = function(passport, requireSession) {
                 passport.authenticate('facebook', { failureRedirect: '/login' }),
                     function(req, res) {
                     // Successful authentication, redirect home.
-                    res.redirect('/');
+                    res.redirect(req.redirectUrl);
+                    // res.status(200).json({});
                 });
 
     /**
@@ -139,6 +140,17 @@ module.exports = function(passport, requireSession) {
     router.put('/users/me',
                 requireSession,
                 userController.updateUser);
+
+    router.get('/users/me/connect/facebook',
+                requireSession,
+                passport.authenticate('facebook', {
+                    authType: 'rerequest',
+                    scope: ['public_profile', 'email'] 
+                }));
+
+    router.get('/users/me/disconnect/facebook',
+                requireSession,
+                userController.disconnectFacebook);
 
     router.put('/users/me/password',
                 requireSession,
