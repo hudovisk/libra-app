@@ -11,7 +11,7 @@ var credentials  = require('./config/credentials');
 const MongoStore = require('connect-mongo')(session);
 
 //Config =========================================================
-mongoose.connect(credentials.db.url);
+mongoose.connect(credentials.db_url);
 
 //Change port for production
 if (process.env.NODE_ENV === 'production') {
