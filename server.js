@@ -1,7 +1,7 @@
 //Modules & set up =========================================================
 var express      = require('express');
 var app          = express();
-var port         = 1337 || process.env.PORT;
+var port         = process.env.PORT || 1337;
 var morgan       = require('morgan');
 var session      = require('express-session');
 var bodyParser   = require('body-parser');
