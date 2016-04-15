@@ -4,6 +4,7 @@
 /node_modules/
 /public/libs/*
 /apidoc/*
+ecosystem.json
 
 #must be last
 !**/.gitkeep
