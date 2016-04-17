@@ -46,6 +46,7 @@
                 <span class="badge alert-info">{{reviews.length}}</span>
                 </a> 
             </li>
+
         </ul>
 
         <div class="tab-panels">
@@ -64,11 +65,17 @@
                 </form>
             </div>
 
-            <profile-services-list ng-show="profileCtrl.isTabSelected(2)"></profile-services-list>
+            <profile-services-list ng-show="profileCtrl.isTabSelected(2)">
 
-            <profile-services-list ng-show="profileCtrl.isTabSelected(3)"></profile-services-list>
+            </profile-services-list>
 
-            <profile-reviews-tab ng-show="profileCtrl.isTabSelected(4)"></profile-reviews-tab>
+            <profile-services-list ng-show="profileCtrl.isTabSelected(3)">
+           
+            </profile-services-list>
+
+            <profile-reviews-tab ng-show="profileCtrl.isTabSelected(4)">
+
+            </profile-reviews-tab>
             
         </div>
 

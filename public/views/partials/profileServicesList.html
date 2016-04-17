@@ -1,5 +1,8 @@
-<div class="jobs-list list-group">
+<div class="jobs-list list-group" >
+
 <a ng-href="/service/{{service._id}}" class="list-group-item" ng-repeat="service in services">
+ 
+   <div class="container">
     {{service.headline}}
     <span class="badge">
         <span class="glyphicon glyphicon-star-empty"></span>
@@ -7,8 +10,16 @@
         <span class="glyphicon glyphicon-star"></span>
         <span class="glyphicon glyphicon-star"></span>
         <span class="glyphicon glyphicon-star"></span>
+        
+
+        <button type="button" class="btn btn-danger btn-sm" ng-click="delPost('{{service._id}}')">
+          <span class="glyphicon glyphicon-remove"></span> Remove 
+        </button>
     </span>
+</div>
+  
 </a>
+
 </div>
 <!-- <nav class="text-center">
     <ul class="pagination">

@@ -191,6 +191,23 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
     $scope.servicesOffered = [];
     $scope.reviews = [];
 
+    $scope.delPost = function (serviceid){
+        event.preventDefault();
+        alert(serviceid);
+    $http({
+            method: 'DELETE',
+            url: '/api/services/'+serviceid
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            
+        }, function errorCallback(response) {
+            console.log(response);
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });//then        
+
+    }//delete the post
     this.init = function (userId) {
         parent = this;
         $http({
@@ -215,6 +232,7 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
         }).then(function successCallback(response) {
             // this callback will be called asynchronously
             // when the response is available
+            //jobs requested call
             if (response.status === 200) {
                 $scope.servicesOffered = response.data;
             }
@@ -303,7 +321,7 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
         this.editMode = mode;
     };
 
-}]);
+}]);//end of profileController
 
 app.controller('DashboardController', ['$scope', '$http', function($scope, $http){
     
