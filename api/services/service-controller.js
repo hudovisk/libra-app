@@ -96,3 +96,23 @@ module.exports.updatePost = function(req, res, next) {
         });
     });
 };
+//Update the pause post
+module.exports.updateDisablePost = function(req, res, next) {
+
+    Service.findById(req.params.id, function(err, service) {
+        if(err)
+            return next(err);
+
+        if(String(service.employer) !== String(req.user._id)) 
+            return res.status(403).end();
+        
+        if (service.pause === false)
+            service.pause = true;
+        else service.pause = false;
+       
+        service.save(function(err) {
+            if(err) return next(err);
+            return res.status(200).end();
+        });
+    });
+};

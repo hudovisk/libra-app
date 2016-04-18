@@ -39,6 +39,9 @@ module.exports = function(app, passport) {
     app.get('/post', function(req, res) {
         res.render('pages/post.html', {user: req.user});
     });
+    app.get('/displayPost', function(req, res) {
+        res.render('pages/displayPost.html', {user: req.user});
+    });
     //...
 
     function requireSession(req, res, next) {

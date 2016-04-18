@@ -46,14 +46,15 @@
                 <span class="badge alert-info">{{reviews.length}}</span>
                 </a> 
             </li>
+
         </ul>
 
         <div class="tab-panels">
 
             <div class="profile-description" ng-show="profileCtrl.isTabSelected(1)">
-                <%if (String(user._id) === String(profile._id)) { %>
-                    <a class="edit" ng-hide="profileCtrl.isEditMode()" ng-click="profileCtrl.setEditMode(true)">Edit</a>
-                <%}%>
+                
+                <a class="edit" ng-hide="profileCtrl.isEditMode()" ng-click="profileCtrl.setEditMode(true)" ng-show="isOwnProfile()">Edit</a>
+                
                 <div ng-hide="profileCtrl.isEditMode()" marked="profile.description"></div>
                 <form ng-show="profileCtrl.isEditMode()">
                     <textarea ng-model="profile.description" rows="10"></textarea>
@@ -64,11 +65,17 @@
                 </form>
             </div>
 
-            <profile-services-list ng-show="profileCtrl.isTabSelected(2)"></profile-services-list>
+            <profile-services-list ng-show="profileCtrl.isTabSelected(2)">
 
-            <profile-services-list ng-show="profileCtrl.isTabSelected(3)"></profile-services-list>
+            </profile-services-list>
 
-            <profile-reviews-tab ng-show="profileCtrl.isTabSelected(4)"></profile-reviews-tab>
+            <profile-services-list ng-show="profileCtrl.isTabSelected(3)">
+           
+            </profile-services-list>
+
+            <profile-reviews-tab ng-show="profileCtrl.isTabSelected(4)">
+
+            </profile-reviews-tab>
             
         </div>
 

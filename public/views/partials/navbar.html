@@ -1,63 +1,64 @@
 <header>
 
-	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="UserController as userCtrl">
-		<div class="container-fluid">
-			
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="/">
-					<img alt="Brand" src="/img/libra-sign.png">
-				</a>
-			</div>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="UserController as userCtrl">
+        <div class="container-fluid">
+            
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">
+                    <img alt="Brand" src="/img/libra-sign.png">
+                </a>
+            </div>
 
-			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse navbar-ex1-collapse">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
 
-				<ul class="nav navbar-nav navbar-right">
-					<%if (locals.user) { %>
-						<li class="dropdown">
-							<a class="dropdown-toggle dropdown-profile" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-								<img src="http://placehold.it/24x24" class="profile-image img-circle"> <%- user.name %> <span class="caret"></span>
-							</a>
-							<ul class="dropdown-menu">
-								<li><a href='/dashboard'>Dashboard</a></li>
-								<li><a href='/profile/<%- user._id %>'>My Profile</a></li>
-								<li role="separator" class="divider"></li>
-								<li>
-									<a ng-click="logout()">Logout</a>
-								</li>  
-							</ul>
-						</li>
-					<%} else { %>
-						<li><a href="/login">Signin</a></li>
-						<li><a href="/register">Register</a></li>
-					<%}%>
-					<li class="notification">
-						<a data-toggle="dropdown" data-target="#">
-	    					<i class="glyphicon glyphicon-bell"></i>
-	  					</a>
-					</li>
-					<li><a href="#">About</a></li>
-				</ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <%if (locals.user) { %>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle dropdown-profile" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <img src="http://placehold.it/24x24" class="profile-image img-circle"> <%- user.name %> <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href='/dashboard'>Dashboard</a></li>
+                                <li><a href='/displayPost'>View Posts</a></li>
+                                <li><a href='/profile/<%- user._id %>'>My Profile</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li>
+                                    <a ng-click="logout()">Logout</a>
+                                </li>  
+                            </ul>
+                        </li>
+                    <%} else { %>
+                        <li><a href="/login">Signin</a></li>
+                        <li><a href="/register">Register</a></li>
+                    <%}%>
+                    <li class="notification">
+                        <a data-toggle="dropdown" data-target="#">
+                            <i class="glyphicon glyphicon-bell"></i>
+                        </a>
+                    </li>
+                    <li><a href="#">About</a></li>
+                </ul>
 
-				<form class="navbar-form" role="search">
-				<div class="form-group">
-					<div class="input-group">
-						<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-						<input class="form-control" name="search" placeholder="Search for jobs here" autocomplete="off" autofocus="autofocus" type="text">
-					</div>
-				</div>
-		      	</form>
+                <form class="navbar-form" role="search">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                        <input class="form-control" name="search" placeholder="Search for jobs here" autocomplete="off" autofocus="autofocus" type="text">
+                    </div>
+                </div>
+                </form>
 
-			</div><!-- /.navbar-collapse -->
+            </div><!-- /.navbar-collapse -->
 
-		</div>
-	</nav>
+        </div>
+    </nav>
 
 </header>

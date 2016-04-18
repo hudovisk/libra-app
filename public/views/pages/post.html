@@ -9,30 +9,30 @@
     <%- include ../partials/navbar.html %>
     
 <div class="container">
-  <div ng-controller="PopoverDemoCtrl">
+  <div ng-controller="PostCtrl">
     <h2 align="center">Add a New Service Post</h2>
       <div class="form-group">
         <label>Post Headline</label>
-        <input id="headline" type="text" ng-model="dynamicPopover.templateUrl" class="form-control" placeholder="Enter Headline">
+        <input id="headline" type="text" ng-model="serv.headline" class="form-control" placeholder="Enter Headline">
       </div>
 
       <div class="form-group">
-        <label>Service Discription</label>
-        <textarea id="description" rows="14" cols="50" ng-model="dynamicPopover.title" class="form-control" placeholder="Enter Service Discription..."></textarea>
+        <label>Service Description</label>
+        <textarea id="description" rows="14" cols="50" ng-model="serv.des" class="form-control" placeholder="Enter Service Description..."></textarea>
       </div>
 
       <div class="form-group">
         <label>Hourly Wage Range</label>
         </br>
-        <input id="minRange" placeholder="Minimum" type="text"></input>
-        <input id="maxRange" placeholder="Maximum" type="text"></input>
+        <input id="minRange" placeholder="Minimum" ng-model="serv.min" type="text"></input>
+        <input id="maxRange" placeholder="Maximum" ng-model="serv.max" type="text"></input>
       </div>
 
      <div class="form-group">
         <label>Enter Keywords For Job Category</label></br>
-        <input id="tags" type="text" class="form-control" placeholder="This Helps To Optimize Search."></input>
+        <input id="tags" type="text" ng-model="serv.tag" class="form-control" placeholder="This Helps To Optimize Search."></input>
      </div>
-     <button type="submit" class="btn btn-success">Submit</button>
+     <button type="submit" ng-click="postserv(serv)" class="btn btn-success">Submit</button>
      <button type="submit" class="btn btn-danger">Cancel</button>
   </div>
 </div>

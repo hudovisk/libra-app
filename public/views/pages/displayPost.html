@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html ng-app="libra">
+<head>
+    <meta charset="utf-8" />
+    <title>Libra | Job Posts</title>
+  
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:300|Open+Sans:700" />
+    <link rel="stylesheet" href="src/css/post.css" />
+  <%- include ../partials/scripts.html %>
+
+<!-- Angular -->
+<link rel="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.0-rc1/angular-material.css">
+<link rel="https://material.angularjs.org/1.1.0-rc1/docs.css">
+
+<!-- Angular Material style sheet -->
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+
+  <!-- Angular Material requires Angular.js Libraries -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+
+  <!-- Angular Material Library -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+  <!-- Pagination Library-->
+  
+</head>
+<body>
+
+
+<div class="page">
+   <%- include ../partials/navbar.html %> <br><br><br><br>
+
+    <div class="container clearfix">
+      <!-- ==== START MAIN ==== -->
+      <main role="main">
+         <legend class="text-center header" style="color:#1E90FF;text-shadow: 2px 2px black ;font-style: italic; ;"><h1>Current Job Posting</h1></legend>
+
+   <!--Cards -->       
+  <section ng-controller="cardCtrl" ng-cloak="" class="carddemoInCardActions" flex class="post">
+     <md-content class="md-padding" layout-xs="column" layout="row" class="post-blurb">
+        <div flex-xs="" flex-gt-xs="100" layout="column">
+         
+          <md-card ng-repeat="v in messages | filter:searchText" id="myid"  style="background-color:#C0C0C0;">
+            <md-card-header>
+              <md-card-header-text >
+                <span class="md-title" align="center" >{{v.headline}}</span>
+                <!-- <span class="md-subhead">{{v.employer}}</span>-->
+              </md-card-header-text>
+            </md-card-header>
+
+             <md-card-content style="background-color:#778899;">
+                     {{v.description}}  
+        <p>
+        <label> Minumum Wage offered: {{v.minRange}}</label>
+        <label> Maximum Wage offered: {{v.maxRange}}</label>       
+        </p>
+        
+            
+            </md-card-content>
+
+            <md-card-actions layout="row" layout-align="start center">
+            <span ng-if="!v.pause">
+            <input id="apply-btn" type="button" value="Apply for the job" class="btn btn-primary"></input>
+            </span>
+
+              <input type="button" value="Report Job" class="btn btn-danger"></input>
+              
+            </md-card-actions>
+           
+             <footer class="footer" >
+                  <p class="post-footer" >
+                      Posted on {{v.created}}. 
+                    </p>
+              </footer>
+
+              
+          </md-card>
+        </div>
+      
+     </md-content>
+  </section>
+<!-- End of cards-->
+  
+      </main>
+      <!-- end main -->
+  
+      <!-- ==== START SIDEBAR ==== -->
+      <div class="sidebar">
+          <article class="about">
+              <h2 align="center">Search</h2>   
+              
+<div layout="row" layout-align="end start" layout-padding align="center">
+  <input ng-model="searchText" placeholder="Search...">
+</div>
+          </article>
+  
+          <div class="mod">
+              <h2>Employment type</h2>
+
+              <p class="map">
+                <input type="checkbox"
+                       name="strong"
+                       value="strong" /> Internship!</br>
+                <input type="checkbox"
+                       name="em"
+                       value="em" />  Part-Time</br>
+                <input type="checkbox"
+                       name="em"
+                       value="em" />  Full-Time </br>
+                <input type="checkbox"
+                       name="em"
+                       value="em" />  Contract </br>
+              </p>
+          </div>
+  
+          <aside class="mod">
+              <h2>Popular Preference</h2>
+  
+              <p class="links">
+                <input type="checkbox"
+                       name="strong"
+                       value="strong" /> Search titles only</br>
+                <input type="checkbox"
+                       name="em"
+                       value="em" />Has Image</br>
+                <input type="checkbox"
+                       name="em"
+                       value="em" />Posted Today </br>
+                <input type="checkbox"
+                       name="em"
+                       value="em" />Include nearby areas </br>
+              </p>
+          </aside>
+      <aside class="mod">
+        <h2>Miles from the zip</h2>
+      
+        <input type="text" placeholder="miles"> </input> <input type="text" placeholder="from zip"></input>
+      
+      </aside>
+      <aside class ="mod">
+        <button type="submit">Update Search</button>
+      </aside>
+         
+      </div>
+      <!-- end sidebar -->
+    </div>
+    <!-- end container -->
+
+    <!-- ==== START PAGE FOOTER ==== -->
+     <%- include ../partials/footer.html %>
+    <!-- end page footer -->
+</div> <!-- end page -->
+<style>
+
+
+html,body {
+   background:#F5F5F5;
+    height:100%;
+}
+</style>
+</body>
+</html>

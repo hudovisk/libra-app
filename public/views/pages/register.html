@@ -1,17 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="libra">
 <head>
-    <title>Register</title>
+    
+    <title>Libra | User registration</title>
+
+    <%- include ../partials/scripts.html %>
+
 </head>
 <body>
-    <form action="/api/users/register" method="post">
-      Name:<br>
-      <input type="text" name="name" value=""><br>
-      Email:<br>
-      <input type="text" name="email" value=""><br>
-      Password:<br>
-      <input type="text" name="password" value=""><br>
-      <input type="submit" value="Submit">
-</form>
+    
+    <%- include ../partials/navbar.html %>
+
+    <!--  Page Content-->
+<div class="container-fluid">
+    <section class="container">
+        <h1 align="center" class="register-header">Join the world's largest professional network</h1>
+        <div class="container-page">                
+            <div class="col-md-6">
+                <h2 class="dark-grey"></h2>
+                
+                <img src="img/international.png" class="pull-left" width="450px">       
+            
+            </div>
+        
+            <div class="col-md-6">
+                <h1 class="dark-grey">Get started - it's free</h1>
+                <p>Registration takes less than 2 minutes.</p>
+            <div ng-controller="RegisterController">
+            
+            <form class="simple-form">
+                <div class="form-group col-lg-12">
+                     <input type="text" id="name" ng-model="user.name" class="form-control" placeholder="Type First Name and Last Name" required>
+                </div>
+                
+                <div class="form-group col-lg-12">
+                    <input type="email" id="email" ng-model="user.email" class="form-control"  placeholder="Email Address" required>
+                </div>
+
+                <div class="form-group col-lg-12">
+                    <input type="password" id="passord" 
+                    ng-model="user.password" 
+                    class="form-control" 
+                    placeholder="Password" 
+                    required
+                    title="Must be 6 to 16 characters long and have at least one number and one special character."
+                    pattern="^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$" >
+         
+                </div>
+                
+                <div class="form-group col-lg-12">
+                    <p>By clicking Join Now, you agree to ProConnect's <b>User Agreement</b>, <b>Privacy Policy</b> and <b>Cookie Policy.</b></p>
+                </div>
+                <div class="col-lg-6">
+               <button class="btn btn-lg btn-primary btn-block" ng-click="register(user)">Register</button>
+                </div>
+
+            </form>
+            <!-- End of the form-->
+            </div>
+            <!-- End of ng-controller-->
+            </div>
+        </div>
+    </section>
+</div>
+<!-- End Of Page Content -->
+
 </body>
+
 </html>
