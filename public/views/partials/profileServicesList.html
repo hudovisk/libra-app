@@ -11,10 +11,10 @@
         <span class="glyphicon glyphicon-star"></span>
         <span class="glyphicon glyphicon-star"></span>
         
+        <button type="button" class="btn btn-danger btn-sm" ng-click="delPost('{{service._id}}')" ng-show="isOwnProfile()">
+            <span class="glyphicon glyphicon-remove"/></span> Remove 
+        </button>                    
 
-        <button type="button" class="btn btn-danger btn-sm" ng-click="delPost('{{service._id}}')">
-          <span class="glyphicon glyphicon-remove"></span> Remove 
-        </button>
     </span>
 </div>
   

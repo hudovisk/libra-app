@@ -12,8 +12,6 @@ app.config(['markedProvider', function (markedProvider) {
   });
 }]);
 
-
-
 app.controller('cardCtrl', function ($scope, $http, $window){
      $http.get('/api/services').then(function(result) {
         $scope.messages = result.data;
@@ -56,14 +54,7 @@ app.controller('PostCtrl', function ($scope, $http, $window){
         });//then
     };//serv scope
 
-
-
-    
 });//controller
-
-app.controller('TestController', function  () {
-    this.name = 'Libra';
-});
 
 app.controller("ServiceController", function() {
     this.latestServices = [
@@ -185,6 +176,8 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
     this.editMode = false;
     this.originalDescription = '';
 
+    $scope.me = {};
+
     $scope.profile = {};
     $scope.services = [];
     $scope.servicesRequested = [];
@@ -194,22 +187,39 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
     $scope.delPost = function (serviceid){
         event.preventDefault();
         alert(serviceid);
-    $http({
-            method: 'DELETE',
-            url: '/api/services/'+serviceid
+        $http({
+                method: 'DELETE',
+                url: '/api/services/'+serviceid
+            }).then(function successCallback(response) {
+                // this callback will be called asynchronously
+                // when the response is available
+                
+            }, function errorCallback(response) {
+                console.log(response);
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+            });//then        
+
+    }; //delete the post
+
+    this.init = function (userId) {
+        parent = this;
+
+        $http({
+            method: 'GET',
+            url: '/api/users/me'
         }).then(function successCallback(response) {
             // this callback will be called asynchronously
             // when the response is available
-            
+            if (response.status === 200) {
+                $scope.me = response.data;
+            }
         }, function errorCallback(response) {
             console.log(response);
             // called asynchronously if an error occurs
             // or server returns response with an error status.
-        });//then        
+        });        
 
-    }//delete the post
-    this.init = function (userId) {
-        parent = this;
         $http({
             method: 'GET',
             url: '/api/users/'+userId
@@ -320,6 +330,10 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
     this.setEditMode = function(mode) {
         this.editMode = mode;
     };
+
+    $scope.isOwnProfile = function() {
+        return String($scope.me._id) === String($scope.profile._id);
+    }
 
 }]);//end of profileController
 
