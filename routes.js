@@ -40,7 +40,7 @@ module.exports = function(app, passport) {
         res.render('pages/post.html', {user: req.user});
     });
     app.get('/displayPost', function(req, res) {
-        res.render('pages/displayPost.html');
+        res.render('pages/displayPost.html', {user: req.user});
     });
     //...
 

@@ -1,6 +1,6 @@
 <div class="jobs-list list-group" >
 
-<a ng-href="/service/{{service._id}}" class="list-group-item" ng-repeat="service in services">
+<div  class="list-group-item" ng-repeat="service in services">
  
    <div class="container">
     {{service.headline}}
@@ -11,13 +11,41 @@
         <span class="glyphicon glyphicon-star"></span>
         <span class="glyphicon glyphicon-star"></span>
         
-        <button type="button" class="btn btn-danger btn-sm" ng-click="delPost('{{service._id}}')" ng-show="isOwnProfile()">
-            <span class="glyphicon glyphicon-remove"/></span> Remove 
-        </button>                    
-
-    </span>
+    </span>      
+    
 </div>
-  
-</a>
+    <a type="button" class="btn btn-danger btn-sm" ng-click="delPost($index)"> 
+          <span class="glyphicon glyphicon-remove"></span> Remove post
+     </a>
+     <a type="button" class="btn btn-primary btn-sm" ng-href="/service/{{service._id}}" >
+         View post
+     </a>
+     <a type="button" class="btn btn-warning btn-sm" ng-click="disablePost($index)" >
+         Disable/Pause Post
+     </a>
+
+
+</div><!-- ng-repeat-->
+
+
 
 </div>
+<!-- <nav class="text-center">
+    <ul class="pagination">
+        <li>
+            <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li>
+            <a href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav> -->

@@ -13,6 +13,9 @@ module.exports = function(requireSession)
     router.put('/services/:id', 
                 requireSession,
                 serviceController.updatePost);
+    router.put('/services/:id/pause', 
+                requireSession,
+                serviceController.updateDisablePost);
 
 	router.delete('/services/:id', 
                     requireSession,
