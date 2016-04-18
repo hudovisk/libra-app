@@ -242,7 +242,9 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
         }).then(function successCallback(response) {
             // this callback will be called asynchronously
             // when the response is available
+
             //jobs requested call
+
             if (response.status === 200) {
                 $scope.servicesOffered = response.data;
             }

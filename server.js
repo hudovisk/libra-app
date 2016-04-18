@@ -1,7 +1,7 @@
 //Modules & set up =========================================================
 var express      = require('express');
 var app          = express();
-var port         = 1337;
+var port         = 1337 || process.env.PORT;
 var morgan       = require('morgan');
 var session      = require('express-session');
 var bodyParser   = require('body-parser');
@@ -11,12 +11,7 @@ var credentials  = require('./config/credentials');
 const MongoStore = require('connect-mongo')(session);
 
 //Config =========================================================
-mongoose.connect(credentials.db.url);
-
-//Change port for production
-if (process.env.NODE_ENV === 'production') {
-    port = 80;
-}
+mongoose.connect(credentials.db_url);
 
 //config passport
 require('./config/passport')(passport);
