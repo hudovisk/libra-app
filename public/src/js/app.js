@@ -12,17 +12,11 @@ app.config(['markedProvider', function (markedProvider) {
   });
 }]);
 
-
-
 app.controller('cardCtrl', function ($scope, $http, $window){
      $http.get('/api/services').then(function(result) {
         $scope.messages = result.data;
         console.log($scope.messages);
-       
-
     });
-
-
 });//controller
 
 app.controller('PostCtrl', function ($scope, $http, $window){
@@ -56,15 +50,7 @@ app.controller('PostCtrl', function ($scope, $http, $window){
             
         });//then
     };//serv scope
-
-
-
-
 });//controller
-
-app.controller('TestController', function  () {
-    this.name = 'Libra';
-});
 
 app.controller("ServiceController", function() {
     this.latestServices = [
@@ -187,6 +173,8 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
     this.editMode = false;
     this.originalDescription = '';
 
+    $scope.me = {};
+
     $scope.profile = {};
     $scope.services = [];
     $scope.servicesRequested = [];
@@ -194,51 +182,56 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
     $scope.reviews = [];
     
     //pause/disable post
-    $scope.disablePost =function(serviceid){
+    $scope.disablePost =function(serviceId){
 
-         event.preventDefault();
-        var str =  $scope.services[serviceid]["_id"];
-
-          $http({
+        $http({
             method: 'PUT',
-            url: '/api/services/'+str+'/pause'
+            url: '/api/services/'+serviceId+'/pause'
         }).then(function successCallback(response) {
             // this callback will be called asynchronously
             // when the response is available
-           alert("Post has been updated!");
-            
+            alert("Post has been updated!");
         }, function errorCallback(response) {
             console.log(response);
             // called asynchronously if an error occurs
             // or server returns response with an error status.
-        });//then      
-        
-    }
-    //end of disablepost
-    $scope.delPost = function (serviceid){
-        event.preventDefault();
-        
+        });//then         
+    }; //end of disablepost
 
-        var str =  $scope.services[serviceid]["_id"];
-        alert(str);
-    $http({
+    $scope.delPost = function (serviceId){
+        $http({
             method: 'DELETE',
             url: '/api/services/'+str
         }).then(function successCallback(response) {
             // this callback will be called asynchronously
             // when the response is available
-            location.reload();
-            
+            $window.location.reload();
         }, function errorCallback(response) {
             console.log(response);
             // called asynchronously if an error occurs
             // or server returns response with an error status.
         });//then        
 
-    }//delete the post
+    }; //delete the post
 
     this.init = function (userId) {
         parent = this;
+
+        $http({
+            method: 'GET',
+            url: '/api/users/me'
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            if (response.status === 200) {
+                $scope.me = response.data;
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });    
+
         $http({
             method: 'GET',
             url: '/api/users/'+userId
@@ -348,6 +341,10 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
 
     this.setEditMode = function(mode) {
         this.editMode = mode;
+    };
+
+    $scope.isOwnProfile = function() {
+        return String($scope.me._id) === String($scope.profile._id);
     };
 
 }]);//end of profileController

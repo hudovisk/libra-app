@@ -106,7 +106,7 @@ module.exports.updateDisablePost = function(req, res, next) {
         if(String(service.employer) !== String(req.user._id)) 
             return res.status(403).end();
         
-        if (service.pause == false)
+        if (service.pause === false)
             service.pause = true;
         else service.pause = false;
        
