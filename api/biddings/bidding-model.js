@@ -5,7 +5,7 @@ var BiddingSchema =  mongoose.Schema({
     explanation: String,
     value: Number,
     counterValue: Number,
-    created: {type: Date, default: Date.now},
+    date: {type: Date, default: Date.now},
 });
 
 module.exports = mongoose.model('Bidding', BiddingSchema);
