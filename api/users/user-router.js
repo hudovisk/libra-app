@@ -85,7 +85,7 @@ module.exports = function(passport, requireSession) {
 
     router.get('/users/login/facebook',
                 function(req, res, next) {
-                    console.log("http://"+process.env.HOST || 'localhost'+"/api/users/login/facebook/callback");
+                    console.log("http://"+(process.env.HOST || 'localhost')+"/api/users/login/facebook/callback");
                     next();
                 },
                 passport.authenticate('facebook', {
