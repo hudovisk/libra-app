@@ -19,8 +19,12 @@ module.exports = function(requireSession)
                 serviceController.updateDisablePost);
 
 	router.delete('/services/:id', 
-                    requireSession,
-                    serviceController.deletePost);
+                requireSession,
+                serviceController.deletePost);
+
+    router.post('/services/:id/biddings',
+                requireSession,
+                serviceController.saveBidding);
 
 	return router;
 };
