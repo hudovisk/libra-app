@@ -8,6 +8,7 @@ var ServiceSchema =  mongoose.Schema({
     description: String,
     minRange: Number,
     maxRange: Number,
+    pause: {type:Boolean, default: false},
     tags: [{type: String}],
     created: {type: Date, default: Date.now},
 });

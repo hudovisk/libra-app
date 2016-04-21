@@ -12,9 +12,45 @@ app.config(['markedProvider', function (markedProvider) {
   });
 }]);
 
-app.controller('TestController', function  () {
-    this.name = 'Libra';
-});
+app.controller('cardCtrl', function ($scope, $http, $window){
+     $http.get('/api/services').then(function(result) {
+        $scope.messages = result.data;
+        console.log($scope.messages);
+    });
+});//controller
+
+app.controller('PostCtrl', function ($scope, $http, $window){
+    var userid;
+    $http.get('/api/users/me').then(function(result) {
+        $scope.userId = result.data._id;
+        userid = $scope.userId;
+    });
+
+     $scope.postserv = function (serv) {
+        $http({
+            method: 'POST',
+            url: '/api/services',
+            data: {
+                employer: userid,
+                headline: serv.headline,
+                description: serv.des,
+                minRange: serv.min,
+                maxRange: serv.max,
+                tags: serv.tag
+            }
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+                $window.location.href = '/dashboard';
+            
+            //TODO: Display duplicate email!
+        }, function errorCallback(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+            
+        });//then
+    };//serv scope
+});//controller
 
 app.controller("ServiceController", function() {
     this.latestServices = [
@@ -50,6 +86,34 @@ app.controller("ServiceController", function() {
         }
     ];
 });
+
+app.controller('RegisterController', ['$scope', '$http', '$window', function($scope, $http, $window){
+
+    $scope.register = function (user) {
+        $http({
+            method: 'POST',
+            url: '/api/users/register',
+            data: {
+                email: user.email,
+                password: user.password,
+                name: user.name
+            }
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            if (response.status === 201) {
+                $window.location.href = '/dashboard';
+            }
+            //TODO: Display duplicate email!
+        }, function errorCallback(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+            if (response.status == 401) {
+               
+            }
+        });
+    };
+}]);
 
 app.controller('UserController', ['$scope', '$http', '$window', function($scope, $http, $window){
     
@@ -124,18 +188,70 @@ app.controller('UserController', ['$scope', '$http', '$window', function($scope,
 
 app.controller('ProfileController', ['$scope', '$http', '$window', function($scope, $http, $window){
     
+
     this.tab = 1;
     this.editMode = false;
     this.originalDescription = '';
+
+    $scope.me = {};
 
     $scope.profile = {};
     $scope.services = [];
     $scope.servicesRequested = [];
     $scope.servicesOffered = [];
     $scope.reviews = [];
+    
+    //pause/disable post
+    $scope.disablePost =function(serviceId){
+
+        $http({
+            method: 'PUT',
+            url: '/api/services/'+serviceId+'/pause'
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            alert("Post has been updated!");
+        }, function errorCallback(response) {
+            console.log(response);
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });//then         
+    }; //end of disablepost
+
+    $scope.delPost = function (serviceId){
+        $http({
+            method: 'DELETE',
+            url: '/api/services/'+str
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            $window.location.reload();
+        }, function errorCallback(response) {
+            console.log(response);
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });//then        
+
+    }; //delete the post
 
     this.init = function (userId) {
         parent = this;
+
+        $http({
+            method: 'GET',
+            url: '/api/users/me'
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            if (response.status === 200) {
+                $scope.me = response.data;
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });    
+
         $http({
             method: 'GET',
             url: '/api/users/'+userId
@@ -158,6 +274,7 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
         }).then(function successCallback(response) {
             // this callback will be called asynchronously
             // when the response is available
+            //jobs requested call
             if (response.status === 200) {
                 $scope.servicesOffered = response.data;
             }
@@ -254,7 +371,11 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
         this.editMode = mode;
     };
 
-}]);
+    $scope.isOwnProfile = function() {
+        return String($scope.me._id) === String($scope.profile._id);
+    };
+
+}]);//end of profileController
 
 app.controller('DashboardController', ['$scope', '$http', function($scope, $http){
     

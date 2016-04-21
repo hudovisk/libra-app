@@ -51,7 +51,6 @@ module.exports = function(app, passport, aws) {
     app.get('/post', function(req, res) {
         res.render('pages/post.html', {user: req.user});
     });
-    
 
     app.get('/sign_s3', function(req, res){
         var key = req.query.file_name+String(req.user._id);
@@ -76,6 +75,10 @@ module.exports = function(app, passport, aws) {
         });
     });
 
+    app.get('/displayPost', function(req, res) {
+        res.render('pages/displayPost.html', {user: req.user});
+    });
+    //...
 
     function requireSession(req, res, next) {
         if(req.isAuthenticated()) {
