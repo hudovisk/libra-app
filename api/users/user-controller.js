@@ -242,7 +242,7 @@ module.exports.pushNotification = function (userId, notification) {
             
             console.log("Notification saved!");
         });
-}
+};
 
 module.exports.getNotifications = function(req, res, next) {
     console.log(req.user.notifications);
@@ -251,7 +251,7 @@ module.exports.getNotifications = function(req, res, next) {
     return res.status(200).json(notifications.sort(function (a, b) {
         return b.created - a.created;
     }));
-}
+};
 
 module.exports.readNotification = function(req, res, next) {
     User.update(
@@ -269,4 +269,4 @@ module.exports.readNotification = function(req, res, next) {
             if(numOfAffected === 0) return res.status(404).end();
             return res.status(200).end();
         });
-}
+};

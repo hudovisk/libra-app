@@ -581,14 +581,14 @@ app.controller('NotificationController', ['$scope', '$http', '$window', function
             // or server returns response with an error status.
         });
         $window.location.href = notification.action;
-    }
+    };
 
 }]);
 
 app.filter("sanitize", ['$sce', function($sce) {
   return function(htmlCode){
     return $sce.trustAsHtml(htmlCode);
-  }
+  };
 }]);
 
 app.directive("serviceCarouselDesc", function() {
