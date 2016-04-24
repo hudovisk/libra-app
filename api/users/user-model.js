@@ -9,6 +9,14 @@ var ReviewSchema = mongoose.Schema({
     text: String,
 });
 
+var NotificationSchema = mongoose.Schema({
+    headline: String,
+    description: String,
+    action: String,
+    created: {type: Date, default: Date.now},
+    read: Boolean
+});
+
 var UserSchema =  mongoose.Schema({
     name : String,
     email: {type:String, index:{unique: true}},
@@ -18,7 +26,8 @@ var UserSchema =  mongoose.Schema({
     picture_url: String,
     fb_id: String,
     fb_url: String,
-    reviews: [ReviewSchema]
+    reviews: [ReviewSchema],
+    notifications: [NotificationSchema]
 });
 
 UserSchema.pre('save', function(next) {

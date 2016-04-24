@@ -176,6 +176,15 @@ module.exports = function(passport, requireSession) {
                 requireSession,
                 userController.deleteReview);
 
+    router.get('/users/me/notifications/',
+                requireSession,
+                userController.getNotifications);
+
+
+    router.put('/users/me/notifications/:notification_id/read',
+                requireSession,
+                userController.readNotification);
+
 return router;
 
 };

@@ -1,0 +1,14 @@
+
+<div class="notification" ng-click="notificationAction(notification)">
+    
+    <div class="notification-title">
+        <a ng-click="notificationAction(notification)" ng-class="{'text-danger': !notification.read}">{{notification.headline}}</a>
+    </div>
+    <div class="notification-description"
+        ng-bind-html="notification.description | sanitize">
+    </div>
+    <div class="notification-ago">
+        {{notification.created.toLocaleString()}}
+    </div>
+    
+</div>

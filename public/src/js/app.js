@@ -543,6 +543,53 @@ app.controller('SettingsController', ['$scope', '$http', 'Upload', function($sco
 
 }]);
 
+app.controller('NotificationController', ['$scope', '$http', '$window', function($scope, $http, $window){
+    
+    $scope.notifications = [];
+    this.unreadSize = 0;
+
+    $scope.latestServicesOffered = [];
+
+    $http({
+            method: 'GET',
+            url: '/api/users/me/notifications'
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            if (response.status === 200) {
+                $scope.notifications = response.data;
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });
+
+    $scope.notificationAction = function(notification) {
+        $http({
+            method: 'PUT',
+            url: '/api/users/me/notifications/'+notification._id+'/read'
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            if (response.status === 200) {
+                console.log('Read success');
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });
+        $window.location.href = notification.action;
+    }
+
+}]);
+
+app.filter("sanitize", ['$sce', function($sce) {
+  return function(htmlCode){
+    return $sce.trustAsHtml(htmlCode);
+  }
+}]);
 
 app.directive("serviceCarouselDesc", function() {
     return {
@@ -562,5 +609,12 @@ app.directive('profileReviewsTab', function() {
     return {
         restrict: 'E',
         templateUrl: "/views/partials/profileReviewsTab.html"
+    };
+});
+
+app.directive('notificationWidget', function() {
+    return {
+        restrict: 'E',
+        templateUrl: "/views/partials/notificationWidget.html"
     };
 });

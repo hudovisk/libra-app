@@ -220,3 +220,53 @@ module.exports.deleteReview = function(req, res, next) {
             return res.status(200).end();
         });
 };
+
+module.exports.pushNotification = function (userId, notification) {
+    User.update(
+        {
+            _id: userId
+        },
+        {
+            $push: {
+                "notifications": {
+                    "headline": notification.headline,
+                    "description": notification.description,
+                    "action": notification.action,
+                    "read": notification.read
+                }
+            }
+        },
+        function(err, numOfAffected) {
+            if(err) console.log(err);
+            if(numOfAffected === 0) console.log("Warn - No user affected. UserId: " + userId);
+            
+            console.log("Notification saved!");
+        });
+}
+
+module.exports.getNotifications = function(req, res, next) {
+    console.log(req.user.notifications);
+    
+    var notifications = req.user.toObject().notifications;
+    return res.status(200).json(notifications.sort(function (a, b) {
+        return b.created - a.created;
+    }));
+}
+
+module.exports.readNotification = function(req, res, next) {
+    User.update(
+        {
+            _id: req.user._id,
+            "notifications._id": req.params.notification_id,
+        },
+        {
+            $set: {
+                "notifications.$.read": true
+            }
+        },
+        function(err, numOfAffected) {
+            if(err) return next(err);
+            if(numOfAffected === 0) return res.status(404).end();
+            return res.status(200).end();
+        });
+}
