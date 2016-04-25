@@ -1,5 +1,7 @@
 var Service = require('./service-model');
 
+var UserController = require('../users/user-controller');
+
 //Return all service posts in db
 module.exports.getAllServices = function(req, res, next) {
     //parse query string
@@ -113,6 +115,16 @@ module.exports.updateDisablePost = function(req, res, next) {
        
         service.save(function(err) {
             if(err) return next(err);
+            
+            var notification = {
+                headline: service.pause ? "Paused Post" : "Resumed Post",
+                description: "You changed the post <strong>"+service.headline+"</strong>",
+                action: "/services/"+service._id,
+                read: false
+            };
+
+            UserController.pushNotification(req.user._id, notification);
+            console.log(notification + " pushed");
             return res.status(200).end();
         });
     });
