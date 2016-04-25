@@ -26,5 +26,9 @@ module.exports = function(requireSession)
                 requireSession,
                 serviceController.saveBidding);
 
+    router.get('/services/:id/biddings',
+                requireSession,
+                serviceController.getAllBiddings);
+
 	return router;
 };

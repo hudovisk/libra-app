@@ -6,7 +6,6 @@ module.exports = function(app, passport) {
     //API - Routes ==================================================
     app.use('/api', require('./api/users/user-router')(passport, requireSession));
     app.use('/api', require('./api/services/service-router')(requireSession));
-    app.use('/api', require('./api/biddings/bidding-router')(requireSession));
     //...
 
     //Site - Routes ==================================================

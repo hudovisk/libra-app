@@ -153,6 +153,7 @@ module.exports.saveBidding = function(req, res, next) {
     });
 };  //end saveBidding
 
+/*
 
 //Counter-offer the wage by owner (after apllicant applied first time with a set wage)
 module.exports.counterBiddingByOwner = function(req, res, next) {
@@ -175,16 +176,16 @@ module.exports.counterBiddingByApplicant = function(req, res, next) {
     });
 };  //end saveBidding
 
+*/
 
 //Get all biddings of a particular service/post
 module.exports.getAllBiddings = function(req, res, next) {
-    Serivce.findById(req.params.id)
+    Service.findById(req.params.id)
         .populate('biddings')
         .populate('biddings.user')
-        .populate('biddings.explanation')
-        .populate('biddings.value')
         .exec(function(err, user) {
             if(err) return next(err);
-            return res.status(200).json(service.biddings);
+            return res.status(200).json(Service.biddings);
         });
 };  //end getAllBiddings
+
