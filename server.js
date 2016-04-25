@@ -1,17 +1,23 @@
 //Modules & set up =========================================================
 var express      = require('express');
 var app          = express();
-var port         = 1337 || process.env.PORT;
+var port         = process.env.PORT || 1337;
 var morgan       = require('morgan');
 var session      = require('express-session');
 var bodyParser   = require('body-parser');
 var passport     = require('passport');
 var mongoose     = require('mongoose');
 var credentials  = require('./config/credentials');
+var aws          = require('aws-sdk');
 const MongoStore = require('connect-mongo')(session);
+
+var AWS_ACCESS_KEY  = process.env.AWS_ACCESS_KEY;
+var AWS_SECRET_KEY  = process.env.AWS_SECRET_KEY;
 
 //Config =========================================================
 mongoose.connect(credentials.db_url);
+
+aws.config.update({accessKeyId: AWS_ACCESS_KEY, secretAccessKey: AWS_SECRET_KEY});
 
 //config passport
 require('./config/passport')(passport);
@@ -42,7 +48,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //Routes =========================================================
-require('./routes')(app, passport)
+require('./routes')(app, passport, aws)
 
 //Server ========================================================= 
 app.listen(port, function() {

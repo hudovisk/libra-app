@@ -5,6 +5,273 @@ body {
     padding-top: 70px; /* for the Navbar */
 }
 
+.profile-pic {
+  width: 128px;
+  height: 128px;
+}
+
+.profile-pic-thumb {
+  width: 24px;
+  height: 24px;
+}
+
+/* Navbar */
+
+@media (min-width: 768px) {
+  .navbar-nav>li>a {
+    color: #555;
+  }
+
+}
+
+.navbar .nav-icon-btn.nav-icon-btn-danger .label {
+    background: #e66454;
+}
+
+@media (min-width: 768px) {
+
+  .navbar .nav-icon-btn>a .badge, .navbar .nav-icon-btn>a .label {
+    font-size: 8px;
+    padding: 0 2px;
+    line-height: 10px;
+    position: absolute;
+    display: block;
+    right: 10px;
+  }
+}
+
+.navbar .nav-icon-btn>a .badge, .navbar .nav-icon-btn>a .label, .navbar .nav-icon-btn>a .small-screen-text {
+    display: inline-block;
+}
+.navbar .dropdown-menu .badge.pull-right, .navbar .dropdown-menu .label.pull-right, .navbar .nav-icon-btn .badge, .navbar .nav-icon-btn .label {
+    float: right;
+    top: 13px;
+}
+.navbar .badge, .navbar .dropdown-menu>li>a>.badge, .navbar .dropdown-menu>li>a>.label, .navbar .label {
+    font-size: 11px;
+    padding: 0 4px;
+    line-height: 16px;
+    top: -1px;
+    position: relative;
+}
+.label {
+    background: #b0b0b0;
+}
+.label {
+    color: #fff;
+    font-size: 11px;
+    line-height: 20px;
+    text-shadow: 0 -1px 0 rgba(0,0,0,.2);
+    padding: 0 6px;
+    display: inline-block;
+    font-weight: 600;
+}
+
+.nav .dropdown>.dropdown-toggle .nav-icon {
+    font-size: 12px;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.navbar .nav-icon-btn>a .badge, .navbar .nav-icon-btn>a .label, .navbar .nav-icon-btn>a .small-screen-text {
+    display: inline-block;
+}
+
+@media (min-width: 768px) {
+  .navbar .nav-icon-btn>a .small-screen-text {
+      display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar .nav-icon-btn>a .nav-icon {
+      display: inline-block;
+      font-size: 12px;
+      margin: 0!important;
+  }
+}
+.fa {
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@media (min-width: 768px) {
+.dropdown-menu {
+    background: #fff;
+    padding: 5px 0;
+}
+}
+
+@media (min-width: 768px) {
+.pull-right .dropdown-menu {
+    float: right;
+    left: auto;
+    right: 0;
+}
+}
+
+.dropdown-menu {
+    padding: 0;
+}
+.navbar-nav>li>.dropdown-menu {
+    margin-top: 0;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+.pull-right .dropdown-menu {
+    left: auto;
+    float: right;
+    right: 0;
+}
+
+.widget-notifications .notifications-list {
+    overflow: hidden;
+    position: relative;
+}
+
+@media (min-width: 768px) {
+.widget-notifications .notification, .widget-notifications .notifications-link {
+    border-color: #f1f1f1;
+    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.05)inset;
+    box-shadow: 0 1px 0 rgba(255,255,255,.05)inset;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+}
+.widget-notifications .notification {
+    position: relative;
+    padding: 7px 12px;
+}
+
+.widget-notifications .notification-title {
+    font-size: 11px;
+    font-weight: 700;
+    padding-bottom: 1px;
+}
+.widget-notifications .notification-ago, .widget-notifications .notification-description, .widget-notifications .notification-title {
+    display: block;
+    margin-right: 35px;
+}
+
+@media (min-width: 768px) {
+.theme-default #main-navbar .widget-notifications .notification-description {
+    color: #999;
+}
+}
+
+.widget-notifications .notification-description {
+    font-size: 11px;
+    color: #666;
+}
+.widget-notifications .notification-ago, .widget-notifications .notification-description, .widget-notifications .notification-title {
+    display: block;
+    margin-right: 35px;
+}
+
+@media (min-width: 768px) {
+.theme-default #main-navbar .widget-notifications .notification-ago {
+    color: #bbb;
+}
+}
+
+.widget-notifications .notification-ago {
+    font-size: 11px;
+    font-style: italic;
+    color: #bbb;
+}
+.widget-notifications .notification-ago, .widget-notifications .notification-description, .widget-notifications .notification-title {
+    display: block;
+    margin-right: 35px;
+}
+
+.widget-notifications .notification-icon {
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+    border-radius: 2px;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin: -13px 12px 0 0;
+    font-size: 14px;
+}
+
+.bg-danger, .bg-danger a, .bg-danger a:focus, .bg-danger:active, .bg-danger:focus, .bg-danger:hover {
+    color: #fff;
+}
+
+@media (min-width: 768px) {
+.theme-default #main-navbar .widget-notifications .notification, .theme-default #main-navbar .widget-notifications .notifications-link {
+    border-color: #f1f1f1;
+    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.05)inset;
+    box-shadow: 0 1px 0 rgba(255,255,255,.05)inset;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+}
+
+.widget-notifications .notifications-link {
+    text-align: center;
+    padding: 8px 0!important;
+    border-top: 1px solid #e4e4e4;
+    display: block;
+    text-decoration: none!important;
+    font-size: 10px;
+    font-weight: 800;
+    color: #999;
+    line-height: 18px!important;
+    height: auto!important;
+}
+
+
+/* Loader : http://projects.lukehaas.me/css-loaders/*/
+.spinner {
+  width: 70px;
+  text-align: center;
+}
+
+.spinner > div {
+  width: 12px;
+  height: 12px;
+  background-color: #2196F3;
+
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% { 
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 40% { 
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+}
 /* Navbar */
 
 .navbar-brand {
@@ -311,4 +578,10 @@ span {
   padding: 5px;
   border: 1px solid #ddd;
   border-radius: 0px 20px 20px 20px;
+}
+
+/* Settings */
+
+.settings-profile-panel .form-control {
+  max-width: 450px;
 }

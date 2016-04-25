@@ -83,6 +83,20 @@ module.exports = function(passport, requireSession) {
                 userController.login(passport, req, res, next);
     });
 
+    router.get('/users/login/facebook',
+                passport.authenticate('facebook', {
+                    authType: 'rerequest',
+                    scope: ['public_profile', 'email'] 
+                }));
+
+    router.get('/users/login/facebook/callback',
+                passport.authenticate('facebook', { failureRedirect: '/login' }),
+                    function(req, res) {
+                    // Successful authentication, redirect home.
+                    res.redirect(req.redirectUrl);
+                    // res.status(200).json({});
+                });
+
     /**
      * @api {post} /users/logout Logout a user
      * @apiName logout
@@ -127,6 +141,21 @@ module.exports = function(passport, requireSession) {
                 requireSession,
                 userController.updateUser);
 
+    router.get('/users/me/connect/facebook',
+                requireSession,
+                passport.authenticate('facebook', {
+                    authType: 'rerequest',
+                    scope: ['public_profile', 'email'] 
+                }));
+
+    router.get('/users/me/disconnect/facebook',
+                requireSession,
+                userController.disconnectFacebook);
+
+    router.put('/users/me/password',
+                requireSession,
+                userController.updatePassword);
+
     router.get('/users/:user_id',
                 requireSession,
                 userController.getUser);
@@ -146,6 +175,15 @@ module.exports = function(passport, requireSession) {
     router.delete('/users/:user_id/reviews/:review_id',
                 requireSession,
                 userController.deleteReview);
+
+    router.get('/users/me/notifications/',
+                requireSession,
+                userController.getNotifications);
+
+
+    router.put('/users/me/notifications/:notification_id/read',
+                requireSession,
+                userController.readNotification);
 
 return router;
 
