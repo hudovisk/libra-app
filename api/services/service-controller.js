@@ -98,6 +98,7 @@ module.exports.updatePost = function(req, res, next) {
         });
     });
 };
+
 //Update the pause post
 module.exports.updateDisablePost = function(req, res, next) {
 
@@ -128,3 +129,75 @@ module.exports.updateDisablePost = function(req, res, next) {
         });
     });
 };
+
+
+//Create bidding by applicant (first time apply for a job)
+module.exports.saveBidding = function(req, res, next) {
+
+    Service.findById(req.params.id, function(err, service) {
+        if(err) return next(err);
+
+        //If the applicant is the same as employer/owner of this post then return 403
+        if(String(service.employer) == String(req.user._id)) 
+            return res.status(403).end();
+        else
+        {   //else applicant is dif from employer then proceed to create new bidding and update that to the post
+            Service.update(
+            {
+                _id: req.params.id
+            },
+            {
+                $push: {
+                    "biddings": {
+                        "user": req.user._id,
+                        "explanation": req.body.explanation,
+                        "value": req.body.value
+                    }
+                }
+            },
+            function(err, numOfAffected) {
+                console.log(err);
+                if(err) return next(err);
+                if(numOfAffected === 0) return res.status(404).end();
+                return res.status(201).end();
+            });
+        }  //end if-else
+    });
+};  //end saveBidding
+
+/*
+
+//Counter-offer the wage by owner (after apllicant applied first time with a set wage)
+module.exports.counterBiddingByOwner = function(req, res, next) {
+
+    Service.findById(req.params.id, function(err, service) {
+        if(err) return next(err);
+
+        
+    });
+};  //end saveBidding
+
+
+//Counter-offer the wage by applicant (after owner counter-offers the wage to applicant)
+module.exports.counterBiddingByApplicant = function(req, res, next) {
+
+    Service.findById(req.params.id, function(err, service) {
+        if(err) return next(err);
+
+        
+    });
+};  //end saveBidding
+
+*/
+
+//Get all biddings of a particular service/post
+module.exports.getAllBiddings = function(req, res, next) {
+    Service.findById(req.params.id)
+        .populate('biddings')
+        .populate('biddings.user')
+        .exec(function(err, service) {
+            if(err) return next(err);
+            return res.status(200).json(service.biddings);
+        });
+};  //end getAllBiddings
+

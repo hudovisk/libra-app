@@ -13,13 +13,22 @@ module.exports = function(requireSession)
     router.put('/services/:id', 
                 requireSession,
                 serviceController.updatePost);
+    
     router.put('/services/:id/pause', 
                 requireSession,
                 serviceController.updateDisablePost);
 
 	router.delete('/services/:id', 
-                    requireSession,
-                    serviceController.deletePost);
+                requireSession,
+                serviceController.deletePost);
+
+    router.post('/services/:id/biddings',
+                requireSession,
+                serviceController.saveBidding);
+
+    router.get('/services/:id/biddings',
+                requireSession,
+                serviceController.getAllBiddings);
 
 	return router;
 };
