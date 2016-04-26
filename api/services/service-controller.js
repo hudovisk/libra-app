@@ -183,9 +183,9 @@ module.exports.getAllBiddings = function(req, res, next) {
     Service.findById(req.params.id)
         .populate('biddings')
         .populate('biddings.user')
-        .exec(function(err, user) {
+        .exec(function(err, service) {
             if(err) return next(err);
-            return res.status(200).json(Service.biddings);
+            return res.status(200).json(service.biddings);
         });
 };  //end getAllBiddings
 
