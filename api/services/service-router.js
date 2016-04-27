@@ -26,6 +26,14 @@ module.exports = function(requireSession)
                 requireSession,
                 serviceController.saveBidding);
 
+    router.put('/services/:id/counterByOwner/:bidding_id',
+                requireSession,
+                serviceController.counterByOwner);
+
+    router.put('/services/:id/counterByUser/:bidding_id',
+                requireSession,
+                serviceController.counterByUser);
+
     router.get('/services/:id/biddings',
                 requireSession,
                 serviceController.getAllBiddings);
