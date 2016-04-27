@@ -13,10 +13,14 @@ app.config(['markedProvider', function (markedProvider) {
 }]);
 
 app.controller('SearchController', ['$scope', '$http', '$window', function ($scope, $http, $window){
-     $http.get('/api/services').then(function(result) {
-        $scope.services = result.data;
-        console.log($scope.services);
-    });
+    
+    this.init = function(query) {
+        $http.get('/api/services?q='+query).then(function(result) {
+            $scope.services = result.data;
+            console.log($scope.services);
+        });
+    }
+
 }]);//controller
 
 app.controller('PostCtrl', function ($scope, $http, $window){

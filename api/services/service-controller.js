@@ -21,7 +21,10 @@ module.exports.getAllServices = function(req, res, next) {
     // Execute query
     if(req.body.sortBy) {
         Service
-            .find(query)
+            .find(
+                { $text: { $search: req.query.q }},
+                { score : { $meta: "textScore" } }
+            )
             .sort(req.body.sortBy)
             .skip((page-1) * pageSize)
             .limit(pageSize)
@@ -33,7 +36,11 @@ module.exports.getAllServices = function(req, res, next) {
         });
     } else {
         Service
-            .find(query)
+            .find(
+                { $text: { $search: req.query.q }},
+                { score : { $meta: "textScore" } }
+            )
+            .sort({ score : { $meta : 'textScore' } })
             .skip((page-1) * pageSize)
             .limit(pageSize)
             .populate("employer")

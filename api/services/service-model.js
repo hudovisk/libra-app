@@ -21,4 +21,17 @@ var ServiceSchema =  mongoose.Schema({
     created: {type: Date, default: Date.now},
 });
 
+ServiceSchema.index({ 
+        headline: 'text',
+        description: 'text',
+        tags: 'text'
+    }, {
+        name: 'Service index',
+        weights: {
+            headline: 6,
+            description: 4,
+            tags: 2
+        }
+});
+
 module.exports = mongoose.model('Service', ServiceSchema);

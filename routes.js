@@ -76,11 +76,7 @@ module.exports = function(app, passport, aws) {
     });
 
     app.get('/search', function(req, res) {
-        res.render('pages/search.html', {user: req.user});
-    });
-
-    app.get('/displayPost', function(req, res) {
-        res.render('pages/displayPost.html', {user: req.user});
+        res.render('pages/search.html', {user: req.user, q: req.query.q});
     });
 
     //...

@@ -11,7 +11,7 @@
     <%- include ../partials/navbar.html %>
 
     <div class="container">
-        <section ng-controller="SearchController as searchCtrl" ng-cloak="">
+        <section ng-init="searchCtrl.init('<%- locals.q %>')" ng-controller="SearchController as searchCtrl" ng-cloak="">
 
             <div class="list-group">
                 <search-job-item ng-repeat="service in services"></search-job-item>

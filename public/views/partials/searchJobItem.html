@@ -5,23 +5,21 @@
             <h4>
                 <a ng-href="/service/{{service._id}}">{{service.headline}}</a>
             </h4>
-            <label>Employer:</label>
-            <a ng-href="/profile/{{service.employer._id}}"> <img ng-src="{{service.employer.picture_url}}" class="profile-pic-thumb img-circle"> {{service.employer.name}} </a>
+            <label>Employer</label>
+            <p style="margin-left: 10px;"><a ng-href="/profile/{{service.employer._id}}"> <img ng-src="{{service.employer.picture_url}}" class="profile-pic-thumb img-circle"> {{service.employer.name}} </a></p>
         </div>
 
         <h7 class="list-group-item-text">
             <label>Description</label>
-            <p>
+            <p style="margin-left: 10px;">
                 {{service.description}}
             </p>
         </h7>    
     </div>
 
     <div class="col-sm-3">
-        <p>
-            <label> Minumum Wage: {{v.minRange}}</label>
-            <label> Maximum Wage: {{v.maxRange}}</label>       
-        </p>
+        <p><label>Minumum Wage</label> {{service.minRange | currency}}</p>
+        <p><label>Maximum Wage</label> {{service.maxRange | currency}}</p>
         <input id="apply-btn" type="button" value="Apply" class="btn btn-success"/>
     </div>
 
