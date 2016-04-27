@@ -245,8 +245,6 @@ module.exports.pushNotification = function (userId, notification) {
 };
 
 module.exports.getNotifications = function(req, res, next) {
-    console.log(req.user.notifications);
-    
     var notifications = req.user.toObject().notifications;
     return res.status(200).json(notifications.sort(function (a, b) {
         return b.created - a.created;

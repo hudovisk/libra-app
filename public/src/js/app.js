@@ -12,12 +12,12 @@ app.config(['markedProvider', function (markedProvider) {
   });
 }]);
 
-app.controller('cardCtrl', function ($scope, $http, $window){
+app.controller('SearchController', ['$scope', '$http', '$window', function ($scope, $http, $window){
      $http.get('/api/services').then(function(result) {
-        $scope.messages = result.data;
-        console.log($scope.messages);
+        $scope.services = result.data;
+        console.log($scope.services);
     });
-});//controller
+}]);//controller
 
 app.controller('PostCtrl', function ($scope, $http, $window){
     var userid;
@@ -616,5 +616,12 @@ app.directive('notificationWidget', function() {
     return {
         restrict: 'E',
         templateUrl: "/views/partials/notificationWidget.html"
+    };
+});
+
+app.directive('searchJobItem', function() {
+    return {
+        restrict: 'E',
+        templateUrl: "/views/partials/searchJobItem.html"
     };
 });

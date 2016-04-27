@@ -5,41 +5,39 @@ var UserController = require('../users/user-controller');
 //Return all service posts in db
 module.exports.getAllServices = function(req, res, next) {
     //parse query string
-    var page = 1;
-    var pageSize = 5;
-    
-    if(req.query.page) page = parseInt(req.query.page);
-    if(req.query.pageSize) pageSize = parseInt(req.query.pageSize);
 
-    delete req.query.page;
-    delete req.query.pageSize;
+    var page = req.body.page ? req.body.page : 1;
+    var pageSize = req.body.pageSize ? req.body.pageSize : 5;
 
-    var sort = req.query.sortBy;
-    delete req.query.sortBy;
+    //TODO(Hudo): Sanitize req.body and req.query.search
+    var query = {
+        headline: req.query.q
+    };
 
-    if(req.query.employee === 'null') req.query.employee = null;
-    if(req.query.employer === 'null') req.query.employer = null;
+    console.log(req.originalUrl);
 
-    if(req.query.tags){
-        req.query.tags = {"$all" : req.query.tags};
-    }
+    console.log(req.query);
 
     // Execute query
-    if(sort) {
+    if(req.body.sortBy) {
         Service
-            .find(req.query)
-            .sort(sort)
+            .find(query)
+            .sort(req.body.sortBy)
             .skip((page-1) * pageSize)
             .limit(pageSize)
+            .populate("employer")
+            .populate("employee")
             .exec(function(err, results) {
                 if(err) return next(error);
                 return res.json(results);
         });
     } else {
         Service
-            .find(req.query)
+            .find(query)
             .skip((page-1) * pageSize)
             .limit(pageSize)
+            .populate("employer")
+            .populate("employee")
             .exec(function(err, results) {
                 if(err) return next(error);
                 return res.json(results);
