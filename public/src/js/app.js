@@ -51,7 +51,7 @@ app.controller('SearchController', ['$scope', '$http', '$window', function ($sco
     this.setPage = function(page) {
         $scope.page = page;
         this.search();
-    }
+    };
 
     $scope.range = function(n) {
         return new Array(n);
@@ -630,12 +630,6 @@ app.filter("sanitize", ['$sce', function($sce) {
     return $sce.trustAsHtml(htmlCode);
   };
 }]);
-
-// app.filter("range", [ function() {
-//     return function(number) {
-//         new Array(number);
-//     };
-// }]);
 
 app.directive("serviceCarouselDesc", function() {
     return {

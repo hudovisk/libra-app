@@ -10,15 +10,11 @@ module.exports.getAllServices = function(req, res, next) {
     var pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 5;
 
     //TODO(Hudo): Sanitize req.query.q ?
-    var query = {
-        headline: req.query.q
-    };
-
     var query = {};
     if(req.query.q) {
         query = {
             $text:  { $search: req.query.q }   
-        }
+        };
     }
 
     var options = {
@@ -28,7 +24,7 @@ module.exports.getAllServices = function(req, res, next) {
         lean: true,
         page: page,
         limit: pageSize
-    }
+    };
 
     Service
         .paginate(query, options)
