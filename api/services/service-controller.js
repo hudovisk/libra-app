@@ -19,7 +19,15 @@ module.exports.getAllServices = function(req, res, next) {
     }
 
     if(req.query.tags) {
-        query.tags = {$in: req.query.tags};
+        query.tags = { $in: req.query.tags };
+    }
+
+    if (req.query.minWage) {
+        query.minRange = { $gte: parseInt(req.query.minWage) };
+    }
+
+    if (req.query.maxWage) {
+        query.maxRange = { $lte: parseInt(req.query.maxWage) };
     }
 
     var options = {

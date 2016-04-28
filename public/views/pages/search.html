@@ -26,8 +26,8 @@
 
                         <div class="search-filter">
                             <label>Wage range:</label>
-                            <input class="form-control" type="text" placeholder="Min."></input>
-                            <input class="form-control" type="text" placeholder="Max."></input>
+                            <input class="form-control" type="text" placeholder="Min." ng-model="minWage"></input>
+                            <input class="form-control" type="text" placeholder="Max." ng-model="maxWage"></input>
                         </div>
 
                         <input class="btn btn-default" type="submit" value="Search" ng-click="searchCtrl.search()"></form>
