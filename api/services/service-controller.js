@@ -165,30 +165,72 @@ module.exports.saveBidding = function(req, res, next) {
     });
 };  //end saveBidding
 
-/*
 
 //Counter-offer the wage by owner (after apllicant applied first time with a set wage)
-module.exports.counterBiddingByOwner = function(req, res, next) {
-
+module.exports.counterByOwner = function(req, res, next) {
     Service.findById(req.params.id, function(err, service) {
         if(err) return next(err);
 
-        
+        //If current user is employer/owner of this post then proceed to counter offer 
+        if(String(service.employer) == String(req.user._id)) 
+        {
+            Service.update(
+            {
+                _id: req.params.id,
+                "biddings._id": req.params.bidding_id
+            },
+            {
+                $set: {
+                    "biddings.$.explanation": req.body.explanation,
+                    "biddings.$.counterValue": req.body.counterValue
+                }
+            },
+            function(err, numOfAffected) {
+                if(err) return next(err);
+                if(numOfAffected === 0) return res.status(404).end();
+                return res.status(200).end();
+            });
+        }
+        else
+        {  //else not the same person, then permission denies
+            return res.status(403).end();
+        }  //end if-else
     });
 };  //end saveBidding
 
 
 //Counter-offer the wage by applicant (after owner counter-offers the wage to applicant)
-module.exports.counterBiddingByApplicant = function(req, res, next) {
-
+module.exports.counterByUser = function(req, res, next) {
     Service.findById(req.params.id, function(err, service) {
         if(err) return next(err);
 
-        
+        //If current user is not employer/owner of this post then proceed to counter offer 
+        if(String(service.employer) != String(req.user._id)) 
+        {
+            Service.update(
+            {
+                _id: req.params.id,
+                "biddings._id": req.params.bidding_id
+            },
+            {
+                $set: {
+                    "biddings.$.explanation": req.body.explanation,
+                    "biddings.$.value": req.body.value
+                }
+            },
+            function(err, numOfAffected) {
+                if(err) return next(err);
+                if(numOfAffected === 0) return res.status(404).end();
+                return res.status(200).end();
+            });
+        }
+        else
+        {  //else current user is the owner of the service, then permission denies
+            return res.status(403).end();
+        }  //end if-else
     });
 };  //end saveBidding
 
-*/
 
 //Get all biddings of a particular service/post
 module.exports.getAllBiddings = function(req, res, next) {
