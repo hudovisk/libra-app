@@ -36,6 +36,7 @@ app.controller('SearchController', ['$scope', '$http', '$window', function ($sco
             url: '/api/services',
             params: {
                 q: $scope.query,
+                tags: $scope.tags.map(function(tag) { return tag.text; }),
                 sortBy: $scope.sortBy,
                 page: $scope.page,
                 pageSize: $scope.pageSize,

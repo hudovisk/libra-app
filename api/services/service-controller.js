@@ -11,10 +11,15 @@ module.exports.getAllServices = function(req, res, next) {
 
     //TODO(Hudo): Sanitize req.query.q ?
     var query = {};
+    
+    console.log(req.query);
+
     if(req.query.q) {
-        query = {
-            $text:  { $search: req.query.q }   
-        };
+        query.$text = { $search: req.query.q };
+    }
+
+    if(req.query.tags) {
+        query.tags = {$in: req.query.tags};
     }
 
     var options = {

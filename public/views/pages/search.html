@@ -21,7 +21,7 @@
                     <form class="form-group">
                         <div class="search-filter">
                             <label>Tags:</label>
-                            <tags-input ng-model="tags"></tags-input>
+                            <tags-input ng-model="tags" type="text" add-on-space="true"></tags-input>
                         </div>
 
                         <div class="search-filter">
@@ -30,7 +30,7 @@
                             <input class="form-control" type="text" placeholder="Max."></input>
                         </div>
 
-                        <input class="btn btn-default" type="submit" value="Search"></form>
+                        <input class="btn btn-default" type="submit" value="Search" ng-click="searchCtrl.search()"></form>
 
                     </form>
                 
