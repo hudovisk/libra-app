@@ -37,7 +37,7 @@
 						</li>
                         <li class="nav-icon-btn nav-icon-btn-danger dropdown" ng-controller="NotificationController as notificationCtrl">
                                 <a href="#notifications" class="dropdown-toggle" data-toggle="dropdown">
-                                    <span class="label" ng-show="(notifications | filter:{read:false}).length > 0">{{(notifications | filter:{read:false}).length}}</span>
+                                    <span class="notifications-label" ng-show="(notifications | filter:{read:false}).length > 0">{{(notifications | filter:{read:false}).length}}</span>
                                     <i class="nav-icon fa fa-bullhorn"></i>
                                     <span class="small-screen-text">Notifications</span>
                                 </a>

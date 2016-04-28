@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var mongoosePaginate = require('mongoose-paginate');
 
 var BiddingSchema =  mongoose.Schema({
     user: {type: mongoose.Schema.ObjectId, ref: 'User'},
@@ -33,5 +34,7 @@ ServiceSchema.index({
             tags: 2
         }
 });
+
+ServiceSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Service', ServiceSchema);

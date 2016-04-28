@@ -21,6 +21,7 @@
     "express-session": "^1.13.0",
     "kerberos": "0.0.18",
     "mongoose": "^4.4.2",
+    "mongoose-paginate": "^5.0.0",
     "morgan": "^1.6.1",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.0",

@@ -1,4 +1,4 @@
-var app = angular.module('libra', ['hc.marked', 'ngFileUpload']);
+var app = angular.module('libra', ['hc.marked', 'ngFileUpload', 'ngTagsInput']);
 
 app.config(['markedProvider', function (markedProvider) {
   markedProvider.setOptions({
@@ -14,12 +14,48 @@ app.config(['markedProvider', function (markedProvider) {
 
 app.controller('SearchController', ['$scope', '$http', '$window', function ($scope, $http, $window){
     
+    $scope.query = "";
+    $scope.page = 1;
+    $scope.pageSize = 10;
+    $scope.totalPages = 0;
+    $scope.totalResults = 0;
+    $scope.tags = [];
+    $scope.sortBy = "relevance";
+
     this.init = function(query) {
-        $http.get('/api/services?q='+query).then(function(result) {
-            $scope.services = result.data;
-            console.log($scope.services);
+        $scope.query = query;
+        this.search();
+    };
+
+    this.search = function() {
+
+        console.log($scope.sortBy);
+
+        $http({
+            method: 'GET',
+            url: '/api/services',
+            params: {
+                q: $scope.query,
+                sortBy: $scope.sortBy,
+                page: $scope.page,
+                pageSize: $scope.pageSize,
+            }
+        }).then(function(result) {
+                $scope.services = result.data.docs;
+                $scope.page = result.data.page;
+                $scope.totalPages = result.data.pages;
+                $scope.totalResults = result.data.total;
         });
+    };
+
+    this.setPage = function(page) {
+        $scope.page = page;
+        this.search();
     }
+
+    $scope.range = function(n) {
+        return new Array(n);
+    };
 
 }]);//controller
 
@@ -594,6 +630,12 @@ app.filter("sanitize", ['$sce', function($sce) {
     return $sce.trustAsHtml(htmlCode);
   };
 }]);
+
+// app.filter("range", [ function() {
+//     return function(number) {
+//         new Array(number);
+//     };
+// }]);
 
 app.directive("serviceCarouselDesc", function() {
     return {

@@ -6,50 +6,35 @@ var UserController = require('../users/user-controller');
 module.exports.getAllServices = function(req, res, next) {
     //parse query string
 
-    var page = req.body.page ? req.body.page : 1;
-    var pageSize = req.body.pageSize ? req.body.pageSize : 5;
+    var page = req.query.page ? parseInt(req.query.page) : 1;
+    var pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 5;
 
-    //TODO(Hudo): Sanitize req.body and req.query.search
+    //TODO(Hudo): Sanitize req.query.q ?
     var query = {
         headline: req.query.q
     };
 
-    console.log(req.originalUrl);
-
-    console.log(req.query);
-
-    // Execute query
-    if(req.body.sortBy) {
-        Service
-            .find(
-                { $text: { $search: req.query.q }},
-                { score : { $meta: "textScore" } }
-            )
-            .sort(req.body.sortBy)
-            .skip((page-1) * pageSize)
-            .limit(pageSize)
-            .populate("employer")
-            .populate("employee")
-            .exec(function(err, results) {
-                if(err) return next(error);
-                return res.json(results);
-        });
-    } else {
-        Service
-            .find(
-                { $text: { $search: req.query.q }},
-                { score : { $meta: "textScore" } }
-            )
-            .sort({ score : { $meta : 'textScore' } })
-            .skip((page-1) * pageSize)
-            .limit(pageSize)
-            .populate("employer")
-            .populate("employee")
-            .exec(function(err, results) {
-                if(err) return next(error);
-                return res.json(results);
-        });
+    var query = {};
+    if(req.query.q) {
+        query = {
+            $text:  { $search: req.query.q }   
+        }
     }
+
+    var options = {
+        select: { score : { $meta: "textScore" } },
+        sort: (req.query.sortBy === "date") ? "-created" : { score : { $meta : 'textScore' } },
+        populate: ["employer", "employee"],
+        lean: true,
+        page: page,
+        limit: pageSize
+    }
+
+    Service
+        .paginate(query, options)
+        .then(function(result) {
+            return res.json(result);
+        });
 };
 
 //Save the service post
