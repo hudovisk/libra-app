@@ -79,7 +79,7 @@ app.controller('PostCtrl', function ($scope, $http, $window){
                 description: serv.des,
                 minRange: serv.min,
                 maxRange: serv.max,
-                tags: serv.tag
+                tags: serv.tags.map(function(tag) { return tag.text; }),
             }
         }).then(function successCallback(response) {
             // this callback will be called asynchronously
@@ -385,10 +385,16 @@ app.controller('DashboardController', ['$scope', '$http', function($scope, $http
 
     $http({
             method: 'GET',
-            url: '/api/services/?sortBy=-created&employer=null&pageSize=5'
+            url: '/api/services',
+            params: {
+                sortBy: 'date',
+                page: 1,
+                pageSize: 5,
+                employee: 'null'
+            }
         }).then(function successCallback(response) {
             if (response.status === 200) {
-                $scope.latestServicesRequested = response.data;
+                $scope.latestServicesRequested = response.data.docs;
             }
         }, function errorCallback(response) {
             console.log(response);
@@ -396,10 +402,16 @@ app.controller('DashboardController', ['$scope', '$http', function($scope, $http
 
     $http({
             method: 'GET',
-            url: '/api/services/?sortBy=-created&employee=null&pageSize=5'
+            url: '/api/services/',
+            params: {
+                sortBy: 'date',
+                page: 1,
+                pageSize: 5,
+                employer: 'null'
+            }
         }).then(function successCallback(response) {
             if (response.status === 200) {
-                $scope.latestServicesOffered = response.data;
+                $scope.latestServicesOffered = response.data.docs;
             }
         }, function errorCallback(response) {
             console.log(response);

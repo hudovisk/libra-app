@@ -30,6 +30,14 @@ module.exports.getAllServices = function(req, res, next) {
         query.maxRange = { $lte: parseInt(req.query.maxWage) };
     }
 
+    if (req.query.employer === "null") {
+        query.employer = null;
+    }
+
+    if (req.query.employee === "null") {
+        query.employee = null;
+    }
+
     var options = {
         select: { score : { $meta: "textScore" } },
         sort: (req.query.sortBy === "date") ? "-created" : { score : { $meta : 'textScore' } },
