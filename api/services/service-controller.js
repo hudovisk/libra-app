@@ -5,46 +5,45 @@ var UserController = require('../users/user-controller');
 //Return all service posts in db
 module.exports.getAllServices = function(req, res, next) {
     //parse query string
-    var page = 1;
-    var pageSize = 5;
+
+    var page = req.query.page ? parseInt(req.query.page) : 1;
+    var pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 5;
+
+    //TODO(Hudo): Sanitize req.query.q ?
+    var query = {};
     
-    if(req.query.page) page = parseInt(req.query.page);
-    if(req.query.pageSize) pageSize = parseInt(req.query.pageSize);
+    console.log(req.query);
 
-    delete req.query.page;
-    delete req.query.pageSize;
-
-    var sort = req.query.sortBy;
-    delete req.query.sortBy;
-
-    if(req.query.employee === 'null') req.query.employee = null;
-    if(req.query.employer === 'null') req.query.employer = null;
-
-    if(req.query.tags){
-        req.query.tags = {"$all" : req.query.tags};
+    if(req.query.q) {
+        query.$text = { $search: req.query.q };
     }
 
-    // Execute query
-    if(sort) {
-        Service
-            .find(req.query)
-            .sort(sort)
-            .skip((page-1) * pageSize)
-            .limit(pageSize)
-            .exec(function(err, results) {
-                if(err) return next(error);
-                return res.json(results);
-        });
-    } else {
-        Service
-            .find(req.query)
-            .skip((page-1) * pageSize)
-            .limit(pageSize)
-            .exec(function(err, results) {
-                if(err) return next(error);
-                return res.json(results);
-        });
+    if(req.query.tags) {
+        query.tags = { $in: req.query.tags };
     }
+
+    if (req.query.minWage) {
+        query.minRange = { $gte: parseInt(req.query.minWage) };
+    }
+
+    if (req.query.maxWage) {
+        query.maxRange = { $lte: parseInt(req.query.maxWage) };
+    }
+
+    var options = {
+        select: { score : { $meta: "textScore" } },
+        sort: (req.query.sortBy === "date") ? "-created" : { score : { $meta : 'textScore' } },
+        populate: ["employer", "employee"],
+        lean: true,
+        page: page,
+        limit: pageSize
+    };
+
+    Service
+        .paginate(query, options)
+        .then(function(result) {
+            return res.json(result);
+        });
 };
 
 //Save the service post

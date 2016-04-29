@@ -9,13 +9,11 @@ var randomString = require('random-string');
 module.exports = function(passport) {
 
     passport.serializeUser(function(user, done) {
-        console.log('serialize');
         done(null, user._id);
     });
 
     passport.deserializeUser(function(userId, done) {
         User.findById(userId, function(err, user) {
-            console.log('deserialize');
             done(err, user);
         });
     });
