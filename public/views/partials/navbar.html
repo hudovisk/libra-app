@@ -28,7 +28,6 @@
 							<ul class="dropdown-menu">
 								<li><a href='/dashboard'>Dashboard</a></li>
 								<li><a href='/profile/<%- user._id %>'>My Profile</a></li>
-                                <li><a href='/displayPost'>View Posts</a></li>
 								<li><a href='/settings'>Settings</a></li>
 								<li role="separator" class="divider"></li>
 								<li>
@@ -38,7 +37,7 @@
 						</li>
                         <li class="nav-icon-btn nav-icon-btn-danger dropdown" ng-controller="NotificationController as notificationCtrl">
                                 <a href="#notifications" class="dropdown-toggle" data-toggle="dropdown">
-                                    <span class="label" ng-show="(notifications | filter:{read:false}).length > 0">{{(notifications | filter:{read:false}).length}}</span>
+                                    <span class="notifications-label" ng-show="(notifications | filter:{read:false}).length > 0">{{(notifications | filter:{read:false}).length}}</span>
                                     <i class="nav-icon fa fa-bullhorn"></i>
                                     <span class="small-screen-text">Notifications</span>
                                 </a>
@@ -64,11 +63,11 @@
 					<li><a href="#">About</a></li>
 				</ul>
 
-                <form class="navbar-form" role="search">
+                <form class="navbar-form" role="search" method="get" action="/search">
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-                        <input class="form-control" name="search" placeholder="Search for jobs here" autocomplete="off" autofocus="autofocus" type="text">
+                        <input class="form-control" id="q" name="q" placeholder="Search for jobs here" autocomplete="off" autofocus="autofocus" type="text">
                     </div>
                 </div>
                 </form>

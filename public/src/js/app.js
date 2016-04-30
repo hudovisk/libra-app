@@ -1,4 +1,4 @@
-var app = angular.module('libra', ['hc.marked', 'ngFileUpload']);
+var app = angular.module('libra', ['hc.marked', 'ngFileUpload', 'ngTagsInput']);
 
 app.config(['markedProvider', function (markedProvider) {
   markedProvider.setOptions({
@@ -12,12 +12,55 @@ app.config(['markedProvider', function (markedProvider) {
   });
 }]);
 
-app.controller('cardCtrl', function ($scope, $http, $window){
-     $http.get('/api/services').then(function(result) {
-        $scope.messages = result.data;
-        console.log($scope.messages);
-    });
-});//controller
+app.controller('SearchController', ['$scope', '$http', '$window', function ($scope, $http, $window){
+    
+    $scope.query = "";
+    $scope.page = 1;
+    $scope.pageSize = 10;
+    $scope.totalPages = 0;
+    $scope.totalResults = 0;
+    $scope.tags = [];
+    $scope.sortBy = "relevance";
+
+    this.init = function(query) {
+        $scope.query = query;
+        this.search();
+    };
+
+    this.search = function() {
+
+        console.log($scope.sortBy);
+
+        $http({
+            method: 'GET',
+            url: '/api/services',
+            params: {
+                q: $scope.query,
+                tags: $scope.tags.map(function(tag) { return tag.text; }),
+                sortBy: $scope.sortBy,
+                page: $scope.page,
+                pageSize: $scope.pageSize,
+                minWage: $scope.minWage,
+                maxWage: $scope.maxWage
+            }
+        }).then(function(result) {
+                $scope.services = result.data.docs;
+                $scope.page = result.data.page;
+                $scope.totalPages = result.data.pages;
+                $scope.totalResults = result.data.total;
+        });
+    };
+
+    this.setPage = function(page) {
+        $scope.page = page;
+        this.search();
+    };
+
+    $scope.range = function(n) {
+        return new Array(n);
+    };
+
+}]);//controller
 
 app.controller('PostCtrl', function ($scope, $http, $window){
     var userid;
@@ -36,7 +79,7 @@ app.controller('PostCtrl', function ($scope, $http, $window){
                 description: serv.des,
                 minRange: serv.min,
                 maxRange: serv.max,
-                tags: serv.tag
+                tags: serv.tags.map(function(tag) { return tag.text; }),
             }
         }).then(function successCallback(response) {
             // this callback will be called asynchronously
@@ -152,15 +195,11 @@ app.controller('UserController', ['$scope', '$http', '$window', function($scope,
                 password: user.password
             }
         }).then(function successCallback(response) {
-            // this callback will be called asynchronously
-            // when the response is available
             if (response.status === 200) {
                 $window.location.href = '/dashboard';
             }
             //TODO: Display duplicate email!
         }, function errorCallback(response) {
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
             if (response.status === 401) {
                 loginError = true;
             }
@@ -172,14 +211,10 @@ app.controller('UserController', ['$scope', '$http', '$window', function($scope,
             method: 'POST',
             url: '/api/users/logout'
         }).then(function successCallback(response) {
-            // this callback will be called asynchronously
-            // when the response is available
             if (response.status === 200) {
                 $window.location.href = '/';
             }
         }, function errorCallback(response) {
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
             console.log(response);
         });
     };
@@ -187,7 +222,6 @@ app.controller('UserController', ['$scope', '$http', '$window', function($scope,
 }]);
 
 app.controller('ProfileController', ['$scope', '$http', '$window', function($scope, $http, $window){
-    
 
     this.tab = 1;
     this.editMode = false;
@@ -208,13 +242,9 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
             method: 'PUT',
             url: '/api/services/'+serviceId+'/pause'
         }).then(function successCallback(response) {
-            // this callback will be called asynchronously
-            // when the response is available
             alert("Post has been updated!");
         }, function errorCallback(response) {
             console.log(response);
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
         });//then         
     }; //end of disablepost
 
@@ -223,13 +253,9 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
             method: 'DELETE',
             url: '/api/services/'+str
         }).then(function successCallback(response) {
-            // this callback will be called asynchronously
-            // when the response is available
             $window.location.reload();
         }, function errorCallback(response) {
             console.log(response);
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
         });//then        
 
     }; //delete the post
@@ -241,77 +267,56 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
             method: 'GET',
             url: '/api/users/me'
         }).then(function successCallback(response) {
-            // this callback will be called asynchronously
-            // when the response is available
             if (response.status === 200) {
                 $scope.me = response.data;
             }
         }, function errorCallback(response) {
             console.log(response);
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
         });    
 
         $http({
             method: 'GET',
             url: '/api/users/'+userId
         }).then(function successCallback(response) {
-            // this callback will be called asynchronously
-            // when the response is available
             if (response.status === 200) {
                 $scope.profile = response.data;
                 parent.originalDescription = $scope.profile.description;
             }
         }, function errorCallback(response) {
             console.log(response);
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
         });        
 
         $http({
             method: 'GET',
             url: '/api/services?employee='+userId
         }).then(function successCallback(response) {
-            // this callback will be called asynchronously
-            // when the response is available
-            //jobs requested call
             if (response.status === 200) {
                 $scope.servicesOffered = response.data;
             }
         }, function errorCallback(response) {
             console.log(response);
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
         });
 
         $http({
             method: 'GET',
             url: '/api/services?employer='+userId
         }).then(function successCallback(response) {
-            // this callback will be called asynchronously
-            // when the response is available
             if (response.status === 200) {
                 $scope.servicesRequested = response.data;
             }
         }, function errorCallback(response) {
             console.log(response);
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
         });
 
         $http({
             method: 'GET',
             url: '/api/users/'+userId+'/reviews'
         }).then(function successCallback(response) {
-            // this callback will be called asynchronously
-            // when the response is available
             if (response.status === 200) {
                 $scope.reviews = response.data;
             }
         }, function errorCallback(response) {
             console.log(responde);
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
         });
 
     };
@@ -329,15 +334,11 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
                 description: description
             }
         }).then(function successCallback(response) {
-            // this callback will be called asynchronously
-            // when the response is available
             if (response.status === 200) {
                 $window.location.reload();
             }
         }, function errorCallback(response) {
             console.log(responde);
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
         });
     };
 
@@ -384,32 +385,36 @@ app.controller('DashboardController', ['$scope', '$http', function($scope, $http
 
     $http({
             method: 'GET',
-            url: '/api/services/?sortBy=-created&employer=null&pageSize=5'
+            url: '/api/services',
+            params: {
+                sortBy: 'date',
+                page: 1,
+                pageSize: 5,
+                employee: 'null'
+            }
         }).then(function successCallback(response) {
-            // this callback will be called asynchronously
-            // when the response is available
             if (response.status === 200) {
-                $scope.latestServicesRequested = response.data;
+                $scope.latestServicesRequested = response.data.docs;
             }
         }, function errorCallback(response) {
             console.log(response);
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
         });
 
     $http({
             method: 'GET',
-            url: '/api/services/?sortBy=-created&employee=null&pageSize=5'
+            url: '/api/services/',
+            params: {
+                sortBy: 'date',
+                page: 1,
+                pageSize: 5,
+                employer: 'null'
+            }
         }).then(function successCallback(response) {
-            // this callback will be called asynchronously
-            // when the response is available
             if (response.status === 200) {
-                $scope.latestServicesOffered = response.data;
+                $scope.latestServicesOffered = response.data.docs;
             }
         }, function errorCallback(response) {
             console.log(response);
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
         });
 
 }]);
@@ -435,8 +440,6 @@ app.controller('SettingsController', ['$scope', '$http', 'Upload', function($sco
             method: 'GET',
             url: '/api/users/me'
         }).then(function successCallback(response) {
-            // this callback will be called asynchronously
-            // when the response is available
             if (response.status === 200) {
                 $scope.user = response.data;
             }
@@ -476,8 +479,6 @@ app.controller('SettingsController', ['$scope', '$http', 'Upload', function($sco
                 method: 'GET',
                 url: '/sign_s3?file_name='+file.name+'&file_type='+file.type
             }).then(function successCallback(response) {
-                // this callback will be called asynchronously
-                // when the response is available
                 if (response.status === 200) {
                     var url = response.data.url;
                     var signed_request = response.data.signed_request;
@@ -486,8 +487,6 @@ app.controller('SettingsController', ['$scope', '$http', 'Upload', function($sco
                 }
             }, function errorCallback(response) {
                 console.log(response);
-                // called asynchronously if an error occurs
-                // or server returns response with an error status.
             }); 
         }
     };
@@ -554,15 +553,11 @@ app.controller('NotificationController', ['$scope', '$http', '$window', function
             method: 'GET',
             url: '/api/users/me/notifications'
         }).then(function successCallback(response) {
-            // this callback will be called asynchronously
-            // when the response is available
             if (response.status === 200) {
                 $scope.notifications = response.data;
             }
         }, function errorCallback(response) {
             console.log(response);
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
         });
 
     $scope.notificationAction = function(notification) {
@@ -570,15 +565,11 @@ app.controller('NotificationController', ['$scope', '$http', '$window', function
             method: 'PUT',
             url: '/api/users/me/notifications/'+notification._id+'/read'
         }).then(function successCallback(response) {
-            // this callback will be called asynchronously
-            // when the response is available
             if (response.status === 200) {
                 console.log('Read success');
             }
         }, function errorCallback(response) {
             console.log(response);
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
         });
         $window.location.href = notification.action;
     };
@@ -616,5 +607,12 @@ app.directive('notificationWidget', function() {
     return {
         restrict: 'E',
         templateUrl: "/views/partials/notificationWidget.html"
+    };
+});
+
+app.directive('searchJobItem', function() {
+    return {
+        restrict: 'E',
+        templateUrl: "/views/partials/searchJobItem.html"
     };
 });

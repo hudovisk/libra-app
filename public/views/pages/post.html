@@ -30,7 +30,8 @@
 
      <div class="form-group">
         <label>Enter Keywords For Job Category</label></br>
-        <input id="tags" type="text" ng-model="serv.tag" class="form-control" placeholder="This Helps To Optimize Search."></input>
+        <tags-input ng-model="serv.tags" type="text" add-on-space="true" placeholder="This Helps To Optimize Search."></tags-input>
+        <!-- <input id="tags" type="text" ng-model="serv.tag" class="form-control" placeholder="This Helps To Optimize Search."></input> -->
      </div>
      <button type="submit" ng-click="postserv(serv)" class="btn btn-success">Submit</button>
      <button type="submit" class="btn btn-danger">Cancel</button>
