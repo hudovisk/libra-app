@@ -26,7 +26,38 @@
     <div class="col-sm-3">
         <p><label>Minumum Wage:</label> {{service.minRange | currency}}</p>
         <p><label>Maximum Wage:</label> {{service.maxRange | currency}}</p>
-        <input id="applyBtn" type="button" value="Apply" class="btn btn-lg btn-success"/>
+        <input id="applyBtn" type="button" value="Apply" class="btn btn-lg btn-success" data-title="Edit" data-toggle="modal" data-target="#{{service._id}}" />
     </div>
-
 </div>
+
+
+<!--  Pop up for initial biddig -->
+
+<div class="modal fade" id="{{service._id}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+      <div class="modal-dialog">
+    <div class="modal-content">
+          <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        <h4 class="modal-title custom_align" id="Heading" align="center">Apply for {{service.employer.name}}'s Job: {{service.headline}}?</h4><br>
+      </div>
+          <div class="modal-body">
+          
+      
+        <div class="form-group">
+            <label>Enter your desired salary and an explanation for why you should be you should be hired.</label>
+            <input id="value" type="number" ng-model="bid.value" placeholder="Between {{service.minRange | currency}} and {{service.maxRange | currency}}" class="form-control input-lg" />
+        <textarea id="explanation" ng-model="bid.explanation" rows="2" class="form-control" placeholder="Please enter your explanation here! (Optional)"></textarea>
+        
+    
+        
+        </div>
+      </div>
+          <div class="modal-footer ">
+        <button type="button" ng-click="bid(bid,service._id)" class="btn btn-success btn-lg" style="width: 20%;"><span class="glyphicon glyphicon-ok-sign"></span>Bid</button>
+      </div>
+        </div>
+    <!-- /.modal-content --> 
+  </div>
+      <!-- /.modal-dialog --> 
+    </div>
+ <!--  Pop up for initial biddig -->

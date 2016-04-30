@@ -12,6 +12,8 @@ app.config(['markedProvider', function (markedProvider) {
   });
 }]);
 
+
+
 app.controller('SearchController', ['$scope', '$http', '$window', function ($scope, $http, $window){
     
     $scope.query = "";
@@ -59,6 +61,26 @@ app.controller('SearchController', ['$scope', '$http', '$window', function ($sco
     $scope.range = function(n) {
         return new Array(n);
     };
+
+    $scope.bid = function(bid, eid) {
+
+        var userid;
+    $http.get('/api/users/me').then(function(result) {
+        $scope.userId = result.data._id;
+        userid = $scope.userId;
+    });
+
+        $http({
+            method: 'POST',
+            url: '/api/services/'+eid+'/biddings',
+            data: {
+                user: userid,
+                explanation: bid.explanation,
+                value: bid.value
+            }
+        });
+        
+    }
 
 }]);//controller
 

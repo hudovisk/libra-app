@@ -145,7 +145,7 @@ module.exports.saveBidding = function(req, res, next) {
         if(err) return next(err);
 
         //If the applicant is the same as employer/owner of this post then return 403
-        if(String(service.employer) == String(req.user._id)) 
+        if(String(service.employer) != String(req.user._id)) 
             return res.status(403).end();
         else
         {   //else applicant is dif from employer then proceed to create new bidding and update that to the post
