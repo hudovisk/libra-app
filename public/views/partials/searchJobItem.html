@@ -1,0 +1,32 @@
+<div class="list-group-item row">
+    
+    <div class="col-sm-9">
+        <div class="list-group-item-heading">
+            <h4>
+                <a ng-href="/service/{{service._id}}">{{service.headline}}</a>
+            </h4>
+            <label>Employer</label>
+            <p style="margin-left: 10px;"><a ng-href="/profile/{{service.employer._id}}"> <img ng-src="{{service.employer.picture_url}}" class="profile-pic-thumb img-circle" ng-hide="!service.employer.picture_url"> {{service.employer.name}} </a></p>
+        </div>
+
+        <h7 class="list-group-item-text">
+            <label>Description</label>
+            <p style="margin-left: 10px;">
+                {{service.description}}
+            </p>
+            <p>
+                <span class="label label-primary" style="margin: 2px;" ng-repeat="tag in service.tags">{{tag}}</span>
+            </p>
+            <p class="text-muted">
+                {{service.created}}
+            </p>
+        </h7>    
+    </div>
+
+    <div class="col-sm-3">
+        <p><label>Minumum Wage:</label> {{service.minRange | currency}}</p>
+        <p><label>Maximum Wage:</label> {{service.maxRange | currency}}</p>
+        <input id="applyBtn" type="button" value="Apply" class="btn btn-lg btn-success"/>
+    </div>
+
+</div>

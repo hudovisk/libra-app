@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html ng-app="libra">
+<head>
+    <title>Libra</title>
+
+    <%- include ../partials/scripts.html %>
+
+</head>
+<body>
+
+    <%- include ../partials/navbar.html %>
+
+    <div id="searchContainer" class="container">
+        <section ng-init="searchCtrl.init('<%- locals.q %>')" ng-controller="SearchController as searchCtrl" ng-cloak="">
+
+            <div id="wrapper">
+
+                <!-- Sidebar -->
+                <div id="sidebar-wrapper">
+                    <h3>Filter</h3>
+                    <form class="form-group">
+                        <div class="search-filter">
+                            <label>Tags:</label>
+                            <tags-input ng-model="tags" type="text" add-on-space="true"></tags-input>
+                        </div>
+
+                        <div class="search-filter">
+                            <label>Wage range:</label>
+                            <input class="form-control" type="text" placeholder="Min." ng-model="minWage"></input>
+                            <input class="form-control" type="text" placeholder="Max." ng-model="maxWage"></input>
+                        </div>
+
+                        <input class="btn btn-default" type="submit" value="Search" ng-click="searchCtrl.search()"></form>
+
+                    </form>
+                
+                </div>
+                <!-- /#sidebar-wrapper -->
+
+                <!-- Page Content -->
+                <div id="page-content-wrapper">
+                    <div class="search-results-info">
+
+                        <span>{{page}} - {{totalPages}} of {{totalResults}} for <strong>"{{query}}"</strong></span>
+
+                        <div class="search-sort-by">
+                            <label>Sort by</label>
+                            <select name="sortBy" ng-model="sortBy" ng-change="searchCtrl.search()">
+                                <option value="relevance">Relevance</option>
+                                <option value="date">Date</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="list-group container-fluid">
+                        <search-job-item ng-repeat="service in services"></search-job-item>
+                    </div>
+                </div>
+                <!-- /#page-content-wrapper -->
+
+            </div>
+
+            <nav class="text-center">
+                <ul class="pagination">
+                    <li ng-show="page > 1">
+                        <a href="#" aria-label="Previous" ng-click="searchCtrl.setPage(page - 1)">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li ng-repeat="p in range(totalPages) track by $index"><a ng-click="searchCtrl.setPage($index + 1)">{{$index+1}}</a></li>
+                    <li ng-show="page < totalPages">
+                        <a href="#" aria-label="Next" ng-click="searchCtrl.setPage(page + 1)">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+        </section>
+    </div>    
+    
+    <%- include ../partials/footer.html %>
+
+</body>
+</html>
