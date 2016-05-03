@@ -148,24 +148,18 @@ module.exports.saveBidding = function(req, res, next) {
         if(String(service.employer) == String(req.user._id)) 
             return res.status(403).end();
         else
-        {   //else applicant is dif from employer then proceed to create new bidding and update that to the post
-            Service.update(
-            {
-                _id: req.params.id
-            },
-            {
-                $push: {
-                    "biddings": {
-                        "user": req.user._id,
-                        "explanation": req.body.explanation,
-                        "value": req.body.value
-                    }
-                }
-            },
-            function(err, numOfAffected) {
-                console.log(err);
+        {   
+            var bidding = service.biddings.create({
+                user: req.user._id,
+                explanation: req.body.explanation,
+                value: parseInt(req.body.value)
+            });
+            service.biddings.push(bidding);
+            service.save(function(err) {
                 if(err) return next(err);
-                if(numOfAffected === 0) return res.status(404).end();
+
+                console.log('id ' + bidding._id);
+
                 return res.status(201).end();
             });
         }  //end if-else
@@ -239,7 +233,7 @@ module.exports.counterByUser = function(req, res, next) {
 };  //end saveBidding
 
 
-//Get all biddings of a particular service/post
+//Get all biddings of a particular service
 module.exports.getAllBiddings = function(req, res, next) {
     Service.findById(req.params.id)
         .populate('biddings')
@@ -249,4 +243,41 @@ module.exports.getAllBiddings = function(req, res, next) {
             return res.status(200).json(service.biddings);
         });
 };  //end getAllBiddings
+
+
+//Get bidding of an applicant of a particular service
+module.exports.getBidding = function(req, res, next) {
+    Service.findById(req.params.id)
+        .populate('biddings')
+        .populate('biddings.user')
+        .exec(function(err, service) {
+            if(err) return next(err);
+            for (var i = service.biddings.length - 1; i >= 0; i--) {
+                if(String(service.biddings[i]._id) === String(req.params.bidding_id))
+                    return res.status(200).json(service.biddings[i]);
+            }
+            return res.status(404).json();
+        });
+};  //end getBidding
+
+
+module.exports.deleteBidding = function(req, res, next) {
+    Service.update(
+        {
+            _id: req.params.id
+        },
+        {
+            $pull: {
+                biddings: { 
+                    _id: req.params.bidding_id 
+                } 
+            }
+        },
+        function(err, numOfAffected) {
+            if(err) return next(err);
+            if(numOfAffected === 0) return res.status(404).end();
+            return res.status(200).end();
+        });
+};  //end deleteBidding
+
 
