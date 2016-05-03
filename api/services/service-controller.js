@@ -140,24 +140,18 @@ module.exports.saveBidding = function(req, res, next) {
         if(String(service.employer) == String(req.user._id)) 
             return res.status(403).end();
         else
-        {   //else applicant is dif from employer then proceed to create new bidding and update that to the post
-            Service.update(
-            {
-                _id: req.params.id
-            },
-            {
-                $push: {
-                    "biddings": {
-                        "user": req.user._id,
-                        "explanation": req.body.explanation,
-                        "value": req.body.value
-                    }
-                }
-            },
-            function(err, numOfAffected) {
-                console.log(err);
+        {   
+            var bidding = service.biddings.create({
+                user: req.user._id,
+                explanation: req.body.explanation,
+                value: parseInt(req.body.value)
+            });
+            service.biddings.push(bidding);
+            service.save(function(err) {
                 if(err) return next(err);
-                if(numOfAffected === 0) return res.status(404).end();
+
+                console.log('id ' + bidding._id);
+
                 return res.status(201).end();
             });
         }  //end if-else
@@ -253,7 +247,7 @@ module.exports.getBidding = function(req, res, next) {
             for (var i = service.biddings.length - 1; i >= 0; i--) {
                 if(String(service.biddings[i]._id) === String(req.params.bidding_id))
                     return res.status(200).json(service.biddings[i]);
-            };
+            }
             return res.status(404).json();
         });
 };  //end getBidding
