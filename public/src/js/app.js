@@ -117,6 +117,33 @@ app.controller('PostCtrl', function ($scope, $http, $window){
     };//serv scope
 });//controller
 
+app.controller('BiddingCtrl', function ($scope, $http, $window){
+   var test = $window.location.pathname;
+   var vars = test.split("/");
+    console.log( "aaa " + vars[1] + " " + vars[2] + " . " + vars[3]);
+    var serviceId = vars[2];
+    var userId = vars[3];
+
+   // console.log($scope.headline);
+
+        $http({
+            method: 'GET',
+            url: '/api/services/'+ serviceId +'/biddings',
+        }).then(function successCallback(response) {
+            if (response.status === 200) {
+                $scope.chicken = response.data;
+                console.log($scope.chicken);
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+        });        
+
+
+
+
+    //var 2 and 3 carry the id's respectively
+});//controller
+
 app.controller("ServiceController", function() {
     this.latestServices = [
         {

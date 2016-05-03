@@ -162,6 +162,17 @@ module.exports.saveBidding = function(req, res, next) {
                     }
                 }
             },
+            function(){
+                var notification = {
+                headline: req.user._id+" applied for your job!",
+                description: req.body.value +" was his desired offer. <br>Description: " + req.body.explanation,
+                action: "/services/"+service._id+"/"+service.biddings._id,
+                read: false
+            };
+
+            UserController.pushNotification(req.user._id, notification);
+            console.log(notification + " pushed");
+            },
             function(err, numOfAffected) {
                 console.log(err);
                 if(err) return next(err);

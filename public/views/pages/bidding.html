@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html ng-app="libra">
+<head>
+    <title>Libra | Bidding</title>
+    <%- include ../partials/scripts.html %>
+</head>
+<body>
+
+    <%- include ../partials/navbar.html %>
+    
+<div class="container">
+  <div ng-controller="BiddingCtrl">
+    <h2 align="center">Bidding for the Job Offered</h2>
+      <div class="form-group">
+        <label>Job Title</label><br>
+        <label id="headline"  ng-model="serv.headline" >{{cheese}}</label>
+      </div>
+
+      <div class="form-group">
+        <label>Job Description</label>
+        <label id="description" rows="14" cols="50" ng-model="serv.des" class="form-control" ></label>
+      </div>
+
+      <div class="form-group">
+        <label>Hourly Wage Range Originaly offered</label>
+        </br>
+        <label id="minRange" placeholder="Minimum" ng-model="serv.min" ></label>
+        <label id="maxRange" placeholder="Maximum" ng-model="serv.max" ></label>
+      </div>
+
+      <div class="form-group">
+        <label>His/her offer</label>
+        </br>
+        <label id="hisOffer" ng-model="serv.offer" type="text"></label>
+      </div>
+
+
+
+    
+     <button type="submit" ng-click="accept(serv)" class="btn btn-success">Accept</button>
+     <button type="submit" class="btn btn-danger" ng-click="decline(serv)">Decline</button>
+     <button type="submit" class="btn btn-warning" data-title="Edit" data-toggle="modal" data-target="#edit">Counter</button>
+  </div>
+</div>
+    <%- include ../partials/footer.html %>
+
+
+
+
+
+<!--  Pop up for initial biddig -->
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+      <div class="modal-dialog">
+    <div class="modal-content">
+          <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        <h4 class="modal-title custom_align" id="Heading" align="center">Counter</h4><br>
+      </div>
+          <div class="modal-body">
+          
+      
+        <div class="form-group">
+            <label>Enter salary and an explanation.</label>
+            <input id="value" type="number" ng-model="bid.value" placeholder="$ Enter amount" class="form-control input-lg" />
+        <textarea id="explanation" ng-model="bid.explanation" rows="2" class="form-control" placeholder="Please enter your explanation here! (Optional)"></textarea>
+        
+    
+        
+        </div>
+      </div>
+          <div class="modal-footer ">
+        <button type="button" ng-click="bid(bid,service._id)" class="btn btn-warning btn-lg" style="width: 40%;"><span class="glyphicon glyphicon-ok-sign"></span>Counter Offer</button>
+      </div>
+        </div>
+    <!-- /.modal-content --> 
+  </div>
+      <!-- /.modal-dialog --> 
+    </div>
+ <!--  Pop up for initial biddig -->
+
+
+</body>
+</html>
