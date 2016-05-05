@@ -137,6 +137,53 @@ module.exports.updateDisablePost = function(req, res, next) {
     });
 };
 
+//Update the pause post
+module.exports.acceptservice = function(req, res, next) {
+
+    Service.findById(req.params.id, function(err, service) {
+        if(err)
+            return next(err);
+
+        if(String(service.employer) === String(req.body.employee)) 
+            return res.status(403).end();
+        
+        var notification = {};
+
+        if(String(service.employer) === String(req.user._id)) {
+            notification = {
+                headline: "Congratulations!",
+                description: "You have been accepted for this job. Here is $" +req.body.money+ " upfront!",
+                action: "/",
+                read: false
+            };
+            UserController.pushNotification(req.body.employee, notification);
+        } else {
+            notification = {
+                headline: req.user.name+" agreed to your terms",
+                description: req.user.name+" accepted the job! $"+req.body.money+"Has been sent to his account.",
+                action: "/",
+                read: false
+            };
+            UserController.pushNotification(service.employer, notification);
+        }
+        console.log(notification + " pushed");
+       
+        Service.update(
+            {
+                _id: req.params.id,
+            },
+            {
+                $set: {
+                    "service.$.employee": req.body.employee,
+                }
+            },
+            function(err, numOfAffected) {
+                if(err) return next(err);
+                if(numOfAffected === 0) return res.status(404).end();
+                return res.status(200).end();
+            });
+    });
+};
 
 //Create bidding by applicant (first time apply for a job)
 module.exports.saveBidding = function(req, res, next) {
@@ -145,43 +192,61 @@ module.exports.saveBidding = function(req, res, next) {
         if(err) return next(err);
 
         //If the applicant is the same as employer/owner of this post then return 403
-        if(String(service.employer) != String(req.user._id)) 
+        if(String(service.employer) === String(req.user._id)) 
             return res.status(403).end();
         else
         {   //else applicant is dif from employer then proceed to create new bidding and update that to the post
-            Service.update(
-            {
-                _id: req.params.id
-            },
-            {
-                $push: {
-                    "biddings": {
-                        "user": req.user._id,
-                        "explanation": req.body.explanation,
-                        "value": req.body.value
-                    }
-                }
-            },
-            function(){
+            var bidding = service.biddings.create({
+                 user: req.user._id,
+                 explanation: req.body.explanation,
+                 value: parseInt(req.body.value)
+             });
+             service.biddings.push(bidding);
+             service.save(function(err, numOfAffected) {
+                  if(err) return next(err);
+                 if(numOfAffected === 0) return res.status(404).end();
+ 
+                 console.log('id ' + bidding._id);
+
+           
                 var notification = {
-                headline: req.user._id+" applied for your job!",
+                headline: req.user.name+" applied for your job!",
                 description: req.body.value +" was his desired offer. <br>Description: " + req.body.explanation,
-                action: "/services/"+service._id+"/"+service.biddings._id,
+                action: "/services/"+service._id+"/"+bidding._id,
                 read: false
             };
 
-            UserController.pushNotification(req.user._id, notification);
+            UserController.pushNotification(service.employer, notification);
             console.log(notification + " pushed");
-            },
-            function(err, numOfAffected) {
-                console.log(err);
-                if(err) return next(err);
-                if(numOfAffected === 0) return res.status(404).end();
-                return res.status(201).end();
             });
         }  //end if-else
     });
 };  //end saveBidding
+
+module.exports.getBidding = function(req, res, next) {
+     Service.findById(req.params.id)
+         .populate('biddings')
+         .populate('biddings.user')
+         .exec(function(err, service) {
+             if(err) return next(err);
+             for (var i = service.biddings.length - 1; i >= 0; i--) {
+                 if(String(service.biddings[i]._id) === String(req.params.bidding_id))
+                     return res.status(200).json(service.biddings[i]);
+             }
+             return res.status(404).json();
+         });
+ };  //end getBidding
+
+ module.exports.getService = function(req, res, next) {
+     Service.findById(req.params.id)
+         .exec(function(err, service) {
+             if(err) return next(err);
+             
+            return res.status(200).json(service);
+             
+            
+         });
+ };  //end getBidding
 
 
 //Counter-offer the wage by owner (after apllicant applied first time with a set wage)
@@ -249,6 +314,50 @@ module.exports.counterByUser = function(req, res, next) {
     });
 };  //end saveBidding
 
+module.exports.deleteBidding = function(req, res, next) {
+ Service.findById(req.params.id, function(err, service) {
+        if(err) return next(err);
+
+        var notification = {};
+
+        if(String(service.employer) === String(req.user._id)) {
+            notification = {
+                headline: "You did not qualify for this job application process!",
+                description: "Sorry!",
+                action: "/",
+                read: false
+            };
+            UserController.pushNotification(req.user._id, notification); //how to send to applicantId? req.user._id is employerId which i dont want
+        } else {
+            notification = {
+                headline: req.user.name+" withdrew from the job application process!",
+                description: "Sorry!",
+                action: "/",
+                read: false
+            };
+            UserController.pushNotification(service.employer, notification);
+        }
+
+        console.log(notification + " pushed");
+
+        Service.update(
+            {
+                _id: req.params.id
+            },
+             {
+                 $pull: {
+                     biddings: { 
+                         _id: req.params.bidding_id 
+                     } 
+                 }
+             },
+         function(err, numOfAffected) {
+             if(err) return next(err);
+             if(numOfAffected === 0) return res.status(404).end();
+             return res.status(200).end();
+         });
+    });
+ };  //end deleteBidding
 
 //Get all biddings of a particular service/post
 module.exports.getAllBiddings = function(req, res, next) {

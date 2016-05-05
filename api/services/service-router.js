@@ -38,5 +38,21 @@ module.exports = function(requireSession)
                 requireSession,
                 serviceController.getAllBiddings);
 
+    router.get('/services/:id/biddings/:bidding_id',
+                 requireSession,
+                 serviceController.getBidding);
+
+     router.get('/services/:id',
+                 requireSession,
+                 serviceController.getService);
+
+     router.delete('/services/:id/biddings/:bidding_id',
+                 requireSession,
+                 serviceController.deleteBidding);
+
+     router.put('/services/:id/biddings/:bidding_id',
+                 requireSession,
+                 serviceController.acceptservice);
+
 	return router;
 };
