@@ -14,48 +14,25 @@
     <div class="page-content">
         <div class="container">
             <div class="row main-buttons-row">
-                <div class="col-sm-6">
-                    <a href="post" class="btn btn-lg btn-success center-block">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                        Post A Service
-                    </a>
-                </div>
-
-                <div class="col-sm-6">
-                    <a href="" class="btn btn-lg btn-success center-block">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                        Request A Service
-                    </a>
-                </div>
-
+                
+                <a href="post" class="btn btn-lg btn-success center-block">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    Post A Service
+                </a>
+            
             </div>
 
             <div class="row">
 
-                <div class="col-sm-6 bouncy" >
+                <div class=" bouncy">
                     
-                    <h4 style="text-align: center;">Latest Services Offered</h4>
+                    <h4 style="text-align: center;">Latest Services</h4>
                     <hr>
-                    <div class="list-group">
-                        <a ng-href="/service/{{service._id}}" class="list-group-item" ng-repeat="service in latestServicesOffered">
-                            {{service.headline}}
-                        </a>
+                    <div class="list-group container-fluid">
+                        <search-job-item ng-repeat="service in latestServices"></search-job-item>
                     </div>
 
                 </div>
-
-                <div class="col-sm-6 bouncy">
-                    
-                    <h4 style="text-align: center;">Latest Services Requested</h4>
-                    <hr>
-                    <div class="list-group">
-                        <a ng-href="/service/{{service._id}}" class="list-group-item" ng-repeat="service in latestServicesRequested">
-                            {{service.headline}}
-                        </a>
-                    </div>
-
-                </div>
-
 
             </div>
 

@@ -23,6 +23,7 @@ var UserSchema =  mongoose.Schema({
     //Don't return the user password by default.
     password: {type: String, select: false},
     description: String,
+    interested_tags: [String],
     picture_url: String,
     fb_id: String,
     fb_url: String,

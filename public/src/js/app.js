@@ -380,43 +380,35 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
 
 app.controller('DashboardController', ['$scope', '$http', function($scope, $http){
     
-    $scope.latestServicesRequested = [];
-    $scope.latestServicesOffered = [];
+    $scope.latestServices = [];
 
     $http({
             method: 'GET',
-            url: '/api/services',
-            params: {
-                sortBy: 'date',
-                page: 1,
-                pageSize: 5,
-                employee: 'null'
-            }
+            url: '/api/users/me'
         }).then(function successCallback(response) {
             if (response.status === 200) {
-                $scope.latestServicesRequested = response.data.docs;
+                tags = response.data.interested_tags;
+                $http({
+                    method: 'GET',
+                    url: '/api/services',
+                    params: {
+                        sortBy: 'date',
+                        page: 1,
+                        pageSize: 3,
+                        tags: tags,
+                        employee: 'null',
+                    }
+                }).then(function successCallback(response) {
+                    if (response.status === 200) {
+                        $scope.latestServices = response.data.docs;
+                    }
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
             }
         }, function errorCallback(response) {
             console.log(response);
-        });
-
-    $http({
-            method: 'GET',
-            url: '/api/services/',
-            params: {
-                sortBy: 'date',
-                page: 1,
-                pageSize: 5,
-                employer: 'null'
-            }
-        }).then(function successCallback(response) {
-            if (response.status === 200) {
-                $scope.latestServicesOffered = response.data.docs;
-            }
-        }, function errorCallback(response) {
-            console.log(response);
-        });
-
+        });    
 }]);
 
 app.controller('SettingsController', ['$scope', '$http', 'Upload', function($scope, $http, Upload){
@@ -442,6 +434,7 @@ app.controller('SettingsController', ['$scope', '$http', 'Upload', function($sco
         }).then(function successCallback(response) {
             if (response.status === 200) {
                 $scope.user = response.data;
+                console.log($scope.user);
             }
         }, function errorCallback(response) {
             console.log(response);
@@ -501,7 +494,8 @@ app.controller('SettingsController', ['$scope', '$http', 'Upload', function($sco
             data: {
                 'name' : $scope.user.name,
                 'email' : $scope.user.email,
-                'picture_url': $scope.user.picture_url
+                'picture_url': $scope.user.picture_url,
+                'interested_tags': $scope.user.interested_tags.map(function(tag) { return tag.text; }),
             }
         }).then(function successCallback(response) {
             if (response.status === 200) {
