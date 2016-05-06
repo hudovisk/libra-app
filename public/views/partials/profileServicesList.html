@@ -1,30 +1,56 @@
 <div class="jobs-list list-group" >
 
 <div class="list-group-item" ng-repeat="service in services">
- 
-   <div class="container">
 
-        <a ng-href="/service/service._id">{{service.headline}}</a>
+<div class="container">
 
-        <span class="badge">
-            <span class="glyphicon glyphicon-star-empty"></span>
-            <span class="glyphicon glyphicon-star"></span>
-            <span class="glyphicon glyphicon-star"></span>
-            <span class="glyphicon glyphicon-star"></span>
-            <span class="glyphicon glyphicon-star"></span>
-        </span>      
+        <div class="list-group-item-heading">
+            <h4>
+                <a ng-href="/service/{{service._id}}">{{service.headline}}</a>
+            </h4>
+        </div>
 
-        <a type="button" class="btn btn-danger btn-sm" ng-click="delPost(service._id)" ng-show="isOwnProfile()"> 
+        <h7 class="list-group-item-text">
+            <label>Description</label>
+            <p style="margin-left: 10px;">
+                {{service.description}}
+            </p>
+            <p>
+                <span class="label label-primary" style="margin: 2px;" ng-repeat="tag in service.tags">{{tag}}</span>
+            </p>
+            <p class="text-muted">
+                {{service.created}}
+            </p>
+            <a type="button" class="btn btn-danger btn-sm" ng-click="delPost(service._id)" ng-show="isOwnProfile()"> 
             <span class="glyphicon glyphicon-remove"></span> Remove post
-        </a>
+            </a>
 
-        <a type="button" class="btn btn-warning btn-sm" ng-click="disablePost(service._id)" ng-show="isOwnProfile()">
-            Disable/Pause Post
-        </a>
+            <a type="button" class="btn btn-warning btn-sm" ng-click="disablePost(service._id)" ng-show="isOwnProfile()">
+                Disable/Pause Post
+            </a>
+        </h7>    
+
+</div>
+</div>
+
+<!-- <div class="list-group-item row" ng-repeat="service in services">
+    
+    <div class="container">
+
+    <div class="col-sm-9">
+        <div class="list-group-item-heading">
+            <a ng-href="/service/service._id">{{service.headline}}</a>
+        </div>
+
+        <div class="col-sm3">
+            
+        </div>
 
     </div>
 
-</div><!-- ng-repeat-->
+    </div>
+
+</div> -->
 
 </div>
 <!-- <nav class="text-center">

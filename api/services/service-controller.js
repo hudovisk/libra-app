@@ -30,12 +30,12 @@ module.exports.getAllServices = function(req, res, next) {
         query.maxRange = { $lte: parseInt(req.query.maxWage) };
     }
 
-    if (req.query.employer === "null") {
-        query.employer = null;
+    if (req.query.employer) {
+        query.employer = (req.query.employer === "null") ? null : req.query.employer;
     }
 
-    if (req.query.employee === "null") {
-        query.employee = null;
+    if (req.query.employee) {
+        query.employee = (req.query.employee === "null") ? null : req.query.employee;
     }
 
     var options = {

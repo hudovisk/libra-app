@@ -280,33 +280,18 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
         }).then(function successCallback(response) {
             if (response.status === 200) {
                 $scope.profile = response.data;
+
+                var sum = 0;
+                $scope.profile.reviews.forEach(function(review) {
+                    sum += review.rating;
+                });
+
+                $scope.profile.score = sum / $scope.profile.reviews.length;
                 parent.originalDescription = $scope.profile.description;
             }
         }, function errorCallback(response) {
             console.log(response);
         });        
-
-        $http({
-            method: 'GET',
-            url: '/api/services?employee='+userId
-        }).then(function successCallback(response) {
-            if (response.status === 200) {
-                $scope.servicesOffered = response.data;
-            }
-        }, function errorCallback(response) {
-            console.log(response);
-        });
-
-        $http({
-            method: 'GET',
-            url: '/api/services?employer='+userId
-        }).then(function successCallback(response) {
-            if (response.status === 200) {
-                $scope.servicesRequested = response.data;
-            }
-        }, function errorCallback(response) {
-            console.log(response);
-        });
 
         $http({
             method: 'GET',
@@ -316,7 +301,35 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
                 $scope.reviews = response.data;
             }
         }, function errorCallback(response) {
-            console.log(responde);
+            console.log(response);
+        });   
+
+        $http({
+            method: 'GET',
+            url: '/api/services',
+            params: {
+                employee: userId,
+            }
+        }).then(function successCallback(response) {
+            if (response.status === 200) {
+                $scope.servicesOffered = response.data.docs;
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+        });
+
+        $http({
+            method: 'GET',
+            url: '/api/services',
+            params: {
+                employer: userId
+            }
+        }).then(function successCallback(response) {
+            if (response.status === 200) {
+                $scope.servicesRequested = response.data.docs;
+            }
+        }, function errorCallback(response) {
+            console.log(response);
         });
 
     };
