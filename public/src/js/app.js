@@ -280,13 +280,16 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
         }).then(function successCallback(response) {
             if (response.status === 200) {
                 $scope.profile = response.data;
+                if($scope.reviews.length > 0) {
+                    var sum = 0;
+                    $scope.profile.reviews.forEach(function(review) {
+                        sum += review.rating;
+                    });
 
-                var sum = 0;
-                $scope.profile.reviews.forEach(function(review) {
-                    sum += review.rating;
-                });
-
-                $scope.profile.score = sum / $scope.profile.reviews.length;
+                    $scope.profile.score = sum / $scope.profile.reviews.length;
+                } else {
+                    $scope.profile.score = 0;
+                }
                 parent.originalDescription = $scope.profile.description;
             }
         }, function errorCallback(response) {
