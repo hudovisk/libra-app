@@ -309,7 +309,7 @@ module.exports.deleteBidding = function(req, res, next) {
 
             var applicantId;
             service.biddings.some(function (bidding) {
-                if(String(bidding._id) === String(req.params.bidding_id) {
+                if(String(bidding._id) === String(req.params.bidding_id)) {
                     applicantId = bidding.user;
                     return true;
                 } else {
