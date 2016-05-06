@@ -63,12 +63,11 @@ app.controller('SearchController', ['$scope', '$http', '$window', function ($sco
     };
 
     $scope.bid = function(bid, eid) {
-
         var userid;
-    $http.get('/api/users/me').then(function(result) {
-        $scope.userId = result.data._id;
-        userid = $scope.userId;
-    });
+        $http.get('/api/users/me').then(function(result) {
+            $scope.userId = result.data._id;
+            userid = $scope.userId;
+        });
 
         $http({
             method: 'POST',
@@ -78,14 +77,10 @@ app.controller('SearchController', ['$scope', '$http', '$window', function ($sco
                 explanation: bid.explanation,
                 value: bid.value
             }
-        }).then(function() {
-                
-                    $window.location.href = '/dashboard';
-                    
-               
-            });    
-        
-    }
+        }).then(function() {    
+            $window.location.href = '/dashboard';
+        });    
+    };
 
 
 }]);//controller

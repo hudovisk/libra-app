@@ -35,20 +35,24 @@ module.exports = function(requireSession)
                 serviceController.getAllBiddings);
 
     router.get('/services/:id/biddings/:bidding_id',
-                 requireSession,
-                 serviceController.getBidding);
+                requireSession,
+                serviceController.getBidding);
 
      router.get('/services/:id',
-                 requireSession,
-                 serviceController.getService);
+                requireSession,
+                serviceController.getService);
 
      router.delete('/services/:id/biddings/:bidding_id',
-                 requireSession,
-                 serviceController.deleteBidding);
+                requireSession,
+                serviceController.deleteBidding);
 
      router.put('/services/:id/biddings/:bidding_id',
-                 requireSession,
-                 serviceController.acceptservice);
+                requireSession,
+                serviceController.acceptservice);
+
+    router.delete('/services/:id/biddings/:bidding_id',
+                requireSession,
+                serviceController.deleteBidding);
 
 	return router;
 };

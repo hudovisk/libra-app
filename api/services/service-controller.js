@@ -146,7 +146,7 @@ module.exports.acceptservice = function(req, res, next) {
 
         if(String(service.employer) === String(req.body.employee)) 
             return res.status(403).end();
-        
+
         var notification = {};
 
         if(String(service.employer) === String(req.user._id)) {
@@ -166,6 +166,7 @@ module.exports.acceptservice = function(req, res, next) {
             };
             UserController.pushNotification(service.employer, notification);
         }
+
         console.log(service.employee + " pushed");
        
         Service.update(
@@ -198,27 +199,26 @@ module.exports.saveBidding = function(req, res, next) {
         else
         {   //else applicant is dif from employer then proceed to create new bidding and update that to the post
             var bidding = service.biddings.create({
-                 user: req.user._id,
-                 explanation: req.body.explanation,
-                 value: parseInt(req.body.value)
-             });
-             service.biddings.push(bidding);
-             service.save(function(err, numOfAffected) {
-                  if(err) return next(err);
-                 if(numOfAffected === 0) return res.status(404).end();
+                user: req.user._id,
+                explanation: req.body.explanation,
+                value: parseInt(req.body.value)
+            });
+            service.biddings.push(bidding);
+            service.save(function(err, numOfAffected) {
+                if(err) return next(err);
+                if(numOfAffected === 0) return res.status(404).end();
  
-                 console.log('id ' + bidding._id);
+                console.log('id ' + bidding._id);
 
-           
                 var notification = {
-                headline: req.user.name+" applied for your job!",
-                description: req.body.value +" was his desired offer. <br>Description: " + req.body.explanation,
-                action: "/services/"+service._id+"/"+bidding._id,
-                read: false
-            };
+                    headline: req.user.name+" applied for your job!",
+                    description: req.body.value +" was his desired offer. <br>Description: " + req.body.explanation,
+                    action: "/services/"+service._id+"/"+bidding._id,
+                    read: false
+                };
 
-            UserController.pushNotification(service.employer, notification);
-            console.log(notification + " pushed");
+                UserController.pushNotification(service.employer, notification);
+                console.log(notification + " pushed");
             });
         }  //end if-else
     });
@@ -264,23 +264,8 @@ module.exports.counter = function(req, res, next) {
                 action: "/services/"+service._id+"/"+req.params.bidding_id,
                 read: false
             };
+            
             UserController.pushNotification(req.body.employee, notification);
-            Service.update(
-            {
-                _id: req.params.id,
-                "biddings._id": req.params.bidding_id
-            },
-            {
-                $set: {
-                    "biddings.$.explanation": req.body.explanation,
-                    "biddings.$.value": req.body.value
-                }
-            },
-            function(err, numOfAffected) {
-                if(err) return next(err);
-                if(numOfAffected === 0) return res.status(404).end();
-                return res.status(200).end();
-            });
         }
         else
         {  //else not the same person
@@ -290,8 +275,11 @@ module.exports.counter = function(req, res, next) {
                 action: "/services/"+service._id+"/"+req.params.bidding_id,
                 read: false
             };
+            
             UserController.pushNotification(service.employer, notification);
-            Service.update(
+        }  //end if-else
+           
+        Service.update(
             {
                 _id: req.params.id,
                 "biddings._id": req.params.bidding_id
@@ -307,17 +295,12 @@ module.exports.counter = function(req, res, next) {
                 if(numOfAffected === 0) return res.status(404).end();
                 return res.status(200).end();
             });
-        }  //end if-else
     });
 };  //end saveBidding
 
 
-
-
 module.exports.deleteBidding = function(req, res, next) {
- Service.findById(req.params.id, function(err, service) {
-
-
+    Service.findById(req.params.id, function(err, service) {
         if(err) return next(err);
 
         var notification = {};
@@ -326,14 +309,13 @@ module.exports.deleteBidding = function(req, res, next) {
 
             var auser;
             for (var i = service.biddings.length - 1; i >= 0; i--) {
-                 if(String(service.biddings[i]._id) === String(req.params.bidding_id)){
-                     auser = service.biddings[i];
+                if(String(service.biddings[i]._id) === String(req.params.bidding_id)){
+                    auser = service.biddings[i];
 
-                 console.log(auser.user._id + "hello world" + auser.user);
-}
-             }
+                    console.log(auser.user._id + "hello world" + auser.user);
+                }
+            }
 
-             
             notification = {
                 headline: "You did not qualify for this job application process!",
                 description: "Sorry!",
@@ -354,21 +336,22 @@ module.exports.deleteBidding = function(req, res, next) {
         console.log(notification + " pushed");
 
         Service.update(
-            {
-                _id: req.params.id
-            },
-             {
-                 $pull: {
-                     biddings: { 
-                         _id: req.params.bidding_id 
-                     } 
-                 }
-             },
-         function(err, numOfAffected) {
-             if(err) return next(err);
-             if(numOfAffected === 0) return res.status(404).end();
-             return res.status(200).end();
-         });
+        {
+            _id: req.params.id
+        },
+        {
+            $pull: {
+                biddings: { 
+                    _id: req.params.bidding_id 
+                } 
+            }
+        },
+        function(err, numOfAffected) {
+            if(err) return next(err);
+            if(numOfAffected === 0) return res.status(404).end();
+            
+            return res.status(200).end();
+        });
     });
  };  //end deleteBidding
 
@@ -382,4 +365,41 @@ module.exports.getAllBiddings = function(req, res, next) {
             return res.status(200).json(service.biddings);
         });
 };  //end getAllBiddings
+
+
+//Get bidding of an applicant of a particular service
+module.exports.getBidding = function(req, res, next) {
+    Service.findById(req.params.id)
+        .populate('biddings')
+        .populate('biddings.user')
+        .exec(function(err, service) {
+            if(err) return next(err);
+            for (var i = service.biddings.length - 1; i >= 0; i--) {
+                if(String(service.biddings[i]._id) === String(req.params.bidding_id))
+                    return res.status(200).json(service.biddings[i]);
+            }
+            return res.status(404).json();
+        });
+};  //end getBidding
+
+
+module.exports.deleteBidding = function(req, res, next) {
+    Service.update(
+        {
+            _id: req.params.id
+        },
+        {
+            $pull: {
+                biddings: { 
+                    _id: req.params.bidding_id 
+                } 
+            }
+        },
+        function(err, numOfAffected) {
+            if(err) return next(err);
+            if(numOfAffected === 0) return res.status(404).end();
+            return res.status(200).end();
+        });
+};  //end deleteBidding
+
 
