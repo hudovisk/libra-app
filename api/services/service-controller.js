@@ -307,14 +307,17 @@ module.exports.deleteBidding = function(req, res, next) {
 
         if(String(service.employer) === String(req.user._id)) {
 
-            var auser;
-            for (var i = service.biddings.length - 1; i >= 0; i--) {
-                if(String(service.biddings[i]._id) === String(req.params.bidding_id)){
-                    auser = service.biddings[i];
-
-                    console.log(auser.user._id + "hello world" + auser.user);
+            var applicantId;
+            service.biddings.some(function (bidding) {
+                if(String(bidding._id) === String(req.params.bidding_id) {
+                    applicantId = bidding.user;
+                    return true;
+                } else {
+                    return false;
                 }
-            }
+            });
+            
+            console.log("Applicant id: " + applicantId);
 
             notification = {
                 headline: "You did not qualify for this job application process!",
@@ -322,7 +325,7 @@ module.exports.deleteBidding = function(req, res, next) {
                 action: "/",
                 read: false
             };
-            UserController.pushNotification(auser.user, notification); //how to send to applicantId? req.user._id is employerId which i dont want
+            UserController.pushNotification(applicantId, notification); //how to send to applicantId? req.user._id is employerId which i dont want
         } else {
             notification = {
                 headline: req.user.name+" withdrew from the job application process!",
