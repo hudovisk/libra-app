@@ -78,9 +78,15 @@ app.controller('SearchController', ['$scope', '$http', '$window', function ($sco
                 explanation: bid.explanation,
                 value: bid.value
             }
-        });
+        }).then(function() {
+                
+                    $window.location.href = '/dashboard';
+                    
+               
+            });    
         
     }
+
 
 }]);//controller
 
@@ -186,7 +192,7 @@ app.controller('BiddingCtrl', function ($scope, $http, $window){
 
                  $http({
                 method: 'DELETE',
-                url: '/api/services/'+ serviceId +'/biddings/'+biddingId,
+                url: '/api/services/'+ serviceId +'/biddings/'+biddingId
             }).then(function successCallback(response) {
                 if (response.status === 200) {
 
@@ -217,8 +223,24 @@ app.controller('BiddingCtrl', function ($scope, $http, $window){
             });
           }; //accept function
 
+          $scope.counter = function (bid) {
+            $http({
+                method: 'PUT',
+                url: '/api/services/'+serviceId+'/counterOffer/'+biddingId,
+                data: {
+                    employee: $scope.applicantId,
+                    explanation: bid.explanation,
+                    value: bid.value
+                }
+            }).then(function successCallback(response) {
+                if (response.status === 200) {
+                    $window.location.reload();
+                }
+            }, function errorCallback(response) {
+                console.log(responde);
+            });
+          }; //accept function
 
-    //var 2 and 3 carry the id's respectively
 });//controller
 
 app.controller("ServiceController", function() {

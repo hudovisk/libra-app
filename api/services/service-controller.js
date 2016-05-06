@@ -166,18 +166,19 @@ module.exports.acceptservice = function(req, res, next) {
             };
             UserController.pushNotification(service.employer, notification);
         }
-        console.log(notification + " pushed");
+        console.log(service.employee + " pushed");
        
         Service.update(
             {
-                _id: req.params.id,
+                _id: req.params.id
             },
             {
-                $set: {
-                    "service.$.employee": req.body.employee,
+                $push: {
+                    "employee": req.body.employee._id
                 }
             },
             function(err, numOfAffected) {
+                console.log(req.body.employee._id + " test");
                 if(err) return next(err);
                 if(numOfAffected === 0) return res.status(404).end();
                 return res.status(200).end();
@@ -250,46 +251,20 @@ module.exports.getBidding = function(req, res, next) {
 
 
 //Counter-offer the wage by owner (after apllicant applied first time with a set wage)
-module.exports.counterByOwner = function(req, res, next) {
+module.exports.counter = function(req, res, next) {
     Service.findById(req.params.id, function(err, service) {
         if(err) return next(err);
 
-        //If current user is employer/owner of this post then proceed to counter offer 
-        if(String(service.employer) == String(req.user._id)) 
-        {
-            Service.update(
-            {
-                _id: req.params.id,
-                "biddings._id": req.params.bidding_id
-            },
-            {
-                $set: {
-                    "biddings.$.explanation": req.body.explanation,
-                    "biddings.$.counterValue": req.body.counterValue
-                }
-            },
-            function(err, numOfAffected) {
-                if(err) return next(err);
-                if(numOfAffected === 0) return res.status(404).end();
-                return res.status(200).end();
-            });
-        }
-        else
-        {  //else not the same person, then permission denies
-            return res.status(403).end();
-        }  //end if-else
-    });
-};  //end saveBidding
+        var notification = {};
 
-
-//Counter-offer the wage by applicant (after owner counter-offers the wage to applicant)
-module.exports.counterByUser = function(req, res, next) {
-    Service.findById(req.params.id, function(err, service) {
-        if(err) return next(err);
-
-        //If current user is not employer/owner of this post then proceed to counter offer 
-        if(String(service.employer) != String(req.user._id)) 
-        {
+        if(String(service.employer) === String(req.user._id)) {
+            notification = {
+                headline: "Employer "+req.user.name+" has made a counter offer!",
+                description: "Counter offer of $"+req.body.value+" has been made for "+service.headline,
+                action: "/services/"+service._id+"/"+req.params.bidding_id,
+                read: false
+            };
+            UserController.pushNotification(req.body.employee, notification);
             Service.update(
             {
                 _id: req.params.id,
@@ -308,26 +283,64 @@ module.exports.counterByUser = function(req, res, next) {
             });
         }
         else
-        {  //else current user is the owner of the service, then permission denies
-            return res.status(403).end();
+        {  //else not the same person
+            notification = {
+                headline: "Applicant "+req.user.name+" has made a counter offer!",
+                description: "Counter offer of $"+req.body.value+" has been made for "+service.headline,
+                action: "/services/"+service._id+"/"+req.params.bidding_id,
+                read: false
+            };
+            UserController.pushNotification(service.employer, notification);
+            Service.update(
+            {
+                _id: req.params.id,
+                "biddings._id": req.params.bidding_id
+            },
+            {
+                $set: {
+                    "biddings.$.explanation": req.body.explanation,
+                    "biddings.$.value": req.body.value
+                }
+            },
+            function(err, numOfAffected) {
+                if(err) return next(err);
+                if(numOfAffected === 0) return res.status(404).end();
+                return res.status(200).end();
+            });
         }  //end if-else
     });
 };  //end saveBidding
 
+
+
+
 module.exports.deleteBidding = function(req, res, next) {
  Service.findById(req.params.id, function(err, service) {
+
+
         if(err) return next(err);
 
         var notification = {};
 
         if(String(service.employer) === String(req.user._id)) {
+
+            var auser;
+            for (var i = service.biddings.length - 1; i >= 0; i--) {
+                 if(String(service.biddings[i]._id) === String(req.params.bidding_id)){
+                     auser = service.biddings[i];
+
+                 console.log(auser.user._id + "hello world" + auser.user);
+}
+             }
+
+             
             notification = {
                 headline: "You did not qualify for this job application process!",
                 description: "Sorry!",
                 action: "/",
                 read: false
             };
-            UserController.pushNotification(req.user._id, notification); //how to send to applicantId? req.user._id is employerId which i dont want
+            UserController.pushNotification(auser.user, notification); //how to send to applicantId? req.user._id is employerId which i dont want
         } else {
             notification = {
                 headline: req.user.name+" withdrew from the job application process!",
