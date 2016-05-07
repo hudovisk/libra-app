@@ -239,6 +239,7 @@ module.exports.getBidding = function(req, res, next) {
  };  //end getBidding
 
  module.exports.getService = function(req, res, next) {
+    console.log("=====HERE=====");
      Service.findById(req.params.id)
          .exec(function(err, service) {
              if(err) return next(err);
@@ -384,25 +385,4 @@ module.exports.getBidding = function(req, res, next) {
             return res.status(404).json();
         });
 };  //end getBidding
-
-
-module.exports.deleteBidding = function(req, res, next) {
-    Service.update(
-        {
-            _id: req.params.id
-        },
-        {
-            $pull: {
-                biddings: { 
-                    _id: req.params.bidding_id 
-                } 
-            }
-        },
-        function(err, numOfAffected) {
-            if(err) return next(err);
-            if(numOfAffected === 0) return res.status(404).end();
-            return res.status(200).end();
-        });
-};  //end deleteBidding
-
 

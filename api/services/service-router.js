@@ -50,9 +50,5 @@ module.exports = function(requireSession)
                 requireSession,
                 serviceController.acceptservice);
 
-    router.delete('/services/:id/biddings/:bidding_id',
-                requireSession,
-                serviceController.deleteBidding);
-
 	return router;
 };
