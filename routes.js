@@ -52,6 +52,10 @@ module.exports = function(app, passport, aws) {
         res.render('pages/post.html', {user: req.user});
     });
 
+     app.get('/services/:id/:bid', function(req, res) {
+        res.render('pages/bidding.html', {user: req.user});
+    });   
+
     app.get('/sign_s3', function(req, res){
         var key = req.query.file_name+String(req.user._id);
         var s3 = new aws.S3();

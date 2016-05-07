@@ -12,6 +12,8 @@ app.config(['markedProvider', function (markedProvider) {
   });
 }]);
 
+
+
 app.controller('SearchController', ['$scope', '$http', '$window', function ($scope, $http, $window){
     
     $scope.query = "";
@@ -60,6 +62,27 @@ app.controller('SearchController', ['$scope', '$http', '$window', function ($sco
         return new Array(n);
     };
 
+    $scope.bid = function(bid, eid) {
+        var userid;
+        $http.get('/api/users/me').then(function(result) {
+            $scope.userId = result.data._id;
+            userid = $scope.userId;
+        });
+
+        $http({
+            method: 'POST',
+            url: '/api/services/'+eid+'/biddings',
+            data: {
+                user: userid,
+                explanation: bid.explanation,
+                value: bid.value
+            }
+        }).then(function() {    
+            $window.location.href = '/dashboard';
+        });    
+    };
+
+
 }]);//controller
 
 app.controller('PostCtrl', function ($scope, $http, $window){
@@ -93,6 +116,126 @@ app.controller('PostCtrl', function ($scope, $http, $window){
             
         });//then
     };//serv scope
+});//controller
+
+app.controller('BiddingCtrl', function ($scope, $http, $window){
+   var test = $window.location.pathname;
+   var vars = test.split("/");
+    console.log( "aaa " + vars[1] + " " + vars[2] + " . " + vars[3]);
+    var serviceId = vars[2];
+    var biddingId = vars[3];
+    var serviceownerid = "";
+
+    $scope.headline = "";
+    $scope.description = "";
+    $scope.min = "";
+    $scope.max = "";
+    $scope.oldoffer = "";
+    $scope.oldreason = "";
+    $scope.applicantId = "";
+    $scope.serviceowner = "";
+
+   // console.log($scope.headline);
+
+        $http({
+            method: 'GET',
+            url: '/api/services/'+ serviceId,
+        }).then(function successCallback(response) {
+            if (response.status === 200) {
+                $scope.headline = response.data.headline;
+                $scope.description = response.data.description;
+                $scope.min = response.data.minRange;
+                $scope.max = response.data.maxRange;
+                serviceownerid = response.data.employer;
+               console.log(response.data);
+                
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+        }).then(function(){
+                $http({
+                method: 'GET',
+                url: '/api/users/'+serviceownerid
+            }).then(function successCallback(response) {
+                if (response.status === 200) {
+                    $scope.serviceowner = response.data.name;
+                    console.log(response.data);
+                }
+            }, function errorCallback(response) {
+                console.log(response);
+            });          
+
+        });     
+
+
+        $http({
+            method: 'GET',
+            url: '/api/services/'+ serviceId +'/biddings/'+biddingId,
+        }).then(function successCallback(response) {
+            if (response.status === 200) {
+                $scope.applicantId = response.data.user;
+                $scope.oldoffer = response.data.value;
+                $scope.oldreason = response.data.explanation;
+                console.log(response.data);
+                
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+        });    
+        
+         $scope.decline = function () {
+
+                 $http({
+                method: 'DELETE',
+                url: '/api/services/'+ serviceId +'/biddings/'+biddingId
+            }).then(function successCallback(response) {
+                if (response.status === 200) {
+
+                    $window.location.href = '/dashboard';
+                    
+                }
+            }, function errorCallback(response) {
+                console.log(response);
+            });    
+        
+
+         }; //decline function
+
+          $scope.accept = function () {
+            $http({
+                method: 'PUT',
+                url: '/api/services/'+serviceId+'/biddings/'+biddingId,
+                data: {
+                    employee: $scope.applicantId,
+                    money: ($scope.oldoffer / 2)
+                }
+            }).then(function successCallback(response) {
+                if (response.status === 200) {
+                    $window.location.reload();
+                }
+            }, function errorCallback(response) {
+                console.log(responde);
+            });
+          }; //accept function
+
+          $scope.counter = function (bid) {
+            $http({
+                method: 'PUT',
+                url: '/api/services/'+serviceId+'/counterOffer/'+biddingId,
+                data: {
+                    employee: $scope.applicantId,
+                    explanation: bid.explanation,
+                    value: bid.value
+                }
+            }).then(function successCallback(response) {
+                if (response.status === 200) {
+                    $window.location.reload();
+                }
+            }, function errorCallback(response) {
+                console.log(responde);
+            });
+          }; //accept function
+
 });//controller
 
 app.controller("ServiceController", function() {
