@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app="libra">
+<head>
+    <title>Libra</title>
+
+    <%- include ../partials/scripts.html %>
+
+</head>
+<body ng-init="serviceCtrl.init('<%- serviceId %>')" ng-controller="ServiceController as serviceCtrl">
+
+    <%- include ../partials/navbar.html %>
+    
+    <div class="container">
+        <h4>
+            {{service.headline}}
+        </h4>
+        
+        <label>Employer</label>
+        <p style="margin-left: 10px;">
+            <a ng-href="/profile/{{service.employer._id}}"> <img ng-src="{{service.employer.picture_url}}" class="profile-pic-thumb img-circle" ng-hide="!service.employer.picture_url"> {{service.employer.name}} </a>
+        </p>
+
+        <label>Employee</label>
+        <p style="margin-left: 10px;" ng-hide="!service.employee">
+            <a ng-href="/profile/{{service.employer._id}}"> <img ng-src="{{service.employer.picture_url}}" class="profile-pic-thumb img-circle" ng-hide="!service.employer.picture_url"> {{service.employee.name}} </a>
+        </p>
+
+        <hr/>
+
+        <label>Description</label>
+        <p style="margin-left: 10px;">
+            {{service.description}}
+        </p>
+
+        <div class="panel panel-default" ng-show="serviceCtrl.isEmployer('<%- user._id %>')">
+        <div class="panel-heading">Biddings</div>
+        <div class="panel-body">
+        <form class="simple-form">  
+            
+            <div class="list-group" >
+                <p style="margin-left: 10px;" class="list-group-item clearfix" ng-repeat="bidding in biddings">
+                    <a ng-href="/profile/{{service.employer._id}}"> <img ng-src="{{bidding.user.picture_url}}" class="profile-pic-thumb img-circle" ng-hide="!bidding.user.picture_url"> {{bidding.user.name}} </a>
+
+                    <span class="pull-right">
+                        {{bidding.value | currency}}
+                        <a ng-href="/services/{{service._id}}/{{bidding._id}}" class="btn btn-primary" style="margin-left: 20px;">View</a>
+                    </span>
+                </p>      
+            </div>
+
+        </form>
+      </div>
+    </div>
+    </div>
+    
+    <%- include ../partials/footer.html %>
+
+</body>
+</html>

@@ -238,40 +238,49 @@ app.controller('BiddingCtrl', function ($scope, $http, $window){
 
 });//controller
 
-app.controller("ServiceController", function() {
-    this.latestServices = [
-        {
-            headline: "Lorem ipsum dolor sit amet.",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis feugiat, lacus quis tristique venenatis, ante tellus iaculis justo, id elementum ante urna sed mi. Nam.",
-            tags: ["dolor", "sit", "amet"]
-        },
-        {
-            headline: "Lorem ipsum dolor sit amet.",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis feugiat, lacus quis tristique venenatis, ante tellus iaculis justo, id elementum ante urna sed mi. Nam.",
-            tags: ["dolor", "sit", "amet"]
-        },
-        {
-            headline: "Lorem ipsum dolor sit amet.",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis feugiat, lacus quis tristique venenatis, ante tellus iaculis justo, id elementum ante urna sed mi. Nam.",
-            tags: ["dolor", "sit", "amet"]
-        },
-        {
-            headline: "Lorem ipsum dolor sit amet.",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis feugiat, lacus quis tristique venenatis, ante tellus iaculis justo, id elementum ante urna sed mi. Nam.",
-            tags: ["dolor", "sit", "amet"]
-        },
-        {
-            headline: "Lorem ipsum dolor sit amet.",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis feugiat, lacus quis tristique venenatis, ante tellus iaculis justo, id elementum ante urna sed mi. Nam.",
-            tags: ["dolor", "sit", "amet"]
-        },
-        {
-            headline: "Lorem ipsum dolor sit amet.",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis feugiat, lacus quis tristique venenatis, ante tellus iaculis justo, id elementum ante urna sed mi. Nam.",
-            tags: ["dolor", "sit", "amet"]
-        }
-    ];
-});
+app.controller("ServiceController", ['$scope', '$http', function($scope, $http) {
+    
+    this.init = function (serviceId) {
+
+        $http({
+            method: 'GET',
+            url: '/api/users/me'
+        }).then(function successCallback(response) {
+            if (response.status === 200) {
+                $scope.me = response.data;
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+        });
+
+        $http({
+            method: 'GET',
+            url: '/api/services/'+serviceId
+        }).then(function successCallback(response) {
+            if (response.status === 200) {
+                $scope.service = response.data;
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+        });
+
+        $http({
+            method: 'GET',
+            url: '/api/services/'+serviceId+'/biddings'
+        }).then(function successCallback(response) {
+            if (response.status === 200) {
+                $scope.biddings = response.data;
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+        });
+    };
+
+    this.isEmployer = function (userId) {
+        return String($scope.service.employer._id) === String(userId);
+    };
+
+}]);
 
 app.controller('RegisterController', ['$scope', '$http', '$window', function($scope, $http, $window){
 

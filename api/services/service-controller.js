@@ -239,8 +239,9 @@ module.exports.getBidding = function(req, res, next) {
  };  //end getBidding
 
  module.exports.getService = function(req, res, next) {
-    console.log("=====HERE=====");
      Service.findById(req.params.id)
+        .populate("employer")
+        .populate("employee")
          .exec(function(err, service) {
              if(err) return next(err);
              
@@ -366,6 +367,9 @@ module.exports.getAllBiddings = function(req, res, next) {
         .populate('biddings.user')
         .exec(function(err, service) {
             if(err) return next(err);
+            if (String(service.employer) !== String(req.user._id)) {
+                return res.status(403).end();
+            }
             return res.status(200).json(service.biddings);
         });
 };  //end getAllBiddings

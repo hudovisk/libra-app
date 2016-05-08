@@ -54,7 +54,11 @@ module.exports = function(app, passport, aws) {
 
      app.get('/services/:id/:bid', function(req, res) {
         res.render('pages/bidding.html', {user: req.user});
-    });   
+    });
+
+    app.get('/services/:id', function(req, res) {
+        res.render('pages/service.html', {user: req.user, serviceId: req.params.id});
+    });  
 
     app.get('/sign_s3', function(req, res){
         var key = req.query.file_name+String(req.user._id);
