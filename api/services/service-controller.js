@@ -343,27 +343,29 @@ module.exports.accept = function(req, res, next) {
         if(String(req.user._id) !== String(service.employer))
             return res.status(403).end();
 
+        var bidding = {};
         for (var i = service.biddings.length - 1; i >= 0; i--) {
             if(String(service.biddings[i]._id) === String(req.params.bidding_id)) {
                 console.log(service.biddings[i]);
-                service.employee = service.biddings[i].user;
-                service.value = service.biddings[i].value;
-                service.save(function(err) {
-                    if(err) return next(err);
-
-                    notification = {
-                        headline: "Congratulations! You were accepted to the job.",
-                        description: "You were accepted for "+service.headline,
-                        action: "/services/"+service._id,
-                        read: false
-                    };
-                    UserController.pushNotification(service.employee, notification);
-
-                    return res.status(200).end();
-                })
-                return;
+                bidding = service.biddings[i];
+                break;
             }
         }
+        service.employee = bidding.user;
+        service.value = bidding.value;
+        service.save(function(err) {
+            if(err) return next(err);
+
+            notification = {
+                headline: "Congratulations! You were accepted to the job.",
+                description: "You were accepted for "+service.headline,
+                action: "/services/"+service._id,
+                read: false
+            };
+            UserController.pushNotification(service.employee, notification);
+
+            return res.status(200).end();
+        });
     });
 };
 

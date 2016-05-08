@@ -5,7 +5,6 @@ var morgan       = require('morgan');
 var S3_BUCKET = process.env.S3_BUCKET;
 
 module.exports = function(app, passport, aws) {
-        app.use(morgan('dev'));
 
     //API - Routes ==================================================
     app.use('/api', require('./api/users/user-router')(passport, requireSession));

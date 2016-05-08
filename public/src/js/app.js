@@ -25,6 +25,11 @@ app.controller('SearchController', ['$scope', '$http', '$window', function ($sco
     $scope.sortBy = "relevance";
 
     this.init = function(query) {
+
+        $http.get('/api/users/me').then(function(result) {
+            $scope.me = result.data;
+        });
+
         $scope.query = query;
         this.search();
     };
@@ -62,18 +67,16 @@ app.controller('SearchController', ['$scope', '$http', '$window', function ($sco
         return new Array(n);
     };
 
-    $scope.bid = function(bid, eid) {
-        var userid;
-        $http.get('/api/users/me').then(function(result) {
-            $scope.userId = result.data._id;
-            userid = $scope.userId;
-        });
+    $scope.isOwnService = function(employerId) {
+        return String(employerId) === String($scope.me._id);
+    };
 
+    $scope.bid = function(bid, eid) {
         $http({
             method: 'POST',
             url: '/api/services/'+eid+'/biddings',
             data: {
-                user: userid,
+                user: $scope.me._id,
                 explanation: bid.explanation,
                 value: bid.value
             }
@@ -195,7 +198,8 @@ app.controller('BiddingCtrl', ['$scope', '$http', '$window', function ($scope, $
             url: '/api/services/'+$scope.service._id+'/counterOffer/'+$scope.bidding._id,
             data: {
                 explanation: $scope.counter.explanation,
-                value: $scope.counter.value
+                value: $scope.counter.value,
+                employee: $scope.bidding.user._id
             }
         }).then(function successCallback(response) {
             if (response.status === 200) {
@@ -220,7 +224,10 @@ app.controller("ServiceController", ['$scope', '$http', '$window', function($sco
 
     $scope.isEmployer = false;
 
+    var userId;
+
     this.init = function (serviceId, userId) {
+        this.userId = userId;
 
         $http({
             method: 'GET',
@@ -251,12 +258,20 @@ app.controller("ServiceController", ['$scope', '$http', '$window', function($sco
         });
     };
 
+    this.reviewEmployer = function() {
+        $scope.userReview = $scope.service.employer;
+    };
+
+    this.reviewEmployee = function() {
+        $scope.userReview = $scope.service.employee;
+    };
+
     $scope.postReview = function() {
         $http({
             method: 'POST',
             url: '/api/users/'+$scope.userReview._id+'/reviews',
             data: {
-                author: $scope.me._id,
+                author: userId,
                 service: $scope.service._id,
                 rating: parseInt($scope.review.rating),
                 text: $scope.review.text
@@ -431,16 +446,6 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
         }).then(function successCallback(response) {
             if (response.status === 200) {
                 $scope.profile = response.data;
-                if($scope.reviews.length > 0) {
-                    var sum = 0;
-                    $scope.profile.reviews.forEach(function(review) {
-                        sum += review.rating;
-                    });
-
-                    $scope.profile.score = sum / $scope.profile.reviews.length;
-                } else {
-                    $scope.profile.score = 0;
-                }
                 parent.originalDescription = $scope.profile.description;
             }
         }, function errorCallback(response) {
@@ -453,6 +458,15 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
         }).then(function successCallback(response) {
             if (response.status === 200) {
                 $scope.reviews = response.data;
+                if($scope.reviews.length > 0) {
+                    var sum = 0;
+                    $scope.reviews.forEach(function(review) {
+                        sum += review.rating;
+                    });
+                    $scope.profile.score = sum / $scope.reviews.length;
+                } else {
+                    $scope.profile.score = 0;
+                }
             }
         }, function errorCallback(response) {
             console.log(response);

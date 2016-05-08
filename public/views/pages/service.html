@@ -32,8 +32,8 @@
         <hr/>
 
         <label>Hourly Wage Range</label>
-        <p>
-            {{service.minWage | currency}} - {{service.maxWage | currency}}
+        <p style="margin-left: 10px;">
+            {{service.minRange | currency}} - {{service.maxRange | currency}}
         </p>
 
         <label>Description</label>
@@ -83,7 +83,7 @@
                         <option value="4">4 stars</option>
                         <option value="5" selected>5 stars</option>
                     </select>
-                    <textarea id="explanation" ng-model="bid.explanation" rows="3" class="form-control" placeholder="Please enter a short description about your experience with {{userReview.name}}"></textarea>
+                    <textarea id="explanation" ng-model="review.text" rows="3" class="form-control" placeholder="Please enter a short description about your experience with {{userReview.name}}"></textarea>
                 </div>
             </div>
             

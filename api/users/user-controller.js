@@ -1,6 +1,29 @@
 var User = require('./user-model');
 var Service = require('../services/service-model');
 
+function pushNotification(userId, notification) {
+    User.update(
+        {
+            _id: userId
+        },
+        {
+            $push: {
+                "notifications": {
+                    "headline": notification.headline,
+                    "description": notification.description,
+                    "action": notification.action,
+                    "read": notification.read
+                }
+            }
+        },
+        function(err, numOfAffected) {
+            if(err) console.log(err);
+            if(numOfAffected === 0) console.log("Warn - No user affected. UserId: " + userId);
+            
+            console.log("Notification saved!");
+        });
+}
+
 module.exports.getAll = function(req, res, next) {
     User.find()
         .exec(function(err, users) {
@@ -137,7 +160,12 @@ module.exports.getAllReviews = function(req, res, next) {
         .populate('reviews.service')
         .exec(function(err, user) {
             if(err) return next(err);
-            return res.status(200).json(user.reviews);
+
+            var sorted = user.reviews.sort(function (a, b) {
+                return b.created - a.created;
+            });
+
+            return res.status(200).json(sorted);
         });
 };  
 
@@ -165,6 +193,15 @@ module.exports.pushReview = function(req, res, next) {
         }
 
         service.save();
+
+        var notification = {
+                headline: req.user.name+" rated you with "+req.body.rating+" star(s).",
+                description: service.headline+" has been reviewed.",
+                action: "/profile/"+req.params.user_id,
+                read: false
+        };
+            
+        pushNotification(req.params.user_id, notification);
 
         User.update(
         {
@@ -230,28 +267,7 @@ module.exports.deleteReview = function(req, res, next) {
         });
 };
 
-module.exports.pushNotification = function (userId, notification) {
-    User.update(
-        {
-            _id: userId
-        },
-        {
-            $push: {
-                "notifications": {
-                    "headline": notification.headline,
-                    "description": notification.description,
-                    "action": notification.action,
-                    "read": notification.read
-                }
-            }
-        },
-        function(err, numOfAffected) {
-            if(err) console.log(err);
-            if(numOfAffected === 0) console.log("Warn - No user affected. UserId: " + userId);
-            
-            console.log("Notification saved!");
-        });
-};
+module.exports.pushNotification = pushNotification;
 
 module.exports.getNotifications = function(req, res, next) {
     var notifications = req.user.toObject().notifications;

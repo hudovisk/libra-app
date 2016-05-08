@@ -24,9 +24,9 @@ require('./config/passport')(passport);
 
 //app middlewares
 //only show logs with arent testing
-// if (process.env.NODE_ENV !== 'test') {
-//     app.use(morgan('dev'));
-// }
+if (process.env.NODE_ENV !== 'test') {
+    app.use(morgan('dev'));
+}
 app.use(express.static(__dirname + '/public'));
 
 // set the view engine to ejs
