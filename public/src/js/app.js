@@ -559,7 +559,7 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
 
 }]);//end of profileController
 
-app.controller('DashboardController', ['$scope', '$http', function($scope, $http){
+app.controller('DashboardController', ['$scope', '$http', '$window', function($scope, $http, $window){
     
     $scope.latestServices = [];
 
@@ -568,7 +568,7 @@ app.controller('DashboardController', ['$scope', '$http', function($scope, $http
             url: '/api/users/me'
         }).then(function successCallback(response) {
             if (response.status === 200) {
-                tags = response.data.interested_tags;
+                $scope.me = response.data;
                 $http({
                     method: 'GET',
                     url: '/api/services',
@@ -576,7 +576,7 @@ app.controller('DashboardController', ['$scope', '$http', function($scope, $http
                         sortBy: 'date',
                         page: 1,
                         pageSize: 3,
-                        tags: tags,
+                        tags: $scope.me.interested_tags,
                         employee: 'null',
                     }
                 }).then(function successCallback(response) {
@@ -589,7 +589,21 @@ app.controller('DashboardController', ['$scope', '$http', function($scope, $http
             }
         }, function errorCallback(response) {
             console.log(response);
+        });
+
+    $scope.bid = function(bid, eid) {
+        $http({
+            method: 'POST',
+            url: '/api/services/'+eid+'/biddings',
+            data: {
+                user: $scope.me._id,
+                explanation: bid.explanation,
+                value: bid.value
+            }
+        }).then(function() {    
+            $window.location.href = '/dashboard';
         });    
+    };    
 }]);
 
 app.controller('SettingsController', ['$scope', '$http', 'Upload', function($scope, $http, Upload){

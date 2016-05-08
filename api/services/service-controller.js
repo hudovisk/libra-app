@@ -244,6 +244,8 @@ module.exports.saveBidding = function(req, res, next) {
 
                 UserController.pushNotification(service.employer, notification);
                 console.log(notification + " pushed");
+
+                return res.status(200).end();
             });
         }  //end if-else
     });
