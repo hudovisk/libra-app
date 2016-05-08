@@ -6,12 +6,15 @@ var BiddingSchema =  mongoose.Schema({
     explanation: String,
     value: Number,
     counterValue: Number,
+    counterExplanation: String,
     date: {type: Date, default: Date.now},
 });
 
 var ServiceSchema =  mongoose.Schema({
     employer: {type: mongoose.Schema.ObjectId, ref: 'User'},
+    employer_reviewed: {type:Boolean, default: false},
     employee: {type: mongoose.Schema.ObjectId, ref: 'User'},
+    employee_reviewed: {type:Boolean, default: false},
     biddings: [BiddingSchema],
     headline: String,
     description: String,

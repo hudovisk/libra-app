@@ -6,33 +6,42 @@
     <%- include ../partials/scripts.html %>
 
 </head>
-<body ng-init="serviceCtrl.init('<%- serviceId %>')" ng-controller="ServiceController as serviceCtrl">
+<body ng-init="serviceCtrl.init('<%- serviceId %>', '<%- user._id %>')" ng-controller="ServiceController as serviceCtrl">
 
     <%- include ../partials/navbar.html %>
     
     <div class="container">
-        <h4>
+        <h3 style="text-align: center;">
             {{service.headline}}
-        </h4>
+        </h3>
         
         <label>Employer</label>
         <p style="margin-left: 10px;">
             <a ng-href="/profile/{{service.employer._id}}"> <img ng-src="{{service.employer.picture_url}}" class="profile-pic-thumb img-circle" ng-hide="!service.employer.picture_url"> {{service.employer.name}} </a>
+            <a class="btn btn-default" data-toggle="modal" ng-click="serviceCtrl.reviewEmployer()" data-target="#{{service._id}}" ng-show="isReviewEmployerAllowed"><span class="glyphicon glyphicon-comment" style="margin-right: 5px;"></span>Review</a>
         </p>
 
         <label>Employee</label>
         <p style="margin-left: 10px;" ng-hide="!service.employee">
-            <a ng-href="/profile/{{service.employer._id}}"> <img ng-src="{{service.employer.picture_url}}" class="profile-pic-thumb img-circle" ng-hide="!service.employer.picture_url"> {{service.employee.name}} </a>
+            <a ng-href="/profile/{{service.employee._id}}"> <img ng-src="{{service.employee.picture_url}}" class="profile-pic-thumb img-circle" ng-hide="!service.employee.picture_url"> {{service.employee.name}} </a>
+            <a class="btn btn-default" data-toggle="modal" ng-click="serviceCtrl.reviewEmployee()" data-target="#{{service._id}}" ng-show="isReviewEmployeeAllowed"><span class="glyphicon glyphicon-comment" style="margin-right: 5px;"></span>Review</a>
         </p>
 
+        <a class="btn btn-danger" data-toggle="modal" data-target="#fireEmployeeModal" ng-show="isFireEmployeeAllowed">Fire employee</a>
+
         <hr/>
+
+        <label>Hourly Wage Range</label>
+        <p>
+            {{service.minWage | currency}} - {{service.maxWage | currency}}
+        </p>
 
         <label>Description</label>
         <p style="margin-left: 10px;">
             {{service.description}}
         </p>
 
-        <div class="panel panel-default" ng-show="serviceCtrl.isEmployer('<%- user._id %>')">
+        <div class="panel panel-default" ng-show="isEmployer && !service.employee">
         <div class="panel-heading">Biddings</div>
         <div class="panel-body">
         <form class="simple-form">  
@@ -52,8 +61,68 @@
       </div>
     </div>
     </div>
-    
+
     <%- include ../partials/footer.html %>
+
+<!--  Pop up for review -->
+
+<div class="modal fade" id="{{service._id}}" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading" align="center">Review {{userReview.name}}</h4><br>
+            </div>
+          
+            <div class="modal-body">
+                <div class="form-group">
+                    <select ng-model="review.rating" class="form-control">
+                        <option value="1">1 star</option>
+                        <option value="2">2 stars</option>
+                        <option value="3">3 stars</option>
+                        <option value="4">4 stars</option>
+                        <option value="5" selected>5 stars</option>
+                    </select>
+                    <textarea id="explanation" ng-model="bid.explanation" rows="3" class="form-control" placeholder="Please enter a short description about your experience with {{userReview.name}}"></textarea>
+                </div>
+            </div>
+            
+            <div class="modal-footer ">
+                <button type="button" ng-click="postReview()" class="btn btn-success btn-lg" style="width: 20%;"><span class="glyphicon glyphicon-ok-sign" style="margin-right: 10px;"></span>Save</button>
+            </div>
+        </div>
+    <!-- /.modal-content --> 
+    </div>
+      <!-- /.modal-dialog --> 
+</div>
+ <!--  Pop up for review -->
+
+ <!--  Pop up for fire employee -->
+
+<div class="modal fade" id="fireEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading" align="center">Are you sure you want to fire {{service.employee.name}}?</h4><br>
+            </div>
+          
+            <div class="modal-body">
+                <p>
+                    This cannot be undone!
+                </p>
+            </div>
+            
+            <div class="modal-footer ">
+                <button type="button" ng-click="fireEmployee()" class="btn btn-danger btn-lg" style="width: 20%;"><span class="glyphicon glyphicon-ok-sign" style="margin-right: 10px;"></span>Yes</button>
+            </div>
+        </div>
+    <!-- /.modal-content --> 
+    </div>
+      <!-- /.modal-dialog --> 
+</div>
+ <!--  Pop up for review -->
+
 
 </body>
 </html>

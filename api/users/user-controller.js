@@ -158,6 +158,14 @@ module.exports.pushReview = function(req, res, next) {
             return res.status(403).end(); // You should not review yourself.
         }
         
+        if(String(service.employer) === String(req.params.user_id)) {
+            service.employer_reviewed = true;
+        } else {
+            service.employee_reviewed = true;
+        }
+
+        service.save();
+
         User.update(
         {
             _id: req.params.user_id
@@ -176,6 +184,7 @@ module.exports.pushReview = function(req, res, next) {
             console.log(err);
             if(err) return next(err);
             if(numOfAffected === 0) return res.status(404).end();
+
             return res.status(201).end();
         });
     });

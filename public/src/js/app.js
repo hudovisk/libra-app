@@ -118,140 +118,109 @@ app.controller('PostCtrl', function ($scope, $http, $window){
     };//serv scope
 });//controller
 
-app.controller('BiddingCtrl', function ($scope, $http, $window){
-   var test = $window.location.pathname;
-   var vars = test.split("/");
-    console.log( "aaa " + vars[1] + " " + vars[2] + " . " + vars[3]);
-    var serviceId = vars[2];
-    var biddingId = vars[3];
-    var serviceownerid = "";
+app.controller('BiddingCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window){
 
-    $scope.headline = "";
-    $scope.description = "";
-    $scope.min = "";
-    $scope.max = "";
-    $scope.oldoffer = "";
-    $scope.oldreason = "";
-    $scope.applicantId = "";
-    $scope.serviceowner = "";
+    $scope.isEmployer = false;
 
-   // console.log($scope.headline);
-
+    this.init = function(serviceId, biddingId) {
+        console.log(serviceId+' ===== '+biddingId);
         $http({
             method: 'GET',
             url: '/api/services/'+ serviceId,
         }).then(function successCallback(response) {
             if (response.status === 200) {
-                $scope.headline = response.data.headline;
-                $scope.description = response.data.description;
-                $scope.min = response.data.minRange;
-                $scope.max = response.data.maxRange;
-                serviceownerid = response.data.employer;
-               console.log(response.data);
-                
+                $scope.service = response.data;
+                console.log(response.data);   
             }
         }, function errorCallback(response) {
             console.log(response);
-        }).then(function(){
-                $http({
+        }).then(function() {
+            $http({
                 method: 'GET',
-                url: '/api/users/'+serviceownerid
+                url: '/api/users/me'
             }).then(function successCallback(response) {
                 if (response.status === 200) {
-                    $scope.serviceowner = response.data.name;
-                    console.log(response.data);
+                    var userId = response.data._id;
+                    $scope.isEmployer = String(userId) === String($scope.service.employer._id);
                 }
             }, function errorCallback(response) {
                 console.log(response);
-            });          
-
-        });     
-
+            });
+        });   
 
         $http({
             method: 'GET',
             url: '/api/services/'+ serviceId +'/biddings/'+biddingId,
         }).then(function successCallback(response) {
             if (response.status === 200) {
-                $scope.applicantId = response.data.user;
-                $scope.oldoffer = response.data.value;
-                $scope.oldreason = response.data.explanation;
-                console.log(response.data);
-                
+                $scope.bidding = response.data;
+                console.log(response.data);   
+            }
+        }, function errorCallback(response) {
+            console.log(response);
+        });   
+
+    };
+    
+    $scope.decline = function () {
+        $http({
+            method: 'DELETE',
+            url: '/api/services/'+ $scope.service._id +'/biddings/'+$scope.bidding._id
+        }).then(function successCallback(response) {
+            if (response.status === 200) {
+                $window.location.href = '/dashboard';
             }
         }, function errorCallback(response) {
             console.log(response);
         });    
-        
-         $scope.decline = function () {
+    }; //decline function
 
-                 $http({
-                method: 'DELETE',
-                url: '/api/services/'+ serviceId +'/biddings/'+biddingId
-            }).then(function successCallback(response) {
-                if (response.status === 200) {
-
-                    $window.location.href = '/dashboard';
-                    
-                }
-            }, function errorCallback(response) {
-                console.log(response);
-            });    
-        
-
-         }; //decline function
-
-          $scope.accept = function () {
-            $http({
-                method: 'PUT',
-                url: '/api/services/'+serviceId+'/biddings/'+biddingId,
-                data: {
-                    employee: $scope.applicantId,
-                    money: ($scope.oldoffer / 2)
-                }
-            }).then(function successCallback(response) {
-                if (response.status === 200) {
-                    $window.location.reload();
-                }
-            }, function errorCallback(response) {
-                console.log(responde);
-            });
-          }; //accept function
-
-          $scope.counter = function (bid) {
-            $http({
-                method: 'PUT',
-                url: '/api/services/'+serviceId+'/counterOffer/'+biddingId,
-                data: {
-                    employee: $scope.applicantId,
-                    explanation: bid.explanation,
-                    value: bid.value
-                }
-            }).then(function successCallback(response) {
-                if (response.status === 200) {
-                    $window.location.reload();
-                }
-            }, function errorCallback(response) {
-                console.log(responde);
-            });
-          }; //accept function
-
-});//controller
-
-app.controller("ServiceController", ['$scope', '$http', function($scope, $http) {
-    
-    this.init = function (serviceId) {
-
+    $scope.accept = function () {
+        console.log("Accept");
         $http({
-            method: 'GET',
-            url: '/api/users/me'
+            method: 'PUT',
+            url: '/api/services/'+$scope.service._id+'/biddings/'+$scope.bidding._id+'/accept',
         }).then(function successCallback(response) {
             if (response.status === 200) {
-                $scope.me = response.data;
+                $window.location.reload();
             }
         }, function errorCallback(response) {
-            console.log(response);
+            console.log(responde);
         });
+    }; //accept function
+
+    $scope.counter = function (bid) {
+        $http({
+            method: 'PUT',
+            url: '/api/services/'+$scope.service._id+'/counterOffer/'+$scope.bidding._id,
+            data: {
+                explanation: $scope.counter.explanation,
+                value: $scope.counter.value
+            }
+        }).then(function successCallback(response) {
+            if (response.status === 200) {
+                $window.location.reload();
+            }
+        }, function errorCallback(response) {
+            console.log(responde);
+        });
+    }; //accept function
+
+}]);//controller
+
+app.controller("ServiceController", ['$scope', '$http', '$window', function($scope, $http, $window) {
+
+    $scope.review = {
+        rating: '5'
+    };
+
+    $scope.isReviewEmployerAllowed = false;
+    $scope.isReviewEmployeeAllowed = false;
+    $scope.isFireEmployeeAllowed = false;
+
+    $scope.isEmployer = false;
+
+    this.init = function (serviceId, userId) {
 
         $http({
             method: 'GET',
@@ -259,6 +228,12 @@ app.controller("ServiceController", ['$scope', '$http', function($scope, $http) 
         }).then(function successCallback(response) {
             if (response.status === 200) {
                 $scope.service = response.data;
+                $scope.isEmployer = String($scope.service.employer._id) === String(userId);
+                $scope.isReviewEmployerAllowed = !$scope.service.employer_reviewed && 
+                    (String(userId) === String($scope.service.employee._id));
+                $scope.isReviewEmployeeAllowed = !$scope.service.employee_reviewed && 
+                    (String(userId) === String($scope.service.employer._id));
+                $scope.isFireEmployeeAllowed = String(userId) === String($scope.service.employer._id);
             }
         }, function errorCallback(response) {
             console.log(response);
@@ -276,8 +251,32 @@ app.controller("ServiceController", ['$scope', '$http', function($scope, $http) 
         });
     };
 
-    this.isEmployer = function (userId) {
-        return String($scope.service.employer._id) === String(userId);
+    $scope.postReview = function() {
+        $http({
+            method: 'POST',
+            url: '/api/users/'+$scope.userReview._id+'/reviews',
+            data: {
+                author: $scope.me._id,
+                service: $scope.service._id,
+                rating: parseInt($scope.review.rating),
+                text: $scope.review.text
+            }
+        }).then(function successCallback(response) {
+            $window.location.reload();
+        }, function errorCallback(response) {
+            console.log(response);
+        }); 
+    };
+
+    $scope.fireEmployee = function() {
+        $http({
+            method: 'PUT',
+            url: '/api/services/'+$scope.service._id+'/fireEmployee'
+        }).then(function successCallback(response) {
+            $window.location.reload();
+        }, function errorCallback(response) {
+            console.log(response);
+        }); 
     };
 
 }]);
