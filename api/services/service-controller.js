@@ -19,7 +19,7 @@ module.exports.getAllServices = function(req, res, next) {
     }
 
     if(req.query.tags) {
-        query.tags = { $in: req.query.tags };
+        query.tags = { $all: req.query.tags };
     }
 
     if (req.query.minWage) {
