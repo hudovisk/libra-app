@@ -26,13 +26,9 @@ module.exports = function(requireSession)
                 requireSession,
                 serviceController.saveBidding);
 
-    router.put('/services/:id/counterByOwner/:bidding_id',
+    router.put('/services/:id/counterOffer/:bidding_id',
                 requireSession,
-                serviceController.counterByOwner);
-
-    router.put('/services/:id/counterByUser/:bidding_id',
-                requireSession,
-                serviceController.counterByUser);
+                serviceController.counter);
 
     router.get('/services/:id/biddings',
                 requireSession,
@@ -42,9 +38,17 @@ module.exports = function(requireSession)
                 requireSession,
                 serviceController.getBidding);
 
-    router.delete('/services/:id/biddings/:bidding_id',
+     router.get('/services/:id',
+                requireSession,
+                serviceController.getService);
+
+     router.delete('/services/:id/biddings/:bidding_id',
                 requireSession,
                 serviceController.deleteBidding);
+
+     router.put('/services/:id/biddings/:bidding_id',
+                requireSession,
+                serviceController.acceptservice);
 
 	return router;
 };
