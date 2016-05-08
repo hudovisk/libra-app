@@ -49,6 +49,8 @@ module.exports = function(requireSession)
      router.put('/services/:id/biddings/:bidding_id',
                  requireSession,
                  serviceController.acceptservice);
+     router.put('/services/:id/makePayment',
+        requireSession, serviceController.makePayment);
 
 	return router;
 };

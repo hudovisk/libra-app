@@ -78,12 +78,14 @@ app.controller('SearchController', ['$scope', '$http', '$window', function ($sco
                 explanation: bid.explanation,
                 value: bid.value
             }
-        }).then(function() {
-                
-                    $window.location.href = '/dashboard';
-                    
-               
-            });    
+        }).then(function successCallback(response) {
+                 $window.location.href = '/dashboard';
+            
+      
+        }, function errorCallback(response) {
+                $window.location.href = '/dashboard';
+
+        });//then   
         
     }
 
@@ -107,6 +109,7 @@ app.controller('PostCtrl', function ($scope, $http, $window){
                 description: serv.des,
                 minRange: serv.min,
                 maxRange: serv.max,
+                totalHours: serv.hours,
                 tags: serv.tags.map(function(tag) { return tag.text; }),
             }
         }).then(function successCallback(response) {
@@ -139,6 +142,7 @@ app.controller('BiddingCtrl', function ($scope, $http, $window){
     $scope.oldreason = "";
     $scope.applicantId = "";
     $scope.serviceowner = "";
+    $scope.totalHours = "";
 
    // console.log($scope.headline);
 
@@ -151,6 +155,7 @@ app.controller('BiddingCtrl', function ($scope, $http, $window){
                 $scope.description = response.data.description;
                 $scope.min = response.data.minRange;
                 $scope.max = response.data.maxRange;
+                $scope.totalHours = response.data.totalHours;
                 serviceownerid = response.data.employer;
                console.log(response.data);
                 
@@ -212,7 +217,7 @@ app.controller('BiddingCtrl', function ($scope, $http, $window){
                 url: '/api/services/'+serviceId+'/biddings/'+biddingId,
                 data: {
                     employee: $scope.applicantId,
-                    money: ($scope.oldoffer / 2)
+                    money: (($scope.totalHours * $scope.oldoffer) / 2)
                 }
             }).then(function successCallback(response) {
                 if (response.status === 200) {
@@ -396,7 +401,27 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
         });//then         
     }; //end of disablepost
 
+    $scope.payment = function (serviceId){
+
+
+        $http({
+            method: 'PUT',
+            url: '/services/'+serviceId+'/makePayment'
+           
+            }).then(function successCallback(response){
+                $window.location = '/dashboard';
+            },//success
+            function errorCallback(response){
+
+            });//errpr
+
+           // });//then
+
+    };//end if complete payment
+
     $scope.delPost = function (serviceId){
+
+
         $http({
             method: 'DELETE',
             url: '/api/services/'+str

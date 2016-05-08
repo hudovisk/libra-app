@@ -62,7 +62,8 @@ module.exports.savePost = function(req, res, next) {
         description: req.body.description,
         minRange: req.body.minRange,
         maxRange: req.body.maxRange,
-        tags: req.body.tags
+        tags: req.body.tags,
+        totalHours: req.body.totalHours
     }).save(function(err, result){
           if(err) return next(error);
           return res.json(result);
@@ -106,6 +107,33 @@ module.exports.updatePost = function(req, res, next) {
     });
 };
 
+module.exports.makePayment = function(req, res, next){
+        Service.findById(req.params.id, function(err, service) {
+             if(err)
+            return next(err);
+
+            if(String(service.employer) !== String(req.user._id)) 
+            return res.status(403).end();
+
+
+            service.save(function(err) {
+            if(err) return next(err);
+            
+            var notification = {
+                headline: "Rest of the payment $"+ service.value ,
+                description: "Full payment has been made for the job "+ service.headline,
+                action: "/",
+                read: false
+            };
+            UserController.pushNotification(req.user._id, notification);
+            UserController.pushNotification(service.employee, notification);
+
+            return res.status(200).end();
+
+        });
+
+    });
+};
 //Update the pause post
 module.exports.updateDisablePost = function(req, res, next) {
 
@@ -157,6 +185,14 @@ module.exports.acceptservice = function(req, res, next) {
                 read: false
             };
             UserController.pushNotification(req.body.employee, notification);
+
+            notification = {
+                headline: req.body.employee.name+" agreed to your terms",
+                description: req.body.employee.name+" accepted the job! $"+req.body.money+"Has been sent to his account.",
+                action: "/",
+                read: false
+            };
+            UserController.pushNotification(service.employer, notification);
         } else {
             notification = {
                 headline: req.user.name+" agreed to your terms",
@@ -164,7 +200,15 @@ module.exports.acceptservice = function(req, res, next) {
                 action: "/",
                 read: false
             };
+
             UserController.pushNotification(service.employer, notification);
+             notification = {
+                headline: "Congratulations!",
+                description: "You have been accepted for this job. Here is $" +req.body.money+ " upfront!",
+                action: "/",
+                read: false
+            };
+            UserController.pushNotification(req.body.employee, notification);
         }
         console.log(service.employee + " pushed");
        
@@ -174,7 +218,8 @@ module.exports.acceptservice = function(req, res, next) {
             },
             {
                 $push: {
-                    "employee": req.body.employee._id
+                    "employee": req.body.employee._id,
+                    "value" : req.body.money
                 }
             },
             function(err, numOfAffected) {
@@ -222,6 +267,9 @@ module.exports.saveBidding = function(req, res, next) {
             });
         }  //end if-else
     });
+
+            if(err) return next(err);
+            return res.status(200).end();
 };  //end saveBidding
 
 module.exports.getBidding = function(req, res, next) {
