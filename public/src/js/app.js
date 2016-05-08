@@ -105,6 +105,7 @@ app.controller('PostCtrl', function ($scope, $http, $window){
                 description: serv.des,
                 minRange: serv.min,
                 maxRange: serv.max,
+                totalHours: serv.hours,
                 tags: serv.tags.map(function(tag) { return tag.text; }),
             }
         }).then(function successCallback(response) {
@@ -414,7 +415,26 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
         });//then         
     }; //end of disablepost
 
+    $scope.payment = function (serviceId) {
+
+        $http({
+            method: 'PUT',
+            url: '/api/services/'+serviceId+'/makePayment'
+           
+            }).then(function successCallback(response){
+                $window.location = '/dashboard';
+            },//success
+            function errorCallback(response){
+
+            });//errpr
+
+           // });//then
+
+    };//end if complete payment
+
     $scope.delPost = function (serviceId){
+
+
         $http({
             method: 'DELETE',
             url: '/api/services/'+str

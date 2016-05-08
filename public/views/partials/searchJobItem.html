@@ -26,6 +26,7 @@
     <div class="col-sm-3">
         <p><label>Minumum Wage:</label> {{service.minRange | currency}}</p>
         <p><label>Maximum Wage:</label> {{service.maxRange | currency}}</p>
+        <p><label>Total Hours:</label> {{service.totalHours}}</p>
         <input id="applyBtn" type="button" value="Apply" class="btn btn-lg btn-success" data-title="Edit" data-toggle="modal" data-target="#{{service._id}}" />
     </div>
 </div>
