@@ -1,16 +1,19 @@
 <div>
     <div class="review-container" ng-repeat="review in reviews">
         <span>
-            <img src="http://placehold.it/24x24" class="img-circle">
-            <a href="/profile/{{review.author._id}}">{{review.author.name}}</a>
+            <img ng-src="{{review.author.picture_url}}" ng-hide="!review.author.picture_url" class="profile-pic-thumb img-circle">
+            <a ng-href="/profile/{{review.author._id}}">{{review.author.name}}</a>
             <span class="star-container">
                 <span class="glyphicon glyphicon-star-empty" ng-repeat="starEmpty in range(5 - review.rating) track by $index"></span>
                 <span class="glyphicon glyphicon-star" ng-repeat="starFull in range(review.rating) track by $index"></span>
             </span>
         </span>
         <div class="review-content">
-            <p><a ng-href="/service/{{review.service._id}}">{{review.service.headline}}</a></p>
+            <p><a ng-href="/services/{{review.service._id}}">{{review.service.headline}}</a></p>
             <p>{{review.text}}</p>
+            <p class="text-muted">
+                {{review.created}}
+            </p>
         </div>
     </div>
 </div>

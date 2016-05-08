@@ -3,7 +3,7 @@
     <div class="col-sm-9">
         <div class="list-group-item-heading">
             <h4>
-                <a ng-href="/service/{{service._id}}">{{service.headline}}</a>
+                <a ng-href="/services/{{service._id}}">{{service.headline}}</a>
             </h4>
             <label>Employer</label>
             <p style="margin-left: 10px;"><a ng-href="/profile/{{service.employer._id}}"> <img ng-src="{{service.employer.picture_url}}" class="profile-pic-thumb img-circle" ng-hide="!service.employer.picture_url"> {{service.employer.name}} </a></p>

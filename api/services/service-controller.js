@@ -30,12 +30,12 @@ module.exports.getAllServices = function(req, res, next) {
         query.maxRange = { $lte: parseInt(req.query.maxWage) };
     }
 
-    if (req.query.employer === "null") {
-        query.employer = null;
+    if (req.query.employer) {
+        query.employer = (req.query.employer === "null") ? null : req.query.employer;
     }
 
-    if (req.query.employee === "null") {
-        query.employee = null;
+    if (req.query.employee) {
+        query.employee = (req.query.employee === "null") ? null : req.query.employee;
     }
 
     var options = {
@@ -165,6 +165,31 @@ module.exports.updateDisablePost = function(req, res, next) {
     });
 };
 
+module.exports.fireEmployee = function(req, res, next) {
+    Service.findById(req.params.id, function(err, service) {
+        if(err)
+            return next(err);
+
+        if(String(service.employer) !== String(req.user._id)) 
+            return res.status(403).end();
+
+        var notification = {
+            headline: "Sorry, but you are fired.",
+            description: "The employer of <strong>"+service.headline+"</strong> fired you.",
+            action: "/services/"+service._id,
+            read: false
+        };
+
+        UserController.pushNotification(service.employee, notification);
+
+        service.employee = null;
+        service.save(function(err) {
+            if(err) return next(err);
+            return res.status(200).end();
+        });
+    });
+};
+
 //Update the pause post
 module.exports.acceptservice = function(req, res, next) {
 
@@ -264,12 +289,11 @@ module.exports.saveBidding = function(req, res, next) {
 
                 UserController.pushNotification(service.employer, notification);
                 console.log(notification + " pushed");
+
+                return res.status(200).end();
             });
         }  //end if-else
     });
-
-            if(err) return next(err);
-            return res.status(200).end();
 };  //end saveBidding
 
 module.exports.getBidding = function(req, res, next) {
@@ -287,8 +311,9 @@ module.exports.getBidding = function(req, res, next) {
  };  //end getBidding
 
  module.exports.getService = function(req, res, next) {
-    console.log("=====HERE=====");
      Service.findById(req.params.id)
+        .populate("employer")
+        .populate("employee")
          .exec(function(err, service) {
              if(err) return next(err);
              
@@ -305,8 +330,16 @@ module.exports.counter = function(req, res, next) {
         if(err) return next(err);
 
         var notification = {};
+        var setValues = {};
+
+        console.log(req.body);
 
         if(String(service.employer) === String(req.user._id)) {
+            setValues = {
+                "biddings.$.counterExplanation": req.body.explanation,
+                "biddings.$.counterValue": req.body.value
+            };
+
             notification = {
                 headline: "Employer "+req.user.name+" has made a counter offer!",
                 description: "Counter offer of $"+req.body.value+" has been made for "+service.headline,
@@ -317,7 +350,12 @@ module.exports.counter = function(req, res, next) {
             UserController.pushNotification(req.body.employee, notification);
         }
         else
-        {  //else not the same person
+        {  
+            setValues = {
+                "biddings.$.explanation": req.body.explanation,
+                "biddings.$.value": req.body.value
+            };
+            //else not the same person
             notification = {
                 headline: "Applicant "+req.user.name+" has made a counter offer!",
                 description: "Counter offer of $"+req.body.value+" has been made for "+service.headline,
@@ -334,10 +372,7 @@ module.exports.counter = function(req, res, next) {
                 "biddings._id": req.params.bidding_id
             },
             {
-                $set: {
-                    "biddings.$.explanation": req.body.explanation,
-                    "biddings.$.value": req.body.value
-                }
+                $set: setValues
             },
             function(err, numOfAffected) {
                 if(err) return next(err);
@@ -347,6 +382,47 @@ module.exports.counter = function(req, res, next) {
     });
 };  //end saveBidding
 
+module.exports.accept = function(req, res, next) {
+    console.log("accept");
+    Service.findById(req.params.id, function(err, service) {
+        if(err) return next(err);
+
+        if(String(req.user._id) !== String(service.employer))
+            return res.status(403).end();
+
+        var bidding = {};
+        for (var i = service.biddings.length - 1; i >= 0; i--) {
+            if(String(service.biddings[i]._id) === String(req.params.bidding_id)) {
+                console.log(service.biddings[i]);
+                bidding = service.biddings[i];
+                break;
+            }
+        }
+        service.employee = bidding.user;
+        service.value = bidding.value * service.totalHours / 2;
+        service.save(function(err) {
+            if(err) return next(err);
+
+            notification = {
+                    headline: "Congratulations!",
+                    description: "You have been accepted for "+service.headline+". Here is $" +service.value+ " upfront!",
+                    action: "/",
+                    read: false
+            };
+            UserController.pushNotification(service.employee, notification);
+            
+            notification = {
+                headline: "You've hired someone!",
+                description: "$"+service.value+" has been transfered from your account.",
+                action: "/",
+                read: false
+            };
+            UserController.pushNotification(service.employer, notification);
+            
+            return res.status(200).end();
+        });
+    });
+};
 
 module.exports.deleteBidding = function(req, res, next) {
     Service.findById(req.params.id, function(err, service) {
@@ -414,6 +490,9 @@ module.exports.getAllBiddings = function(req, res, next) {
         .populate('biddings.user')
         .exec(function(err, service) {
             if(err) return next(err);
+            if (String(service.employer) !== String(req.user._id)) {
+                return res.status(403).end();
+            }
             return res.status(200).json(service.biddings);
         });
 };  //end getAllBiddings
