@@ -37,6 +37,11 @@
                 <input id="email" type="email" class="form-control" ng-model="user.email"/>
             </div>
 
+            <div class="form-group">
+                <label for="tags">Interested tags</label><br>
+                <tags-input id="tags" style="max-width: 450px;" ng-model="user.interested_tags" type="text" add-on-space="true"></tags-input>
+            </div>
+
             <input type="submit" class="btn btn-success" value="Update" ng-click="updateProfile()">
 
             <label class="spinner" ng-show="isUpdateProfileProgress">
