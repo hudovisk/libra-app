@@ -1,10 +1,11 @@
 
 var User = require('./api/users/user-model');
+var morgan       = require('morgan');
 
 var S3_BUCKET = process.env.S3_BUCKET;
 
 module.exports = function(app, passport, aws) {
-    
+
     //API - Routes ==================================================
     app.use('/api', require('./api/users/user-router')(passport, requireSession));
     app.use('/api', require('./api/services/service-router')(requireSession));
@@ -53,8 +54,12 @@ module.exports = function(app, passport, aws) {
     });
 
      app.get('/services/:id/:bid', function(req, res) {
-        res.render('pages/bidding.html', {user: req.user});
-    });   
+        res.render('pages/bidding.html', {user: req.user, serviceId: req.params.id, biddingId: req.params.bid});
+    });
+
+    app.get('/services/:id', function(req, res) {
+        res.render('pages/service.html', {user: req.user, serviceId: req.params.id});
+    });  
 
     app.get('/sign_s3', function(req, res){
         var key = req.query.file_name+String(req.user._id);

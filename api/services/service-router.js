@@ -18,6 +18,10 @@ module.exports = function(requireSession)
                 requireSession,
                 serviceController.updateDisablePost);
 
+    router.put('/services/:id/fireEmployee', 
+                requireSession,
+                serviceController.fireEmployee);
+
 	router.delete('/services/:id', 
                 requireSession,
                 serviceController.deletePost);
@@ -29,6 +33,10 @@ module.exports = function(requireSession)
     router.put('/services/:id/counterOffer/:bidding_id',
                 requireSession,
                 serviceController.counter);
+
+    router.put('/services/:id/biddings/:bidding_id/accept',
+                requireSession,
+                serviceController.accept);
 
     router.get('/services/:id/biddings',
                 requireSession,
