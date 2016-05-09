@@ -608,7 +608,10 @@ span {
 }
 
 #searchContainer #applyBtn {
-  margin: 30px;
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 /*!
@@ -651,7 +654,6 @@ span {
 
 #page-content-wrapper {
     width: 100%;
-    position: absolute;
     padding: 15px;
     padding-left: 80px;
 }
