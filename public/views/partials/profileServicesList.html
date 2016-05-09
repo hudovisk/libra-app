@@ -21,15 +21,15 @@
             <p class="text-muted">
                 {{service.created}}
             </p>
-            <a type="button" class="btn btn-danger btn-sm" ng-click="delPost(service._id)" ng-show="isOwnProfile()"> 
+            <a type="button" class="btn btn-danger btn-sm" ng-click="delPost(service._id)" ng-show="isOwnProfile() && isEmployer(service.employer._id)"> 
                 <span class="glyphicon glyphicon-remove"></span> Remove post
             </a>
 
-            <a type="button" class="btn btn-warning btn-sm" ng-click="disablePost(service._id)" ng-show="isOwnProfile()">
+            <a type="button" class="btn btn-warning btn-sm" ng-click="disablePost(service._id)" ng-show="isOwnProfile() && isEmployer(service.employer._id)">
                 Disable/Pause Post
             </a>
 
-            <a type="button" class="btn btn-success btn-sm" ng-click="payment(service._id)" ng-show="isOwnProfile()">
+            <a type="button" class="btn btn-success btn-sm" ng-click="payment(service._id)" ng-show="isOwnProfile() && isEmployer(service.employer._id)">
                 Complete Payment
             </a>
         </h7>    

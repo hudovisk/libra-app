@@ -577,6 +577,10 @@ app.controller('ProfileController', ['$scope', '$http', '$window', function($sco
         return String($scope.me._id) === String($scope.profile._id);
     };
 
+    $scope.isEmployer = function(employerId) {
+        return String(employerId) === String($scope.me._id);
+    }
+
 }]);//end of profileController
 
 app.controller('DashboardController', ['$scope', '$http', '$window', function($scope, $http, $window){
